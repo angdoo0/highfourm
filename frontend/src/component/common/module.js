@@ -1,6 +1,6 @@
-import React, { useState } from 'react';
+import React from 'react';
 import { Button, Flex, Input, Space, Steps, Select, ConfigProvider } from 'antd';
-import "../../basic.css"
+import '../../basic.css'
 const { Search } = Input;
 
 const BtnBlack = ({ value, link }) => {
@@ -9,14 +9,14 @@ const BtnBlack = ({ value, link }) => {
     <ConfigProvider
       theme={{
         components: {
-          Button: { defaultBg: "#000", defaultColor: "#fff" }
+          Button: { defaultBg: '#000', defaultColor: '#fff' },
         },
         token: {
           colorPrimaryHover: '#d9d9d9',
           colorPrimaryActive: '#d9d9d9',
         },
       }}>
-      <Flex gap="small" wrap="wrap">
+      <Flex gap='small' wrap='wrap'>
         <Button href={`${link}`}>{value}</Button>
       </Flex>
     </ConfigProvider>
@@ -29,10 +29,10 @@ const BtnBlue = ({ value, link }) => {
     <ConfigProvider
       theme={{
         components: {
-          Button: { defaultBg: "#294CC0", defaultColor: "#fff" }
+          Button: { defaultBg: '#294CC0', defaultColor: '#fff' }
         }
       }}>
-      <Flex gap="small" wrap="wrap">
+      <Flex gap='small' wrap='wrap'>
         <Button href={`${link}`}>{value}</Button>
       </Flex>
     </ConfigProvider>
@@ -42,13 +42,13 @@ const BtnBlue = ({ value, link }) => {
 const BtnWhite = ({ value, link }) => {
 
   return (
-    <Flex gap="small" wrap="wrap">
+    <Flex gap='small' wrap='wrap'>
       <Button href={`${link}`}>{value}</Button>
     </Flex>
   )
 };
 
-const filterOnClick = (value) => {
+const filterClickHandler = (e) => {
 
 }
 
@@ -64,8 +64,8 @@ const BtnFilter = ({ value, link }) => {
     }}
   >
 
-    <Flex gap="small" wrap="wrap">
-      <Button shape='round' href={`${link}`} onClick={filterOnClick} id="btnFilter">{value}</Button>
+    <Flex gap='small' wrap='wrap'>
+      <Button shape='round' href={`${link}`} onClick={filterClickHandler} id='btnFilter'>{value}</Button>
     </Flex>
   </ConfigProvider>
   )
@@ -94,11 +94,11 @@ const SearchInput = () => {
           },
         },
       }}>
-    <Space direction="vertical">
+    <Space direction='vertical'>
       <Search
         placeholder='검색어를 입력하세요.'
         allowClear
-        enterButton="검색"
+        enterButton='검색'
         onSearch={onSearch}
         style={{width:'250px'}}
       />
@@ -107,9 +107,9 @@ const SearchInput = () => {
   )
 };
 
-const handleChange = (value) => {
-  console.log(`selected ${value}`);
-};
+// const handleChange = (value) => {
+//   console.log(`selected ${value}`);
+// };
 
 // const SearchSelectBox = ({value}) => {
 
@@ -141,8 +141,7 @@ const handleChange = (value) => {
 // };
 
 const StepBar = ({stateNum}) => {
-  const [num, setNum] = useState("1");
-
+// stateNum 값은 정수 1,2,3,4
   return (
     <ConfigProvider
       theme={{
@@ -150,13 +149,8 @@ const StepBar = ({stateNum}) => {
           Steps: {
             navArrowColor: 'rgba(0, 0, 0, 0.45)',
             finishIconBorderColor: '#1677ff',
-            
           },
         },
-        token: {
-          colorBorderSecondary: 'rgba(0, 0, 0, 0.45)',
-        },
-        
       }}
     >
       <Steps
@@ -175,6 +169,7 @@ const StepBar = ({stateNum}) => {
             title: '완료',
           },
         ]}
+        style={{width: 880}}
       />
     </ConfigProvider>
   )
