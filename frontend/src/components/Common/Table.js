@@ -1,9 +1,9 @@
 import React from 'react';
 
-const container = () => {
+const Table = () => {
   return (
     <div>더미</div>
   )
 }
 
-export default container;
+export default Table;

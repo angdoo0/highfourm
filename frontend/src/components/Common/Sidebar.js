@@ -1,9 +1,9 @@
 import React from 'react';
 
-const module = () => {
+const Sidebar = () => {
   return (
     <div>더미</div>
   )
 }
 
-export default module;
+export default Sidebar;

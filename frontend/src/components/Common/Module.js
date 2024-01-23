@@ -1,9 +1,9 @@
 import React from 'react';
 
-const table = () => {
+const Module = () => {
   return (
     <div>더미</div>
   )
 }
 
-export default table;
+export default Module;
