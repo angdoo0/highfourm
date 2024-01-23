@@ -1,14 +1,11 @@
 import React from 'react';
-import login from './component/login';
-import table from './component/common/table';
-import sidebar from './component/common/sidebar';
-import module from './component/common/module';
-import container from './component/common/container';
-import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
+import { Route, BrowserRouter as Router, Routes } from 'react-router-dom';
+import SideBar from './component/common/SideBar';
 
 function App() {
   return (
     <div className="App">
+      <SideBar />
       <Router>
         <Routes>
           <Route path='/' element={<login />} />
