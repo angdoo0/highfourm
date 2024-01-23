@@ -26,7 +26,7 @@ const Container = () => {
         top: 0
       }}
     >
-      <h2 style={{ margin: '0 0 0 32px', fontSize: '24px', lineHeight: '120px' }}>제목{/* [[${title}]] */}</h2>
+      <h2 style={{ margin: '0 0 0 332px', fontSize: '24px', lineHeight: '120px' }}>제목{/* [[${title}]] */}</h2>
     </Header>
   )
 };

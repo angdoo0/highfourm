@@ -1,9 +1,9 @@
 import React from 'react';
-import Login from './components/Login';
-import Table from './components/Common/Table';
-import Sidebar from './components/Common/Sidebar';
-import Container from './components/common/Container';
-import OrderList from './components/Order/OrderList';
+import Login from './Login';
+import Table from './Common/Table';
+import Sidebar from './Common/Sidebar';
+import Container from './Common/Container';
+import OrderList from './Order/OrderList';
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 
 
