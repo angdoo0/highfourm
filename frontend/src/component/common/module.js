@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import { Button, Flex, Input, Space, Steps, Select, ConfigProvider } from 'antd';
+import "../../basic.css"
 const { Search } = Input;
 
 const BtnBlack = ({ value, link }) => {
@@ -11,7 +12,8 @@ const BtnBlack = ({ value, link }) => {
           Button: { defaultBg: "#000", defaultColor: "#fff" }
         },
         token: {
-          colorPrimaryHover: '#d9d9d9'
+          colorPrimaryHover: '#d9d9d9',
+          colorPrimaryActive: '#d9d9d9',
         },
       }}>
       <Flex gap="small" wrap="wrap">
@@ -56,7 +58,8 @@ const BtnFilter = ({ value, link }) => {
   <ConfigProvider
     theme={{
       token: {
-        colorPrimaryHover: '#d9d9d9'
+        colorPrimaryHover: '#d9d9d9',
+        colorPrimaryActive: '#d9d9d9',
       },
     }}
   >
@@ -138,6 +141,7 @@ const handleChange = (value) => {
 // };
 
 const StepBar = ({stateNum}) => {
+  const [num, setNum] = useState("1");
 
   return (
     <ConfigProvider
@@ -148,9 +152,9 @@ const StepBar = ({stateNum}) => {
             finishIconBorderColor: '#1677ff',
             
           },
-          token: {
-            
-          },
+        },
+        token: {
+          colorBorderSecondary: 'rgba(0, 0, 0, 0.45)',
         },
         
       }}
