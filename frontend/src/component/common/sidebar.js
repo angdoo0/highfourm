@@ -15,7 +15,7 @@ const SideBar = () => {
   }
   const [mode, setMode] = useState('inline');
 
-  const menu = [
+  const topMenu = [
     getItem(<a href="https://ant.design">주문관리</a>, '1', <MailOutlined />),
     getItem('원자재관리', 'sub1', <AppstoreOutlined />, [
       getItem(<a href="/">재고 현황</a>, '2'),
@@ -31,6 +31,11 @@ const SideBar = () => {
     getItem(<a href="/">생산 현황 조회</a>, '9', <CalendarOutlined />),
     getItem(<a href="/">생산 실적 조회</a>, '10', <CalendarOutlined />),
   ];
+  const bottomMenu = [
+    getItem(<a href="/">사용자 관리</a>, '9', <CalendarOutlined />),
+    getItem(<a href="/">로그아웃</a>, '10', <CalendarOutlined />),
+    ];
+
   return (
     <div style={{borderRight: '1px soild #ccc', padding: '40px 20px 40px 20px', width: '260px'}}>
       <div style={{paddingBottom:'60px'}}>
@@ -45,7 +50,14 @@ const SideBar = () => {
             width: '260px',
           }}
           mode={mode}
-          items={menu}
+          items={topMenu}
+        />
+        <Menu
+          style={{
+            width: '260px', bottom: '0',
+          }}
+          mode={mode}
+          items={bottomMenu}
         />
       </div>
     </div>
