@@ -1,5 +1,5 @@
 # Spring Boot & React Project
-### 생산관리 서비스
+### 생산관리 ERP 서비스
 
 <br>
 
@@ -31,7 +31,7 @@
 ![개발환경](개발환경 이미지가 필요합니다. 환경 이름과 버전(아래에 반영). 최종 산출물에도 필요함. 노션에 문서화 후 제작)
 
 * ### Front <br> 
-HTML5, JavaScript, CSS3, React 버전들 목록 나오면 반영
+HTML5, JavaScript, CSS3, React 18.2.0 버전들 목록 나오면 반영
 
 * ### Back <br>
 Windows11, Spring Boot , Java 17, Tomcat 8.5, MySQL 8.0.22, Thymeleaf, Lombok 1.18.30, hibernate-validator 6.0.23.Final, validation-api 2.0.1. Final
