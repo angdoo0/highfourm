@@ -38,8 +38,8 @@ public class UserHtmlController {
 	
 	@PostMapping("/users/new" )
 	public String addNewUser(@ModelAttribute @Valid UserAddDTO userAddDTO, BindingResult bindingResult, 
-			HttpSession session, Model model) {
-//		Long adminCompanyId = (Long)session.getAttribute("companyId");
+			Principal principal, Model model) {
+		princital.getCompanyId();
 //		service.save(userAddDTO, adminCompanyId);
 		log.info("session ? " + session.getAttribute("companyId"));
 		
