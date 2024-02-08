@@ -202,7 +202,7 @@ const ProductionPlan = () => {
   console.log(productionPlans)
   return (
     <div>
-      <PageTitle value={'생산 계획 수립'} />
+      <PageTitle value={'생산 계획 수립(미완성)'} />
       {/* <div style={{ display: 'flex', gap: '12px', marginBottom: '15px' }}>
         <SearchSelectBox selectValue={['생산계획 코드', '품명', '주문일']} SelectChangeHandler={SelectChangeHandler} />
         <SearchInput id={'search'} name={'search'} onSearch={onSearch} />
