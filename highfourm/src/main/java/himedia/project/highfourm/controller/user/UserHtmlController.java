@@ -83,7 +83,7 @@ public class UserHtmlController {
 	@GetMapping("/confirm-email")
 	public String viewConfirmEmail(@RequestParam(value = "token") String token, @RequestParam(value = "userNo") Long userNo) throws Exception {
 		emailService.confirmEmail(token);
-		return "redirect:/users/join/userNo="+userNo.toString();
+		return "redirect:/users/join?userNo="+userNo.toString();
 	}
 	
 }
