@@ -33,8 +33,7 @@ public class MrpController {
 
 		responseMap.put("plan", productionPlanList);
 		
-		return ResponseEntity.ok().cacheControl(CacheControl.noStore())
-				.body(responseMap);
+		return ResponseEntity.ok(responseMap);
 	}
 
 	@GetMapping("/api/mrp/{productionPlanId}")
@@ -48,8 +47,7 @@ public class MrpController {
 		List<MrpRequiredMaterialDTO> requiredMaterialList = service.findByMaterials(productionPlanId);
 		responseMap.put("requiredMaterial", requiredMaterialList);
 
-		return ResponseEntity.ok().cacheControl(CacheControl.noStore())
-				.body(responseMap);
+		return ResponseEntity.ok(responseMap);
 	}
 
 	@GetMapping("/api/mrp/search")
@@ -75,8 +73,7 @@ public class MrpController {
 		
 		responseMap.put("plan", result);
 		
-		return ResponseEntity.ok().cacheControl(CacheControl.noStore())
-				.body(responseMap);
+		return ResponseEntity.ok(responseMap);
 	}
 	
 	@GetMapping("/api/mrp/{productionPlanId}/search")
@@ -105,8 +102,7 @@ public class MrpController {
 		List<MrpRequiredMaterialDTO> requiredMaterialList = service.findByMaterials(productionPlanId);
 		responseMap.put("requiredMaterial", requiredMaterialList);
 
-		return ResponseEntity.ok().cacheControl(CacheControl.noStore())
-				.body(responseMap);
+		return ResponseEntity.ok(responseMap);
 	}
 
 }

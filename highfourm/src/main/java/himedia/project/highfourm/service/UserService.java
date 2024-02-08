@@ -101,9 +101,16 @@ public class UserService {
 	public UserDTO updateUser(UserEditDTO userEdit) {
 		User existingUser = repository.findById(userEdit.getUserNo()).get();
 
-		User updatedUser = User.builder().userNo(existingUser.getUserNo()).userName(userEdit.getUserName())
-				.empNo(existingUser.getEmpNo()).position(userEdit.getPosition()).birth(userEdit.getBirth())
-				.email(existingUser.getEmail()).company(existingUser.getCompany())
+		User updatedUser = User.builder()
+				.userNo(existingUser.getUserNo())
+				.userId(existingUser.getUserId())
+				.password(existingUser.getPassword())
+				.userName(userEdit.getUserName())
+				.empNo(existingUser.getEmpNo())
+				.position(userEdit.getPosition())
+				.birth(userEdit.getBirth())
+				.email(existingUser.getEmail())
+				.company(existingUser.getCompany())
 				.registerState(existingUser.getRegisterState()).role(existingUser.getRole()).build();
 
 		User mergedUser = em.merge(updatedUser);

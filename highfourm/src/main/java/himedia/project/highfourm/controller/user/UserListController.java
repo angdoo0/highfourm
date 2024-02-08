@@ -28,19 +28,13 @@ public class UserListController {
 	
 	@GetMapping("/api/users")
 	public ResponseEntity<List<UserDTO>> selectUserList() {
-		HttpHeaders headers = new HttpHeaders();
-	    headers.setCacheControl(CacheControl.noStore());
-
 	    List<UserDTO> users = service.findAllUsers();
 	    
-	    return new ResponseEntity<>(users, headers, HttpStatus.OK);
+	    return ResponseEntity.ok(users);
 	}
 	
 	@GetMapping("/api/users/search")
 	public ResponseEntity<List<UserDTO>> searchUserList(@RequestParam(value = "searchType") String searchType, @RequestParam(value = "search") String search) {
-		HttpHeaders headers = new HttpHeaders();
-	    headers.setCacheControl(CacheControl.noStore());
-	    
 	    List<UserDTO> result = null;
 		
 			if(searchType.equals("사원명")) {
@@ -54,7 +48,7 @@ public class UserListController {
 				result = new ArrayList<UserDTO>();
 			}
 			
-		return new ResponseEntity<>(result, headers, HttpStatus.OK);
+		return ResponseEntity.ok(result);
 	}
 	
 	@DeleteMapping("/api/users/delete/{deleteUserNo}")
