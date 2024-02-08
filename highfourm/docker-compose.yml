@@ -1,0 +1,31 @@
+version: "3.8"
+
+services:
+  app:
+    container_name: highfourm-app
+    build:
+      context: .
+      dockerfile: Dockerfile-app
+    environment:
+      - TZ=Asia/Seoul
+    ports:
+      - "9999:8080"
+    depends_on:
+      - database
+    command:
+      - --character-set-server=utf8mb4
+      - --collation-server=utf8mb4_unicode_ci
+      - --character-set-client-handshake=FALSE   
+
+  database:
+    container_name: highfourm-db
+    build:
+      context: .
+      dockerfile: Dockerfile-db
+    hostname: docker-mysql
+    ports:
+      - "3307:3306"
+    environment:
+      MYSQL_DATABASE: highfourm
+      MYSQL_ROOT_HOST: "%"
+      MYSQL_ROOT_PASSWORD: 1111
