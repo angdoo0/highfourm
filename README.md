@@ -11,7 +11,9 @@
 ## 🔗 배포 주소
 http://3.36.78.250:9999/
 <br>
-ID: admin@highfourm.com PW : 1111
+ID: admin@highfourm.com 
+<br>
+PW : 1111
 
 <br>
 
