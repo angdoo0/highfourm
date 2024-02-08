@@ -29,7 +29,7 @@ public class HttpSecurityConfiguration {
 		http.formLogin(formlogin -> 
 			formlogin
 			.loginPage("/")
-			.defaultSuccessUrl("/materials/stock", true)
+			.defaultSuccessUrl("/orders", true)
 			.failureUrl("/")
 			.loginProcessingUrl("/login")
 			.usernameParameter("userId")

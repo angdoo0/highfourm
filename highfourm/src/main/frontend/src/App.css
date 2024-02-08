@@ -80,7 +80,6 @@ a {
 /* global */
 #root {
   min-width: 1600px;
-  overflow-x: scroll;
 }
 
 h2 {

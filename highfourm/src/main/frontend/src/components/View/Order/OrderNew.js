@@ -7,7 +7,6 @@ import { DownOutlined, UserOutlined } from '@ant-design/icons';
 import { Button, Dropdown, message, Tooltip, Popconfirm, Table, FLex, Upload } from 'antd';
 import { BtnBlack, BtnBlue, BtnWhite, BtnFilter, InputBar, SearchInput, StepBar } from '../../Common/Module';
 import BasicTable from '../../Common/Table/BasicTable';
-import '../../../App.css'
 import PageTitle from '../../Common/PageTitle';
 
 const OrderList = () => {
