@@ -77,10 +77,7 @@ const UserList = () => {
       title: '사원명',
       dataIndex: 'user_name',
       width: '20%',
-      render: (text, record) => {
-        console.log(record)
-        return <a href={`/users/edit/${record.user_no}`}>{text}</a>
-      }
+      render: (text, record) => <a href={`/users/edit/${record.user_no}`}>{text}</a>
     },
     {
       title: '사번',
