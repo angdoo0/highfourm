@@ -136,7 +136,7 @@ const OrderList = () => {
             <BtnBlack value={'주문 등록'} onClick={() => window.location.href = '/orders/new'} />
           </div>
           <div className='order-filter'>
-            <BtnFilter valueArr={['전체', '미확인', '확인', '진행중', '완료']} linkArr={['']} />
+            {/* <BtnFilter valueArr={['전체', '미확인', '확인', '진행중', '완료']} linkArr={['']} /> */}
           </div>
         </div>
       </div>
