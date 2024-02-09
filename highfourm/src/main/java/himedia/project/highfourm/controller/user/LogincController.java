@@ -21,6 +21,7 @@ public class LogincController {
 	public String login() {
 		return "login";
 	}
+	
 	//회원가입 페이지
 	@GetMapping("/users/join")
 	public String signUp() {
@@ -31,15 +32,8 @@ public class LogincController {
 	@PostMapping("/users/join")
 	public String signUpProcess(UserJoinDTO joinDTO) {
 		joinService.joinProcess(joinDTO);
-		return "join";
+		return "login";
 	}
-	
-	@ResponseBody
-    @GetMapping("/admin")
-    public String adminP() {
-
-        return "admin Controller";
-    }
 	
 }
 
