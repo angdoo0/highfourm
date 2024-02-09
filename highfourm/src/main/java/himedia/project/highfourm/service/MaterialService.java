@@ -1,5 +1,6 @@
 package himedia.project.highfourm.service;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
@@ -80,64 +81,67 @@ public class MaterialService {
 
 	    return materialOrderResponseDtos;
 	}
-//	// 수급내역검색
-//	public List<MaterialOrderResponseDto> searchMaterialHistory(String searchType, String search) {
+	// 수급내역검색
+
+	public List<MaterialOrderResponseDto> searchMaterialHistory(String searchType, String search) {
+		List<MaterialOrderListDTO> materialOrderListDTOs;
+		
+		if(searchType.equals("자재코드")) {
+			materialOrderListDTOs = historyRepository.findMaterialHistoryByMaterialId(search);
+		}else if(searchType.equals("자재명")){
+			materialOrderListDTOs =  historyRepository.findMaterialHistoryByMaterialName(search);
+		}else if(searchType.equals("발주일")){
+			materialOrderListDTOs = historyRepository.findMaterialHistoryByOrderDate(search);
+		}else if(searchType.equals("입고일")){
+			materialOrderListDTOs =  historyRepository.findMaterialHistoryByInboundDate(search);
+		}else {
+			 materialOrderListDTOs = new ArrayList<>();
+		}
+		
+		List<MaterialOrderResponseDto> materialOrderResponseDtos = materialOrderListDTOs.stream()
+				.map(orderListDto -> MaterialOrderResponseDto.toOrderDTO(orderListDto, materialOrderListDTOs))
+				.collect(Collectors.toList());
+		return materialOrderResponseDtos;
+	}
+	
+//	// 수급내역 materilaId로 검색
+//	public List<MaterialOrderResponseDto>findMaterialHistoryByMaterialId(String materialId) {
+//		List<MaterialOrderListDTO> materialOrderListDTOs = historyRepository.findMaterialHistoryByMaterialId(materialId);
 //		
-//		List<MaterialOrderListDTO> materialOrderListDTOs = null;
-//		
-//		if(searchType.equals("자재코드")) {
-//			materialOrderListDTOs = historyRepository.findMaterialHistoryByMaterialId(search);
-//		}else if(searchType.equals("자재명")){
-//			materialOrderListDTOs =  historyRepository.findMaterialHistoryByMaterialName(search);
-//		}else if(searchType.equals("발주일")){
-//			materialOrderListDTOs = historyRepository.findMaterialHistoryByOrderDate(search);
-//		}else if(searchType.equals("입고일")){
-//			materialOrderListDTOs =  historyRepository.findMaterialHistoryByInboundDate(search);
-//		}	
-//		
-//		List<MaterialOrderResponseDto> materialOrderResponseDtos = materialOrderListDTOs.stream()
-//				.map(orderListDto -> MaterialOrderResponseDto.toOrderDTO(orderListDto, materialOrderListDTOs))
-//				.collect(Collectors.toList());
+//	    List<MaterialOrderResponseDto> materialOrderResponseDtos = materialOrderListDTOs.stream()
+//	            .map(orderListDto -> MaterialOrderResponseDto.toOrderDTO(orderListDto, materialOrderListDTOs))
+//	            .collect(Collectors.toList());
 //		return materialOrderResponseDtos;
 //	}
-	// 수급내역 materilaId로 검색
-	public List<MaterialOrderResponseDto>findMaterialHistoryByMaterialId(String materialId) {
-		List<MaterialOrderListDTO> materialOrderListDTOs = historyRepository.findMaterialHistoryByMaterialId(materialId);
-		
-	    List<MaterialOrderResponseDto> materialOrderResponseDtos = materialOrderListDTOs.stream()
-	            .map(orderListDto -> MaterialOrderResponseDto.toOrderDTO(orderListDto, materialOrderListDTOs))
-	            .collect(Collectors.toList());
-		return materialOrderResponseDtos;
-	}
-	//수급내역 자재명로 검색
-	public List<MaterialOrderResponseDto> findMaterialHistoryByMaterialName(String materialName) {
-		List<MaterialOrderListDTO> materialOrderListDTOs =  historyRepository.findMaterialHistoryByMaterialName(materialName);
-		
-	    List<MaterialOrderResponseDto> materialOrderResponseDtos = materialOrderListDTOs.stream()
-	            .map(orderListDto -> MaterialOrderResponseDto.toOrderDTO(orderListDto, materialOrderListDTOs))
-	            .collect(Collectors.toList());
-	    
-		return materialOrderResponseDtos;
-	}
-	//수급내역 발주일로 검색
-	public List<MaterialOrderResponseDto> findMaterialHistoryByOrderDate(String orderDate) {
-		List<MaterialOrderListDTO> materialOrderListDTOs = historyRepository.findMaterialHistoryByOrderDate(orderDate);
-		
-	    List<MaterialOrderResponseDto> materialOrderResponseDtos = materialOrderListDTOs.stream()
-	            .map(orderListDto -> MaterialOrderResponseDto.toOrderDTO(orderListDto, materialOrderListDTOs))
-	            .collect(Collectors.toList());
-	    
-		return materialOrderResponseDtos;
-	}
-	//수급내역 입고일로 검색
-	public List<MaterialOrderResponseDto> findMaterialHistoryByInboundDate(String inboundDate) {
-		List<MaterialOrderListDTO> materialOrderListDTOs =  historyRepository.findMaterialHistoryByInboundDate(inboundDate);
-		
-	    List<MaterialOrderResponseDto> materialOrderResponseDtos = materialOrderListDTOs.stream()
-	            .map(orderListDto -> MaterialOrderResponseDto.toOrderDTO(orderListDto, materialOrderListDTOs))
-	            .collect(Collectors.toList());
-		return materialOrderResponseDtos;
-	}
+//	//수급내역 자재명로 검색
+//	public List<MaterialOrderResponseDto> findMaterialHistoryByMaterialName(String materialName) {
+//		List<MaterialOrderListDTO> materialOrderListDTOs =  historyRepository.findMaterialHistoryByMaterialName(materialName);
+//		
+//	    List<MaterialOrderResponseDto> materialOrderResponseDtos = materialOrderListDTOs.stream()
+//	            .map(orderListDto -> MaterialOrderResponseDto.toOrderDTO(orderListDto, materialOrderListDTOs))
+//	            .collect(Collectors.toList());
+//	    
+//		return materialOrderResponseDtos;
+//	}
+//	//수급내역 발주일로 검색
+//	public List<MaterialOrderResponseDto> findMaterialHistoryByOrderDate(String orderDate) {
+//		List<MaterialOrderListDTO> materialOrderListDTOs = historyRepository.findMaterialHistoryByOrderDate(orderDate);
+//		
+//	    List<MaterialOrderResponseDto> materialOrderResponseDtos = materialOrderListDTOs.stream()
+//	            .map(orderListDto -> MaterialOrderResponseDto.toOrderDTO(orderListDto, materialOrderListDTOs))
+//	            .collect(Collectors.toList());
+//	    
+//		return materialOrderResponseDtos;
+//	}
+//	//수급내역 입고일로 검색
+//	public List<MaterialOrderResponseDto> findMaterialHistoryByInboundDate(String inboundDate) {
+//		List<MaterialOrderListDTO> materialOrderListDTOs =  historyRepository.findMaterialHistoryByInboundDate(inboundDate);
+//		
+//	    List<MaterialOrderResponseDto> materialOrderResponseDtos = materialOrderListDTOs.stream()
+//	            .map(orderListDto -> MaterialOrderResponseDto.toOrderDTO(orderListDto, materialOrderListDTOs))
+//	            .collect(Collectors.toList());
+//		return materialOrderResponseDtos;
+//	}
 	
 	// 입고내역 등록화면 조회
 	public MaterialOrderEditFormDTO getMaterialhistoryInfo(Long materialHistoryId) {
