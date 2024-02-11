@@ -25,7 +25,7 @@ public class EmailService {
 		findEmailToken.setTokenToUsed();
 		
         if (findUser.isPresent()) {
-            User user = findUser.get();
+           findUser.get();
         } else {
             throw new Exception("사용자를 찾을 수 없습니다.");
         }

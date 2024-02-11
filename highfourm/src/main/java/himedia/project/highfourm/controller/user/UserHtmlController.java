@@ -1,5 +1,8 @@
 package himedia.project.highfourm.controller.user;
 
+import java.security.Principal;
+
+import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -38,10 +41,7 @@ public class UserHtmlController {
 	
 	@PostMapping("/users/new" )
 	public String addNewUser(@ModelAttribute @Valid UserAddDTO userAddDTO, BindingResult bindingResult, 
-			Principal principal, Model model) {
-		princital.getCompanyId();
-//		service.save(userAddDTO, adminCompanyId);
-		log.info("session ? " + session.getAttribute("companyId"));
+			Authentication authentication, Model model) {
 		
 		if(bindingResult.hasErrors()) {
 			return "userForm";
@@ -57,13 +57,13 @@ public class UserHtmlController {
 			return "userForm";
 		}
 		
-		String check = emailTokenService.createEmail(userAddDTO);
+		String check = emailTokenService.createEmail(userAddDTO, authentication);
 		return "redirect:/users";
 	}
 	
 	@GetMapping("/users/edit/{userNo}")
-	public String selectUser(@PathVariable("userNo") Long userNo, Model model) {
-		UserEditDTO user = service.findByUserNoforEdit(userNo);
+	public String selectUser(@PathVariable("userNo") Long userNo, Authentication authentication, Model model) {
+		UserEditDTO user = service.findByUserNoforEdit(userNo, authentication);
 		
 		model.addAttribute("userEditDTO", user);
 		return "userEditForm";
@@ -81,9 +81,13 @@ public class UserHtmlController {
 	}
 	
 	@GetMapping("/confirm-email")
-	public String viewConfirmEmail(@RequestParam(value = "token") String token, @RequestParam(value = "userNo") Long userNo) throws Exception {
-		emailService.confirmEmail(token);
-		return "redirect:/users/join?userNo="+userNo.toString();
+	public String viewConfirmEmail(@RequestParam(value = "token") String token, @RequestParam(value = "userNo") Long userNo) {
+		try {
+			emailService.confirmEmail(token);
+			return "redirect:/users/join?userNo="+userNo.toString();
+		} catch (Exception e) {
+			return "tokenError";
+		}
 	}
 	
 }

@@ -6,16 +6,14 @@ import java.util.Optional;
 import org.apache.coyote.BadRequestException;
 import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.mail.javamail.MimeMessageHelper;
+import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
 
 import himedia.project.highfourm.dto.user.UserAddDTO;
-import himedia.project.highfourm.entity.Company;
 import himedia.project.highfourm.entity.EmailToken;
 import himedia.project.highfourm.entity.User;
-import himedia.project.highfourm.repository.CompanyRepository;
 import himedia.project.highfourm.repository.EmailTokenRepository;
-import himedia.project.highfourm.repository.UserRepository;
+import himedia.project.highfourm.service.UserService;
 import jakarta.mail.MessagingException;
 import jakarta.mail.internet.MimeMessage;
 import lombok.RequiredArgsConstructor;
@@ -27,15 +25,12 @@ import lombok.extern.slf4j.Slf4j;
 public class EmailTokenService {
 	
 	private final EmailTokenRepository emailTokenRepository;
-	private final UserRepository userRepository;
-	private final CompanyRepository companyRepository;
 	private final EmailSenderService emailSenderService;
 	private final JavaMailSender javaMailSender;
+	private final UserService userService;
 	
-	public String createEmail(UserAddDTO newUser) {
-		Company company = companyRepository.findById(1L).get();
-		User userEntity = newUser.toEntity(company);
-	    User savedUser = userRepository.save(userEntity);
+	public String createEmail(UserAddDTO newUser, Authentication authentication) {
+	    User savedUser = userService.save(newUser, authentication);
 
 	    EmailToken emailToken = EmailToken.createEmailToken(savedUser);
 		emailTokenRepository.save(emailToken);
@@ -44,7 +39,7 @@ public class EmailTokenService {
 				+ "<h1> 하이포엠 사용자 회원가입 인증 이메일 </h1>"
 				+ "<br>"
 				+ "<p style='font-size:16px;'>아래 링크를 클릭하면 하이포엠 회원가입 화면으로 이동됩니다.</p>"
-				+ "<a href='http://3.36.78.250:9999/confirm-email?token=" + emailToken.getId()
+				+ "<a href='http://localhost:8080/confirm-email?token=" + emailToken.getId()
 				+"&userNo=" + emailToken.getUser().getUserNo().toString() + "' style='font-size:large;'>인증 링크</a>"
 				+"</div>";
 		System.out.println(emailToken.getId() + "/" + emailToken.getUser().getUserNo().toString());
@@ -53,7 +48,7 @@ public class EmailTokenService {
 		
 		 try {
 	            MimeMessageHelper helper = new MimeMessageHelper(mailMessage, true, "UTF-8");
-	            helper.setTo(userEntity.getEmail());
+	            helper.setTo(savedUser.getEmail());
 	            helper.setSubject("하이포엠 회원가입 사용자 인증 이메일입니다");
 	            helper.setText(body, true);
 	            emailSenderService.sendEmail(mailMessage);
