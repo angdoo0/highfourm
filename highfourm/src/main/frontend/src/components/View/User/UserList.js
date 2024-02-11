@@ -5,7 +5,6 @@ import { Popconfirm } from "antd";
 import BasicTable from '../../Common/Table/BasicTable';
 import axios from 'axios';
 import PageTitle from '../../Common/PageTitle';
-import KeyTable from '../../Common/Table/KeyTable';
 
 const UserList = () => {
   const navigate = useNavigate();

@@ -81,7 +81,7 @@ header {
 				<div class="row">
 					<div class="col-md-6 mb-3">
 						<label for="empNo" class="form-label col fw-bold">사번</label> 
-						<input type="text" id="empNo" name="empNo" placeholder="사번" class="form-control col" required />
+						<input type="text" id="empNo" name="empNo" placeholder="사번" class="form-control col" required pattern="[0-9]*" />
 						<div class="invalid-feedback">사번을 입력해주세요</div>
 						<div th:if="${#fields.hasErrors('empNo')}" th:errors="*{empNo}" class="field-error">사번을 입력해주세요</div>
 					</div>
@@ -163,24 +163,21 @@ header {
 		(function () {
 			  'use strict'
 
-			  var forms = document.querySelectorAll('.needs-validation')
+			  var forms = document.querySelectorAll('.needs-validation');
 
 			  Array.prototype.slice.call(forms)
 			    .forEach(function (form) {
 			      form.addEventListener('submit', function (event) {
 			        if (!form.checkValidity()) {
-			          event.preventDefault()
-			          event.stopPropagation()
+			         	event.preventDefault();
+			        	event.stopPropagation();
+			        } else {
+			        	alert("사용자가 등록되었습니다");
 			        }
-
-			        form.classList.add('was-validated')
+			        form.classList.add('was-validated');
 			      }, false)
 			    })
 			})()
-			
-	 	document.getElementById('submitBtn').onsubmit = function() {
-			alert('사용자가 등록되었습니다');
-		}
 	</script>
 </body>
 

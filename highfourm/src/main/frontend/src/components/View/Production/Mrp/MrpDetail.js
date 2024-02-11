@@ -12,7 +12,6 @@ const MrpDetail = () => {
   const location = useLocation();
   const currentURL = window.location.pathname;
   const [searchType, setSearchType] = useState('생산계획 코드');
-  const [searchValue, setSearchValue] = useState([]);
   const [dataPlan, setDataPlan] = useState([]);
   const [dataRequiredMaterial, setDataRequiredMaterial] = useState([]);
   const { productionPlanId } = useParams();
@@ -21,22 +20,21 @@ const MrpDetail = () => {
     async function fetchData() {
       try {
         let res;
+        const searchParams = new URLSearchParams(location.search);
+        const searchTypeParam = searchParams.get('searchType');
+        const searchValueParam = searchParams.get('search');
 
         if (currentURL === '/mrp/search') {
-          const searchParams = new URLSearchParams(location.search);
-          const searchTypeParam = searchParams.get('searchType');
-          const searchValueParam = searchParams.get('search');
-
-          res = await axios.get('/mrp/search', {
+          res = await axios.get('/api/mrp/search', {
             params: {
               searchType: searchTypeParam,
               search: searchValueParam,
             },
           });
-        } else if (currentURL === `/mrp/${productionPlanId}/search`) {
-          res = await axios.get(`/api/mrp/${productionPlanId}/search`);
-        } else {
+        } else if (currentURL === `/mrp/${encodeURIComponent(productionPlanId)}`) {
           res = await axios.get(`/api/mrp/${productionPlanId}`);
+        } else {
+          res = await axios.get(`/api/mrp/${productionPlanId}/search${location.search}`);
         }
 
         if (res.data["plan"]) {
@@ -74,24 +72,18 @@ const MrpDetail = () => {
     setSearchType(value);
   };
 
-  const onSearchChange = (value) => {
-    setSearchValue(value);
-  }
-
   const onSearch = (value) => {
-    navigate(`/mrp/search?searchType=${encodeURIComponent(searchType)}&search=${encodeURIComponent(value)}`);
+    navigate(`/mrp/search?searchType=${searchType}&search=${value}`);
   }
 
-  function generateLink(productionPlanId, searchType, searchValue) {
-    console.log(productionPlanId, searchType, searchValue);
-    if (searchType && searchValue) {
-      return `/mrp/search?searchType=${searchType}&search=${searchValue}`;
-    } else if (productionPlanId && searchType && searchValue) {
-      return `/mrp/${productionPlanId}/search?searchType=${searchType}&search=${searchValue}`;
+  const onClick = (record) => {
+    if (currentURL === `/mrp/${encodeURIComponent(productionPlanId)}`) {
+      navigate(`/mrp/${record.production_plan_id}`);
     } else {
-      return `/mrp/${productionPlanId}`;
+      const newLocation = `/mrp/${record.production_plan_id}/search${location.search}`;
+      navigate(newLocation);
     }
-  }
+  };
 
   const planColumns = [
     {
@@ -181,7 +173,9 @@ const MrpDetail = () => {
             <hr className='box-title-line' />
           </div>
           <div style={{ height: '706px', overflowY: 'auto' }}>
-            <KeyTable dataSource={dataPlan} defaultColumns={planColumns} setDataSource={setDataPlan} pagination={false} url='mrp' keyName='key' />
+            <BasicTable dataSource={dataPlan} defaultColumns={planColumns} setDataSource={setDataPlan} pagination={false} onRowClick={(record) => {
+              onClick(record);
+            }} />
           </div>
         </div>
         <div className='bordered-box'>
@@ -199,4 +193,3 @@ const MrpDetail = () => {
 }
 
 export default MrpDetail
-

@@ -1,12 +1,14 @@
 package himedia.project.highfourm.controller.user;
 
-import java.security.Principal;
+import java.beans.PropertyEditorSupport;
 
 import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
+import org.springframework.web.bind.WebDataBinder;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.InitBinder;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -18,7 +20,6 @@ import himedia.project.highfourm.dto.user.UserEditDTO;
 import himedia.project.highfourm.service.UserService;
 import himedia.project.highfourm.service.email.EmailService;
 import himedia.project.highfourm.service.email.EmailTokenService;
-import jakarta.servlet.http.HttpSession;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -33,9 +34,8 @@ public class UserHtmlController {
 	private final EmailService emailService;
 	
 	@GetMapping("/users/new")
-	public String addForm(HttpSession session, Model model) {
+	public String addForm(Model model) {
 		model.addAttribute("userAddDTO", new UserAddDTO());
-		log.info("session ? " + session.getAttribute("companyId"));
 	    return "userForm";
 	}
 	
@@ -57,7 +57,7 @@ public class UserHtmlController {
 			return "userForm";
 		}
 		
-		String check = emailTokenService.createEmail(userAddDTO, authentication);
+		emailTokenService.createEmail(userAddDTO, authentication);
 		return "redirect:/users";
 	}
 	

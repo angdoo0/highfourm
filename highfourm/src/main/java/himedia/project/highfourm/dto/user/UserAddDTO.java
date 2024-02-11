@@ -23,7 +23,7 @@ public class UserAddDTO {
 	@NotBlank(message = "이름을 입력해주세요")
 	private String userName;
 	
-	@NotNull(message = "사번을 입력해주세요")
+	@NotNull(message = "사번을 숫자로 입력해주세요")
 	private Long empNo;
 	
 	@NotBlank(message = "직급을 입력해주세요")

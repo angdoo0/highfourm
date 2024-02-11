@@ -77,12 +77,12 @@ public class MrpController {
 	}
 	
 	@GetMapping("/api/mrp/{productionPlanId}/search")
-	public ResponseEntity<Map<String, Object>> mrpSearch(@PathVariable(name = "productionPlanId") String productionPlanId,
-			@RequestParam(value = "searchType") String searchType,@RequestParam(value = "search") String search) {
-		
+	public ResponseEntity<Map<String, Object>> mrpSearchDetail(@PathVariable(name = "productionPlanId") String productionPlanId, @RequestParam(value = "searchType") String searchType,
+			@RequestParam(value = "search") String search) {
+
 		Map<String, Object> responseMap = new HashMap<>();
 
-		List<MrpProductionPlanDTO> result = null;
+		List<MrpProductionPlanDTO> result = service.findByProductionPlans();
 		
 		if (searchType.equals("생산계획 코드")) {
 			result = service.findByProductionPlanID(search);
@@ -96,9 +96,8 @@ public class MrpController {
 		if (result.isEmpty()) {
 			result = new ArrayList<MrpProductionPlanDTO>();
 		}
-		
 		responseMap.put("plan", result);
-		
+
 		List<MrpRequiredMaterialDTO> requiredMaterialList = service.findByMaterials(productionPlanId);
 		responseMap.put("requiredMaterial", requiredMaterialList);
 
