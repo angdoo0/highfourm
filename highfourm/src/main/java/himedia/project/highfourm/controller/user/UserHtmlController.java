@@ -1,14 +1,12 @@
 package himedia.project.highfourm.controller.user;
 
-import java.beans.PropertyEditorSupport;
+import java.io.IOException;
 
 import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
-import org.springframework.web.bind.WebDataBinder;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.InitBinder;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -19,7 +17,8 @@ import himedia.project.highfourm.dto.user.UserAddDTO;
 import himedia.project.highfourm.dto.user.UserEditDTO;
 import himedia.project.highfourm.service.UserService;
 import himedia.project.highfourm.service.email.EmailService;
-import himedia.project.highfourm.service.email.EmailTokenService;
+import himedia.project.highfourm.service.email.GmailService;
+import jakarta.mail.MessagingException;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -30,8 +29,8 @@ import lombok.extern.slf4j.Slf4j;
 public class UserHtmlController {
 
 	private final UserService service;
-	private final EmailTokenService emailTokenService;
 	private final EmailService emailService;
+	private final GmailService gmailService;
 	
 	@GetMapping("/users/new")
 	public String addForm(Model model) {
@@ -41,7 +40,7 @@ public class UserHtmlController {
 	
 	@PostMapping("/users/new" )
 	public String addNewUser(@ModelAttribute @Valid UserAddDTO userAddDTO, BindingResult bindingResult, 
-			Authentication authentication, Model model) {
+			Authentication authentication, Model model) throws MessagingException, IOException {
 		
 		if(bindingResult.hasErrors()) {
 			return "userForm";
@@ -57,7 +56,7 @@ public class UserHtmlController {
 			return "userForm";
 		}
 		
-		emailTokenService.createEmail(userAddDTO, authentication);
+		gmailService.sendEmail(userAddDTO, authentication);
 		return "redirect:/users";
 	}
 	
