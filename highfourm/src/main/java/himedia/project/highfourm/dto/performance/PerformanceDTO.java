@@ -1,8 +1,9 @@
-package himedia.project.highfourm.dto;
+package himedia.project.highfourm.dto.performance;
 
 import java.time.LocalDate;
 import java.util.List;
 
+import himedia.project.highfourm.dto.WorkPerformanceDTO;
 import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
 import lombok.Builder;

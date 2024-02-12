@@ -1,6 +1,6 @@
 package himedia.project.highfourm.entity;
 
-import himedia.project.highfourm.dto.MonthlyProductionPlanDTO;
+import himedia.project.highfourm.dto.plan.MonthlyProductionPlanDTO;
 import himedia.project.highfourm.entity.pk.MonthlyProductionPlanPK;
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;

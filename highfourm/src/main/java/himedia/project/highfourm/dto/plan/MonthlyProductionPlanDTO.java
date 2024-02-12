@@ -1,4 +1,4 @@
-package himedia.project.highfourm.dto;
+package himedia.project.highfourm.dto.plan;
 
 import himedia.project.highfourm.entity.MonthlyProductionPlan;
 import himedia.project.highfourm.entity.pk.MonthlyProductionPlanPK;

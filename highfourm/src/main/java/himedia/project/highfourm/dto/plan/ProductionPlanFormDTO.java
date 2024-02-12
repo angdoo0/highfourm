@@ -1,4 +1,4 @@
-package himedia.project.highfourm.dto;
+package himedia.project.highfourm.dto.plan;
 
 import java.time.LocalDate;
 import java.util.List;
