@@ -1,6 +1,7 @@
 package himedia.project.highfourm.dto;
 
 import java.time.LocalDate;
+import java.util.List;
 
 import himedia.project.highfourm.entity.Orders;
 import himedia.project.highfourm.entity.Product;
@@ -29,6 +30,7 @@ public class ProductionPlanFormDTO {
 	private LocalDate dueDate;
 	private Orders orders;
 	private Product product;
+	private List<MonthlyProductionPlanDTO> monthlyProductionPlans;
 	
 	public ProductionPlanFormDTO(Long productAmount, String orderId, LocalDate orderDate, LocalDate dueDate,String productName, String productionPlanId, LocalDate productionStartDate, Long productionPlanAmount) {
 		this.productAmount = productAmount;

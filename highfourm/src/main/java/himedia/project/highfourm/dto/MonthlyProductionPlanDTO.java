@@ -1,6 +1,7 @@
 package himedia.project.highfourm.dto;
 
 import himedia.project.highfourm.entity.MonthlyProductionPlan;
+import himedia.project.highfourm.entity.pk.MonthlyProductionPlanPK;
 import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -23,6 +24,13 @@ public class MonthlyProductionPlanDTO {
 				.productionPlanId(monthlyProductionPlan.getMonthlyProductPlanPK().getProductionPlanId())
 				.productionAmount(monthlyProductionPlan.getProductionAmount())
 				.build();
+	}
+	
+	public MonthlyProductionPlan toEntity() {
+	    return MonthlyProductionPlan.builder()
+	            .monthlyProductPlanPK(new MonthlyProductionPlanPK(this.month, this.productionPlanId))
+	            .productionAmount(this.productionAmount)
+	            .build();
 	}
 	
 }

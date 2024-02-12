@@ -2,9 +2,9 @@ package himedia.project.highfourm.controller;
 
 import java.util.List;
 
-import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import himedia.project.highfourm.dto.PerformanceDTO;
@@ -13,7 +13,6 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 
 @Slf4j
-@CrossOrigin(origins = "http://localhost:3000")
 @RestController
 @RequiredArgsConstructor
 public class PerformanceController {
@@ -31,5 +30,13 @@ public class PerformanceController {
 		PerformanceDTO performance = performanceService.findPerformance(productionPlanId);
 		System.out.println(performance.getOrderId());
 		return performance;
+	}
+	
+	@GetMapping("/api/production-performance/search")
+	public List<PerformanceDTO> performanceSearch(@RequestParam(value = "searchType") String searchType,
+			@RequestParam(value = "search") String search) {
+		List<PerformanceDTO> response = performanceService.performanceSearch(searchType, search);
+		
+		return response;
 	}
 }

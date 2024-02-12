@@ -1,6 +1,7 @@
 package himedia.project.highfourm.entity;
 
 import java.time.LocalDate;
+import java.util.ArrayList;
 import java.util.List;
 
 import himedia.project.highfourm.dto.ProductionPlanFormDTO;
@@ -43,8 +44,8 @@ public class ProductionPlan {
 	@Column(name = "production_start_date")
 	private LocalDate productionStartDate;
 	
-	@OneToMany(mappedBy = "productionPlan")
-	private List<MonthlyProductionPlan> monthlyProductionPlan;
+	@OneToMany(mappedBy = "productionPlan", cascade = CascadeType.ALL)
+	private List<MonthlyProductionPlan> monthlyProductionPlans = new ArrayList<>();
 	
 	@OneToMany(mappedBy = "productionPlan")
 	private List<WorkPerformance> workPerformances;
@@ -70,7 +71,18 @@ public class ProductionPlan {
 		this.productionStartDate = productionStartDate;
 		this.product = product;
 		this.orders = orders;
-		this.monthlyProductionPlan = monthlyProductionPlan;
+		this.monthlyProductionPlans = monthlyProductionPlan;
 		this.workPerformances = workPerformances;
+	}
+	
+//   public void addMonthlyProductionPlan(MonthlyProductionPlan monthlyPlan) {
+//        this.monthlyProductionPlans.add(monthlyPlan);
+//        monthlyPlan.assignProductionPlan(this);
+//   }
+	
+	public void updateProductionPlan(Long productionPlanAmount, LocalDate productionStartDate,List<MonthlyProductionPlan> monthlyProductionPlan) {
+		this.productionPlanAmount = productionPlanAmount;
+		this.productionStartDate = productionStartDate;
+		this.monthlyProductionPlans = monthlyProductionPlan;
 	}
 }
