@@ -57,7 +57,6 @@ public class UserHtmlController {
 			return "userForm";
 		}
 		
-		String check = emailTokenService.createEmail(userAddDTO);
 		return "redirect:/users";
 	}
 	
@@ -81,9 +80,13 @@ public class UserHtmlController {
 	}
 	
 	@GetMapping("/confirm-email")
-	public String viewConfirmEmail(@RequestParam(value = "token") String token, @RequestParam(value = "userNo") Long userNo) throws Exception {
-		emailService.confirmEmail(token);
-		return "redirect:/users/join?userNo="+userNo.toString();
-	}
+    public String viewConfirmEmail(@RequestParam(value = "token") String token, @RequestParam(value = "empNo") Long empNo) {
+        try {
+            emailService.confirmEmail(token);
+            return "redirect:/users/join/"+empNo.toString()+"?token="+token;
+        } catch (Exception e) {
+            return "tokenError";
+        }
+    }
 	
 }

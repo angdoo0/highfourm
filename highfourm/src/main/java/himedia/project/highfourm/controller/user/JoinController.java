@@ -2,27 +2,25 @@ package himedia.project.highfourm.controller.user;
 
 import java.util.Map;
 
-import org.apache.coyote.BadRequestException;
-import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
-import org.springframework.validation.Errors;
 import org.springframework.web.bind.WebDataBinder;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.InitBinder;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PutMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 
 import himedia.project.highfourm.dto.user.UserJoinFormDTO;
+import himedia.project.highfourm.entity.EmailToken;
 import himedia.project.highfourm.service.JoinService;
+import himedia.project.highfourm.service.email.EmailService;
 import himedia.project.highfourm.validation.CheckPasswordValidator;
 import himedia.project.highfourm.validation.CheckUserIdValidator;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
-import lombok.extern.slf4j.Slf4j;
 
-@Slf4j
 @Controller
 @RequiredArgsConstructor
 public class JoinController {
@@ -30,6 +28,7 @@ public class JoinController {
 	private final JoinService joinService;
 	private final CheckUserIdValidator checkUserIdValidator;
 	private final CheckPasswordValidator checkPasswordValidator;
+	private final EmailService emailService;
 	
 	@InitBinder
 	public void validatorBinder(WebDataBinder binder) {
@@ -39,10 +38,16 @@ public class JoinController {
 	
 	//회원가입 폼
 	@GetMapping("/users/join/{empNo}")
-	public String signUp(@PathVariable("empNo") Long empNo, Model model) {
-		UserJoinFormDTO userJoinFormDTO = joinService.findByEmpNO(empNo);
-		model.addAttribute("userJoinFormDTO", userJoinFormDTO);
-		return "join";
+	public String signUp(@PathVariable("empNo") Long empNo, @RequestParam("token") String token, Model model) throws Exception {
+		
+		EmailToken emailToken = emailService.findByUserNoAndExpirationDateAfterAndExpired(token);
+		
+		if(token.equals(emailToken.getId())) {
+			UserJoinFormDTO userJoinFormDTO = joinService.findByEmpNO(empNo);
+			model.addAttribute("userJoinFormDTO", userJoinFormDTO);
+			return "join";
+		}
+		return "/";
 	}
 	
 	//회원가입 처리
