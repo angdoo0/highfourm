@@ -7,6 +7,7 @@ import { DownOutlined, UserOutlined } from '@ant-design/icons';
 import { Button, Dropdown, message, Tooltip, Popconfirm, Table, FLex, Upload } from 'antd';
 import { BtnBlack, BtnBlue, BtnWhite, BtnFilter, InputBar, SearchInput, StepBar } from '../../Common/Module';
 import BasicTable from '../../Common/Table/BasicTable';
+import '../../../App.css'
 import PageTitle from '../../Common/PageTitle';
 
 const OrderList = () => {
@@ -140,7 +141,7 @@ const OrderList = () => {
             }
             onChange={(value) => handleSelectChange(value, record.key)}
           />
-         </Form.Item>
+        </Form.Item>
       ),
     },
     {
@@ -195,7 +196,7 @@ const OrderList = () => {
               </div>
             </div>
             <div className='order-new-table'>
-              <BasicTable dataSource={dataSource} defaultColumns={defaultColumns} onDelete={handleDelete} setDataSource={setDataSource} pagination={false} />
+              <BasicTable dataSource={dataSource} defaultColumns={defaultColumns} onDelete={handleDelete} setDataSource={setDataSource} />
             </div>
             <div className='order-new-btn'>
               <div className='order-new-add-btn'>
