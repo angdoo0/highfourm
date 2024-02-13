@@ -101,7 +101,7 @@ public class GmailService {
 				+ "<br>"
 				+ "<p style='font-size:16px;'>아래 링크를 클릭하면 하이포엠 회원가입 화면으로 이동됩니다.</p>"
 				+ "<a href='http://localhost:8080/confirm-email?token=" + emailToken.getId()
-				+"&userNo=" + emailToken.getUser().getUserNo().toString() + "' style='font-size:large;'>인증 링크</a>"
+				+"&empNo=" + emailToken.getUser().getEmpNo().toString() + "' style='font-size:large;'>인증 링크</a>"
 				+"</div>";
     	
     	MimeMessage email = createEmail(savedUser.getEmail(), subject, body);

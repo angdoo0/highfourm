@@ -82,4 +82,9 @@ public class User {
 				.role(role)
 				.build();
 	}
+	
+	public void joinUser(String userId, String password) {
+		this.userId = userId;
+		this.password = password;
+	}
 }

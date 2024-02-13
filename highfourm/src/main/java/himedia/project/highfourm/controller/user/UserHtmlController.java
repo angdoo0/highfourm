@@ -98,10 +98,10 @@ public class UserHtmlController {
 	 * 사용자 인증 이메일 링크 페이지
 	 */
 	@GetMapping("/confirm-email")
-	public String viewConfirmEmail(@RequestParam(value = "token") String token, @RequestParam(value = "userNo") Long userNo) {
+	public String viewConfirmEmail(@RequestParam(value = "token") String token, @RequestParam(value = "empNo") Long empNo) {
 		try {
 			emailService.confirmEmail(token);
-			return "redirect:/users/join?userNo="+userNo.toString();
+			return "redirect:/users/join/"+empNo.toString();
 		} catch (Exception e) {
 			return "tokenError";
 		}
