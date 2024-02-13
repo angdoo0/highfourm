@@ -1,5 +1,4 @@
 import React, { useEffect } from 'react';
-import { GoogleOAuthProvider } from '@react-oauth/google';
 import { Layout, theme } from 'antd';
 import { Route, BrowserRouter as Router, Routes } from 'react-router-dom';
 import '../App.css';

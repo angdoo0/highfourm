@@ -1,5 +1,4 @@
 import React from 'react';
-import { GoogleLogin } from '@react-oauth/google';
 import { Col, Layout, Row,} from 'antd';
 import { BtnLogin, InputBar } from '../../Common/Module';
 import MainFooter from '../../Common/MainFooter';
@@ -56,17 +55,6 @@ const Login = () => {
             }}>
               <div className='bottom-text'>총관리자는 Google 계정으로 로그인 해주세요.</div>
               {/* 구글연동로그인 성공시 콘솔에 */}
-              <GoogleLogin
-                width="250" size="large"
-                onSuccess={
-                  credentialResponse => {
-                    console.log(credentialResponse
-                    )
-                  }}
-                onError={() => {
-                  console.log("Login failed");
-                }}
-              />
             </div>
           </Col>
         </Row>

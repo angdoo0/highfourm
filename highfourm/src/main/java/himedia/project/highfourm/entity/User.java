@@ -84,6 +84,7 @@ public class User implements UserDetails {
 	}
 
 
+
 	@Override
 	public Collection<? extends GrantedAuthority> getAuthorities() {
 		Collection<GrantedAuthority> authorities = new ArrayList<>();
@@ -119,4 +120,10 @@ public class User implements UserDetails {
 	public boolean isEnabled() {
 		return true;
 	}
+
+	public void joinUser(String userId, String password) {
+		this.userId = userId;
+		this.password = password;
+	}
+
 }

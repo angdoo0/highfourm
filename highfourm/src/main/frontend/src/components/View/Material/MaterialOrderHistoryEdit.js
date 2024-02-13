@@ -116,7 +116,7 @@ const MaterialOrderHistoryEdit = () => {
           </div>
         </div>
         <div className='flex-btn'>
-          <BtnBlue type='submit' value={'수정하기'} onClick={onClickSubmit} />
+          <BtnBlue type='submit' value={'입고내역 등록'} onClick={onClickSubmit} />
           <BtnWhite value={'취소'} onClick={e => navigate('/materials/order-history')} />
         </div>
       </form>
