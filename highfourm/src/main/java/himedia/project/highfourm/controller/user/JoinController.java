@@ -46,7 +46,7 @@ public class JoinController {
 	}
 	
 	//회원가입 처리
-	@PutMapping("/users/join/{empNo}")
+	@PutMapping("/users/join/")
 	public String signUpProcess(@PathVariable("empNo") Long empNo,
 			@Valid UserJoinFormDTO joinDTO, BindingResult bindingResult,  Model model) {
 		

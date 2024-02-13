@@ -33,6 +33,7 @@ const BasicTable = ({ dataSource, defaultColumns, setDataSource, pagination, onR
         title: col.title,
         handleSave,
       }),
+      
     };
   });
 
@@ -43,6 +44,7 @@ const BasicTable = ({ dataSource, defaultColumns, setDataSource, pagination, onR
       },
     };
   };
+  
 
   return (
     <div>
@@ -58,5 +60,8 @@ const BasicTable = ({ dataSource, defaultColumns, setDataSource, pagination, onR
       />
     </div>
   );
+  
+
 };
+
 export default BasicTable;

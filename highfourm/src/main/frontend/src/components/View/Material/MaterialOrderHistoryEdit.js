@@ -14,7 +14,7 @@ const MaterialOrderHistoryEdit = () => {
   });
   const [dataSource, setDataSource] = useState([]);
   const { orderHistoryId } = useParams()
-  
+
   useEffect(() => {
     async function fetchData() {
       try {
@@ -46,19 +46,24 @@ const MaterialOrderHistoryEdit = () => {
 
   const onClickSubmit = (e) => {
     e.preventDefault(); // 폼의 기본 동작 방지
-    console.log(JSON.stringify(dataSource));
-    axios({
-      method: 'POST',
-      url: `/api/materials/order-history/edit/${orderHistoryId}`,
-      data: JSON.stringify(dataSource),
-      headers: { 'Content-Type': 'application/json' },
-    })
-      .then((res) => {
-        console.log(res);
-        navigate('/materials/order-history');
+
+    const isConfirmed = window.confirm('등록하시겠습니까?');
+
+    if (isConfirmed) {
+      axios({
+        method: 'POST',
+        url: `/api/materials/order-history/edit/${orderHistoryId}`,
+        data: JSON.stringify(dataSource),
+        headers: { 'Content-Type': 'application/json' },
       })
-      .catch((error) => console.log(error))
-  };
+        .then((res) => {
+          console.log(res);
+          window.alert('등록되었습니다.');
+          navigate('/materials/order-history');
+        })
+        .catch((error) => console.log(error))
+    };
+  }
 
 
   const goBackNavigate = () => {

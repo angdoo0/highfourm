@@ -45,7 +45,7 @@ const SideBar = () => {
   const onClickSubmit = () => {
     axios({
       method: 'POST',
-      url: `http://localhost:8080/logout`,
+      url: `http://localhost:8080/api/logout`,
     })
       .then((res) => {
         console.log(res);

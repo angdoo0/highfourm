@@ -56,7 +56,6 @@ public class MaterialController {
 	@GetMapping("/api/materials/stock/search")
 	public ResponseEntity<List<MaterialListResponseDTO>> searchMaterialList(
 								@RequestParam(value="searchType") String searchType, @RequestParam(value="search") String search) {
-	    
 		List<MaterialListResponseDTO> searchMaterialList = new ArrayList<>();
 
 		searchMaterialList = materialService.searchMaterial(searchType, search);
@@ -69,7 +68,6 @@ public class MaterialController {
 	
 	@GetMapping("/api/materials/order-history")
 	public ResponseEntity<List<MaterialOrderResponseDto>> getdMaterialHistoryList() {
-	    
 		List<MaterialOrderResponseDto> mateiralOderList =materialService.getMaterialOrderList();
 		
 		return ResponseEntity.ok(mateiralOderList);
@@ -81,7 +79,6 @@ public class MaterialController {
 	@GetMapping("/api/materials/order-history/search")
 	public ResponseEntity<List<MaterialOrderResponseDto>> searchMaterialOrderHistory(
 								@RequestParam(value="searchType") String searchType, @RequestParam(value="search") String search) {
-	    
 		List<MaterialOrderResponseDto> searchMaterialHistory = null;
 		
 		searchMaterialHistory = materialService.searchMaterialHistory(searchType, search);
@@ -103,9 +100,9 @@ public class MaterialController {
 	 */
 	@GetMapping("/api/materials/order-history/edit/{orderHistoryId}")
 	public ResponseEntity<MaterialOrderEditFormDTO> getdMaterialHistory(@PathVariable(name ="orderHistoryId") Long orderHistoryId) {
-		
 	    MaterialOrderEditFormDTO editFormDTO = materialService.getMaterialhistoryInfo(orderHistoryId);
-		return ResponseEntity.ok(editFormDTO);
+		
+	    return ResponseEntity.ok(editFormDTO);
 	}
 	
 	/**
@@ -114,10 +111,6 @@ public class MaterialController {
 	@PostMapping("/api/materials/order-history/edit/{orderHistoryId}")
 	public String editdMaterialHistory(@PathVariable(name ="orderHistoryId") Long orderHistoryId, 
 										@RequestBody MaterialOrderEditFormDTO editDTO) {
-		log.info("RecievingDate >>>>> {}", editDTO.getRecievingDate());
-		log.info("Note >>>>> {}", editDTO.getNote());
-		System.out.println(">>>>>>>" + editDTO.getInboundAmount());
-		
 		materialService.updateMaterialHistory(editDTO);
 		
 		return "redirect:http://localhost:3000/materials/order-history";
