@@ -13,5 +13,5 @@ import lombok.Setter;
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 public class OrdersAndDetailsDTO {
     private OrdersDTO orders;
-    private List<OrderDetailFormDTO> orderDetails;
+    private List<OrderFormDTO> orderDetails;
 }

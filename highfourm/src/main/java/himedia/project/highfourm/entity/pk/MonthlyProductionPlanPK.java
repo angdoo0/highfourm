@@ -8,10 +8,11 @@ import lombok.AllArgsConstructor;
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import lombok.Setter;
 
 @Embeddable
 @EqualsAndHashCode
-@Getter
+@Getter @Setter
 @NoArgsConstructor
 @AllArgsConstructor
 public class MonthlyProductionPlanPK implements Serializable{

@@ -1,5 +1,6 @@
 package himedia.project.highfourm.entity;
 
+import himedia.project.highfourm.dto.plan.MonthlyProductionPlanDTO;
 import himedia.project.highfourm.entity.pk.MonthlyProductionPlanPK;
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
@@ -25,7 +26,7 @@ public class MonthlyProductionPlan {
 	private Long productionAmount;
 	
 	@MapsId("productionPlanId")
-	@ManyToOne(cascade = CascadeType.REFRESH)
+	@ManyToOne(cascade = CascadeType.ALL)
 	@JoinColumn(name = "production_plan_id", referencedColumnName = "production_plan_id")
 	private ProductionPlan productionPlan;
 
@@ -36,4 +37,8 @@ public class MonthlyProductionPlan {
 		this.productionAmount = productionAmount;
 		this.productionPlan = productionPlan;
 	}
+	
+    public void assignProductionPlan(ProductionPlan productionPlan) {
+        this.productionPlan = productionPlan;
+    }
 }
