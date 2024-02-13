@@ -21,7 +21,7 @@ public class HttpSecurityConfiguration {
 	protected SecurityFilterChain securityFilterChain1(HttpSecurity http) throws Exception {
 		http.csrf(csrf -> csrf.disable())
 			.authorizeHttpRequests(authorizeHttpRequest -> authorizeHttpRequest
-					.requestMatchers("/", "/login", "/users/join").permitAll()
+					.requestMatchers("/**", "/login", "/users/join/{empNo}").permitAll()
 //					.requestMatchers("/users", "/users/**").hasRole("ADMIN")
 					.anyRequest().authenticated()
 					);

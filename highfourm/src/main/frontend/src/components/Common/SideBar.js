@@ -42,9 +42,7 @@ const SideBar = () => {
     setCurrentPage(currentURL);
   }, []);
 
-  const onClickSubmit = (e) => {
-    e.preventDefault();
-  
+  const onClickSubmit = () => {
     axios({
       method: 'POST',
       url: `http://localhost:8080/logout`,
@@ -78,13 +76,13 @@ const SideBar = () => {
 
   const bottomMenu = [
     getItem(<a href="/users">사용자 관리</a>, '11', <FontAwesomeIcon icon={faUserGroup} />),
-    getItem(<a onClick={onClickSubmit}>로그아웃</a>, '12', <FontAwesomeIcon icon={faRightFromBracket} />),
+    getItem(<a href="#" onClick={onClickSubmit}>로그아웃</a>, '12', <FontAwesomeIcon icon={faRightFromBracket} />),
   ];
 
 
   // URL에 따른 선택한 메뉴 식별 함수
   const getMenuKeyFromURL = (url) => {
-    if (url === '/materials/stock') {
+    if (url.startsWith('/materials/stock')) {
       return '1';
     } else if (url === '/materials/order-history' || url === '/materials/order-history/new') {
       return '2';
