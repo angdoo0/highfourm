@@ -47,8 +47,7 @@ public class UserService {
 		List<User> userlist = repository.findAll(company.getCompanyId());
 
 		List<UserDTO> result = userlist.stream()
-				.map(user -> user.toDTO(company))
-				.collect(Collectors.toList());
+				.map(user -> user.toDTO(company)).toList();
 
 		return result;
 	}
@@ -69,8 +68,7 @@ public class UserService {
 		}
 		
 		return userlist.stream()
-				.map(user -> user.toDTO(company))
-				.collect(Collectors.toList());
+				.map(user -> user.toDTO(company)).toList();
 	}
 
 	/**
