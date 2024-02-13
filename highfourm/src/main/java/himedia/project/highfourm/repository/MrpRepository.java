@@ -11,6 +11,9 @@ import jakarta.persistence.EntityManager;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 
+/**
+ * @author 한혜림
+ */
 @Slf4j
 @RequiredArgsConstructor
 @Repository

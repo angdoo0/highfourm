@@ -29,7 +29,7 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor(access = AccessLevel.PRIVATE)
 @Entity
 @Table(name = "users")
-public class User implements UserDetails {
+public class User {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	@Column(name = "user_no")
@@ -82,48 +82,9 @@ public class User implements UserDetails {
 				.role(role)
 				.build();
 	}
-
-
-
-	@Override
-	public Collection<? extends GrantedAuthority> getAuthorities() {
-		Collection<GrantedAuthority> authorities = new ArrayList<>();
-		return authorities;
-	}
-
-
-	@Override
-	public String getUsername() {
-		return userName;
-	}
-
-
-	@Override
-	public boolean isAccountNonExpired() {
-		return true;
-	}
-
-
-	@Override
-	public boolean isAccountNonLocked() {
-		return true;
-	}
-
-
-	@Override
-	public boolean isCredentialsNonExpired() {
-		return true;
-	}
-
-
-	@Override
-	public boolean isEnabled() {
-		return true;
-	}
-
+	
 	public void joinUser(String userId, String password) {
 		this.userId = userId;
 		this.password = password;
 	}
-
 }

@@ -38,6 +38,9 @@ import jakarta.mail.internet.MimeBodyPart;
 import jakarta.mail.internet.MimeMessage;
 import jakarta.mail.internet.MimeMultipart;
 
+/**
+ * @author 한혜림
+ */
 @Service
 public class GmailService {
 
@@ -64,6 +67,9 @@ public class GmailService {
 		this.emailTokenRepository = emailTokenRepository;
     }
 
+    /**
+     * Gmail Open API 인증 정보
+     */
     private Credential getCredentials(final NetHttpTransport HTTP_TRANSPORT) throws IOException {
         InputStream in = GmailService.class.getResourceAsStream(CREDENTIALS_FILE_PATH);
         if (in == null) {
@@ -81,6 +87,9 @@ public class GmailService {
         return new AuthorizationCodeInstalledApp(flow, receiver).authorize("user");
     }
 
+    /**
+     * 이메일 작성, 전송 및 사용자 저장/토큰 생성
+     */
     public void sendEmail(UserAddDTO newUser, Authentication authentication) throws MessagingException, IOException {
     	User savedUser = userService.save(newUser, authentication);
     	EmailToken emailToken = EmailToken.createEmailToken(savedUser);
@@ -92,7 +101,7 @@ public class GmailService {
 				+ "<br>"
 				+ "<p style='font-size:16px;'>아래 링크를 클릭하면 하이포엠 회원가입 화면으로 이동됩니다.</p>"
 				+ "<a href='http://localhost:8080/confirm-email?token=" + emailToken.getId()
-				+"&userNo=" + emailToken.getUser().getUserNo().toString() + "' style='font-size:large;'>인증 링크</a>"
+				+"&empNo=" + emailToken.getUser().getEmpNo().toString() + "' style='font-size:large;'>인증 링크</a>"
 				+"</div>";
     	
     	MimeMessage email = createEmail(savedUser.getEmail(), subject, body);
@@ -100,6 +109,9 @@ public class GmailService {
         service.users().messages().send(USER_ID, message).execute();
     }
 
+    /**
+     * MimeMessage 생성, 이메일 보낼 세션 생성
+     */
     private MimeMessage createEmail(String toEmail, String subject, String body) throws MessagingException {
         Properties props = new Properties();
         Session session = Session.getDefaultInstance(props, null);
@@ -113,6 +125,9 @@ public class GmailService {
         return email;
     }
 
+    /**
+     * MimeMessage을 받아 Message 객체 생성
+     */
     private Message createMessageWithEmail(MimeMessage emailContent) throws MessagingException, IOException {
         ByteArrayOutputStream buffer = new ByteArrayOutputStream();
         emailContent.writeTo(buffer);
