@@ -2,7 +2,6 @@ import React, { useEffect, useState } from 'react';
 import axios from 'axios';
 import { useNavigate, useLocation } from 'react-router-dom';
 import { BtnBlack, SearchInput, SearchSelectBox } from '../../Common/Module';
-import { Popconfirm } from "antd";
 import BasicTable from '../../Common/Table/BasicTable';
 import KeyTable from '../../Common/Table/KeyTable';
 import PageTitle from '../../Common/PageTitle';

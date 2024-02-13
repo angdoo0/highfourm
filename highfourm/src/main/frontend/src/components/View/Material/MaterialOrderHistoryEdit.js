@@ -46,7 +46,6 @@ const MaterialOrderHistoryEdit = () => {
 
   const onClickSubmit = (e) => {
     e.preventDefault(); // 폼의 기본 동작 방지
-
     const isConfirmed = window.confirm('등록하시겠습니까?');
 
     if (isConfirmed) {
@@ -73,7 +72,7 @@ const MaterialOrderHistoryEdit = () => {
   return (
     <div>
       <PageTitle value={'입고내역 등록'} />
-      <form id='userForm' method='post' action='/api/materials/order-history'>
+      <form id='userForm' method='post' action='/api/materials/order-history' onSubmit={onClickSubmit}>
         <div className='flex-line'>
           <div className='flex-div'>
             <label htmlFor='empNo' className='label-title'>발주일</label>
@@ -121,7 +120,7 @@ const MaterialOrderHistoryEdit = () => {
           </div>
         </div>
         <div className='flex-btn'>
-          <BtnBlue type='submit' value={'입고내역 등록'} onClick={onClickSubmit} />
+          <BtnBlue type='submit' value={'입고내역 등록'} />
           <BtnWhite value={'취소'} onClick={e => navigate('/materials/order-history')} />
         </div>
       </form>

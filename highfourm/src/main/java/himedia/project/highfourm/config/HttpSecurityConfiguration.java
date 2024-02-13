@@ -11,18 +11,23 @@ import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.web.cors.CorsConfiguration;
 import org.springframework.web.cors.CorsConfigurationSource;
 
+import himedia.project.highfourm.service.CustomUserDetailService;
 import jakarta.servlet.http.HttpServletRequest;
+import lombok.RequiredArgsConstructor;
 
 @Configuration
 @EnableWebSecurity
+@RequiredArgsConstructor
 public class HttpSecurityConfiguration {
+	
+	private final CustomUserDetailService customUserDetailService;
 
 	@Bean
 	protected SecurityFilterChain securityFilterChain1(HttpSecurity http) throws Exception {
 		http.csrf(csrf -> csrf.disable())
 			.authorizeHttpRequests(authorizeHttpRequest -> authorizeHttpRequest
-					.requestMatchers("/**", "/login", "/users/join/{empNo}").permitAll()
-//					.requestMatchers("/users", "/users/**").hasRole("ADMIN")
+					.requestMatchers("/", "/login", "/users/join/{empNo}").permitAll()
+					.requestMatchers("/users", "/users/new", "/users/edit/{empNo}").hasRole("ADMIN")
 					.anyRequest().authenticated()
 					);
 		
@@ -49,7 +54,7 @@ public class HttpSecurityConfiguration {
         }));
 		http.logout(logout -> 
 			logout
-			.logoutUrl("/logout")
+			.logoutUrl("/api/logout")
 			.logoutSuccessUrl("/")
 			.invalidateHttpSession(true)
 			);
