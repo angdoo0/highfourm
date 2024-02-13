@@ -113,9 +113,11 @@ header {
 					<div th:if="${#fields.hasErrors('email')}" th:errors="*{email}" class="field-error">이메일을 입력해주세요</div>
 				</div>
 				<div class="mb-4">
-					<label for="emailCheck" class="form-label col fw-bold">이메일 주소 확인</label> 
-					<input type="email" id="emailCheck" name="emailCheck" placeholder="이메일 주소 확인" class="form-control col" onchange="onChange()" required />
-					<div class="invalid-feedback">이메일을 확인해주세요</div>
+					<div id="errorParent">
+						<label for="emailCheck" class="form-label col fw-bold">이메일 주소 확인</label> 
+						<input type="email" id="emailCheck" name="emailCheck" placeholder="이메일 주소 확인" class="form-control col" onchange="onChange()" required />
+						<div class="invalid-feedback">이메일을 확인해주세요</div>
+					</div>
 					<p style="color: rgba(0, 0, 0, 0.45); margin: 10px 0;">등록하신 이메일 주소로 인증 메일이 발송됩니다</p>
 				</div>
 				<div class="mb-4 mt-4">
@@ -141,6 +143,7 @@ header {
 	<script type="text/javascript">
 		const email = document.getElementById("email");
 		const emailCheck = document.getElementById("emailCheck");
+		const errorParent = document.getElementById("errorParent");
 
 		const onChange = () => {
 		    const errorDiv = document.getElementById("emailError");
@@ -150,8 +153,8 @@ header {
 		            const div = document.createElement('div');
 		            div.className = 'field-error';
 		            div.id = 'emailError';
-		            div.textContent = '이메일이 일치하지 않습니다.';
-		            emailCheck.parentNode.appendChild(div);
+		            div.textContent = '이메일이 일치하지 않습니다';
+		            errorParent.appendChild(div);
 		        }
 		    } else {
 		        if (errorDiv) {
