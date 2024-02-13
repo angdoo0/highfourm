@@ -6,7 +6,6 @@ import java.util.Map;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.validation.BindingResult;
-import org.springframework.validation.Errors;
 import org.springframework.validation.FieldError;
 
 import himedia.project.highfourm.dto.user.UserJoinFormDTO;
@@ -52,11 +51,13 @@ public class JoinService {
         return validatorResult;
     }
 	
+    // 유저 아이디 있는지 체크
 	@Transactional
 	public Boolean checkUserId(String userId) {
 		return userRepository.existsByUserId(userId);
 	}
 	
+	// 사번으로 등록 대기인 유저 정보 찾기
 	public UserJoinFormDTO findByEmpNO(Long empNo) {
 		User user = userRepository.findByEmpNo(empNo);
 		

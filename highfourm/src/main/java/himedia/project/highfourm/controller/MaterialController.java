@@ -4,11 +4,7 @@ package himedia.project.highfourm.controller;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.springframework.http.CacheControl;
-import org.springframework.http.HttpHeaders;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -17,7 +13,6 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import himedia.project.highfourm.dto.material.MaterialListResponseDTO;
-import himedia.project.highfourm.dto.material.MaterialOrderEditDTO;
 import himedia.project.highfourm.dto.material.MaterialOrderEditFormDTO;
 import himedia.project.highfourm.dto.material.MaterialOrderRequestDTO;
 import himedia.project.highfourm.dto.material.MaterialOrderResponseDto;
@@ -63,14 +58,8 @@ public class MaterialController {
 								@RequestParam(value="searchType") String searchType, @RequestParam(value="search") String search) {
 	    
 		List<MaterialListResponseDTO> searchMaterialList = new ArrayList<>();
-		
-		if(searchType.equals("자재코드")) {
-			searchMaterialList = materialService.findMaterialByMaterialId(search);
-		}else if(searchType.equals("자재명")){
-			searchMaterialList = materialService.findMaterialByMaterialName(search);
-		}else if(searchType.equals("재고관리 방식")){
-			searchMaterialList = materialService.findMaterialByManagement(search);
-		}	
+
+		searchMaterialList = materialService.searchMaterial(searchType, search);
 		return ResponseEntity.ok(searchMaterialList);
 	}
 
@@ -97,16 +86,6 @@ public class MaterialController {
 		
 		searchMaterialHistory = materialService.searchMaterialHistory(searchType, search);
 		
-		
-//		if(searchType.equals("자재코드")) {
-//			searchMaterialHistory = materialService.findMaterialHistoryByMaterialId(search);
-//		}else if(searchType.equals("자재명")){
-//			searchMaterialHistory = materialService.findMaterialHistoryByMaterialName(search);
-//		}else if(searchType.equals("발주일")){
-//			searchMaterialHistory = materialService.findMaterialHistoryByOrderDate(search);
-//		}else if(searchType.equals("입고일")){
-//			searchMaterialHistory = materialService.findMaterialHistoryByInboundDate(search);
-//		}	
 			return ResponseEntity.ok(searchMaterialHistory);
 		}
 		
