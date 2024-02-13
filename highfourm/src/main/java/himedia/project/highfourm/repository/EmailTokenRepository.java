@@ -7,6 +7,9 @@ import org.springframework.data.jpa.repository.JpaRepository;
 
 import himedia.project.highfourm.entity.EmailToken;
 
+/**
+ * @author 한혜림
+ */
 public interface EmailTokenRepository extends JpaRepository<EmailToken, String> {
 	Optional<EmailToken> findByIdAndExpirationDateAfterAndExpired(String emailTokenId, LocalDateTime now, boolean expired);
 }

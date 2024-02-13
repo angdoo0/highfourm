@@ -4,7 +4,6 @@ import { BtnBlue, SearchInput, SearchSelectBox } from '../../../Common/Module';
 import BasicTable from '../../../Common/Table/BasicTable';
 import PageTitle from '../../../Common/PageTitle';
 import axios from 'axios';
-import * as xlsx from 'xlsx';
 import downloadXlsx from '../../../Common/DownloadXlsx';
 import KeyTable from '../../../Common/Table/KeyTable';
 
@@ -12,7 +11,6 @@ const Mrp = () => {
   const navigate = useNavigate();
   const location = useLocation();
   const currentURL = window.location.pathname;
-  const { productionPlanId } = useParams();
   const searchParams = new URLSearchParams(location.search);
   const searchTypeParam = searchParams.get('searchType');
   const searchValueParam = searchParams.get('search');
@@ -23,18 +21,7 @@ const Mrp = () => {
   useEffect(() => {
     async function fetchData() {
       try {
-        let res;
-
-        if (currentURL === '/mrp/search') {
-          res = await axios.get('/api/mrp/search', {
-            params: {
-              searchType: searchTypeParam,
-              search: searchValueParam,
-            },
-          });
-        } else {
-          res = await axios.get('/api/mrp');
-        }
+        const res = await axios.get('/api/mrp');
         if (res.data["plan"]) {
           const newData = res.data["plan"].map((rowData) => ({
             key: rowData.productionPlanId,
@@ -51,7 +38,7 @@ const Mrp = () => {
       }
     }
     fetchData();
-  }, [currentURL, location.search, productionPlanId]);
+  }, []);
 
   const SelectChangeHandler = (value) => {
     setSearchType(value);
@@ -167,4 +154,3 @@ const Mrp = () => {
 }
 
 export default Mrp
-

@@ -1,5 +1,8 @@
 package himedia.project.highfourm.controller.user;
 
+import java.io.IOException;
+
+import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -14,34 +17,39 @@ import himedia.project.highfourm.dto.user.UserAddDTO;
 import himedia.project.highfourm.dto.user.UserEditDTO;
 import himedia.project.highfourm.service.UserService;
 import himedia.project.highfourm.service.email.EmailService;
-import himedia.project.highfourm.service.email.EmailTokenService;
-import jakarta.servlet.http.HttpSession;
+import himedia.project.highfourm.service.email.GmailService;
+import jakarta.mail.MessagingException;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 
+/**
+ * @author 한혜림
+ */
 @Slf4j
 @Controller
 @RequiredArgsConstructor
 public class UserHtmlController {
 
 	private final UserService service;
-	private final EmailTokenService emailTokenService;
 	private final EmailService emailService;
+	private final GmailService gmailService;
 	
+	/**
+	 * 사용자 등록 페이지
+	 */
 	@GetMapping("/users/new")
-	public String addForm(HttpSession session, Model model) {
+	public String addForm(Model model) {
 		model.addAttribute("userAddDTO", new UserAddDTO());
-		log.info("session ? " + session.getAttribute("companyId"));
 	    return "userForm";
 	}
 	
+	/**
+	 * 사용자 등록
+	 */
 	@PostMapping("/users/new" )
 	public String addNewUser(@ModelAttribute @Valid UserAddDTO userAddDTO, BindingResult bindingResult, 
-			HttpSession session, Model model) {
-//		Long adminCompanyId = (Long)session.getAttribute("companyId");
-//		service.save(userAddDTO, adminCompanyId);
-		log.info("session ? " + session.getAttribute("companyId"));
+			Authentication authentication, Model model) throws MessagingException, IOException {
 		
 		if(bindingResult.hasErrors()) {
 			return "userForm";
@@ -57,20 +65,26 @@ public class UserHtmlController {
 			return "userForm";
 		}
 		
-		String check = emailTokenService.createEmail(userAddDTO);
+		gmailService.sendEmail(userAddDTO, authentication);
 		return "redirect:/users";
 	}
 	
-	@GetMapping("/users/edit/{userNo}")
-	public String selectUser(@PathVariable("userNo") Long userNo, Model model) {
-		UserEditDTO user = service.findByUserNoforEdit(userNo);
+	/**
+	 * 사용자 수정 페이지
+	 */
+	@GetMapping("/users/edit/{empNo}")
+	public String selectUser(@PathVariable("empNo") Long empNo, Authentication authentication, Model model) {
+		UserEditDTO user = service.findByEmpNoforEdit(empNo, authentication);
 		
 		model.addAttribute("userEditDTO", user);
 		return "userEditForm";
 	}
 	
-	@PutMapping("/users/edit/{userNo}")
-	public String editUser(@PathVariable("userNo") Long userNo, @ModelAttribute @Valid UserEditDTO userEditDto, 
+	/**
+	 * 사용자 수정
+	 */
+	@PutMapping("/users/edit/{empNo}")
+	public String editUser(@PathVariable("empNo") Long empNo, @ModelAttribute @Valid UserEditDTO userEditDto, 
 			BindingResult bindingResult, Model model) {
 		if (bindingResult.hasErrors()) {
 			return "userEditForm";
@@ -80,10 +94,17 @@ public class UserHtmlController {
 		return "redirect:/users";
 	}
 	
+	/**
+	 * 사용자 인증 이메일 링크 페이지
+	 */
 	@GetMapping("/confirm-email")
-	public String viewConfirmEmail(@RequestParam(value = "token") String token, @RequestParam(value = "userNo") Long userNo) throws Exception {
-		emailService.confirmEmail(token);
-		return "redirect:/users/join?userNo="+userNo.toString();
+	public String viewConfirmEmail(@RequestParam(value = "token") String token, @RequestParam(value = "empNo") Long empNo) {
+		try {
+			emailService.confirmEmail(token);
+			return "redirect:/users/join/"+empNo.toString()+"?token="+token;
+		} catch (Exception e) {
+			return "tokenError";
+		}
 	}
 	
 }

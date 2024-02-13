@@ -1,12 +1,18 @@
 package himedia.project.highfourm.service;
 
+import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
+import java.util.stream.Collectors;
 
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
-import himedia.project.highfourm.dto.PerformanceDTO;
 import himedia.project.highfourm.dto.WorkPerformanceDTO;
+import himedia.project.highfourm.dto.orders.OrdersDTO;
+import himedia.project.highfourm.dto.performance.PerformanceDTO;
+import himedia.project.highfourm.entity.Orders;
 import himedia.project.highfourm.repository.ProductionPlanRepository;
 import lombok.RequiredArgsConstructor;
 
@@ -37,4 +43,17 @@ public class PerformanceService {
 		return performance;
 	}
 	
+	public List<PerformanceDTO> performanceSearch(String searchType, String search){
+		List<PerformanceDTO> response = new ArrayList<>();
+
+		if (searchType.equals("주문 번호")) {
+			response = productionPlanRepository.findPerformanceByOrderId(Sort.by(Sort.Direction.DESC,"plan.productionPlanId"),"%" + search + "%");
+		} else if (searchType.equals("거래처명")) {
+			response = productionPlanRepository.findPerformanceByVendor(Sort.by(Sort.Direction.DESC,"plan.productionPlanId"),"%" + search + "%");
+		} else if (searchType.equals("품명")) {
+			response = productionPlanRepository.findPerformanceByProductName(Sort.by(Sort.Direction.DESC,"plan.productionPlanId"),"%" + search + "%");
+		}
+
+		return response;
+	}
 }

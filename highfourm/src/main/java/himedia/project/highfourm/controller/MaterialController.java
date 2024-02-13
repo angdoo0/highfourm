@@ -1,6 +1,7 @@
 package himedia.project.highfourm.controller;
 
 
+import java.util.ArrayList;
 import java.util.List;
 
 import org.springframework.http.CacheControl;
@@ -38,12 +39,10 @@ public class MaterialController {
 	 */
 	@GetMapping("/api/materials/stock")
 	public ResponseEntity<List<MaterialListResponseDTO>>  getMaterialList() {
-		HttpHeaders headers = new HttpHeaders();
-	    headers.setCacheControl(CacheControl.noStore());
 	    
 		List<MaterialListResponseDTO> materialList = materialService.MaterialList();
 		
-		return new ResponseEntity<>(materialList, headers, HttpStatus.OK);
+		return ResponseEntity.ok(materialList);
 	}
 	
 	/**
@@ -62,10 +61,8 @@ public class MaterialController {
 	@GetMapping("/api/materials/stock/search")
 	public ResponseEntity<List<MaterialListResponseDTO>> searchMaterialList(
 								@RequestParam(value="searchType") String searchType, @RequestParam(value="search") String search) {
-		HttpHeaders headers = new HttpHeaders();
-	    headers.setCacheControl(CacheControl.noStore());
 	    
-		List<MaterialListResponseDTO> searchMaterialList = null;
+		List<MaterialListResponseDTO> searchMaterialList = new ArrayList<>();
 		
 		if(searchType.equals("자재코드")) {
 			searchMaterialList = materialService.findMaterialByMaterialId(search);
@@ -74,7 +71,7 @@ public class MaterialController {
 		}else if(searchType.equals("재고관리 방식")){
 			searchMaterialList = materialService.findMaterialByManagement(search);
 		}	
-		return new ResponseEntity<>(searchMaterialList, headers, HttpStatus.OK);
+		return ResponseEntity.ok(searchMaterialList);
 	}
 
 	/**
@@ -83,12 +80,10 @@ public class MaterialController {
 	
 	@GetMapping("/api/materials/order-history")
 	public ResponseEntity<List<MaterialOrderResponseDto>> getdMaterialHistoryList() {
-		HttpHeaders headers = new HttpHeaders();
-	    headers.setCacheControl(CacheControl.noStore());
 	    
 		List<MaterialOrderResponseDto> mateiralOderList =materialService.getMaterialOrderList();
 		
-		return new ResponseEntity<>(mateiralOderList, headers, HttpStatus.OK);
+		return ResponseEntity.ok(mateiralOderList);
 	}
 	
 	/**
@@ -97,26 +92,22 @@ public class MaterialController {
 	@GetMapping("/api/materials/order-history/search")
 	public ResponseEntity<List<MaterialOrderResponseDto>> searchMaterialOrderHistory(
 								@RequestParam(value="searchType") String searchType, @RequestParam(value="search") String search) {
-		HttpHeaders headers = new HttpHeaders();
-	    headers.setCacheControl(CacheControl.noStore());
-	    
-	    System.out.println("search >>>>>>" + search);
 	    
 		List<MaterialOrderResponseDto> searchMaterialHistory = null;
 		
-//		searchMaterialHistory = materialService.searchMaterialHistory(searchType,search);
+		searchMaterialHistory = materialService.searchMaterialHistory(searchType, search);
 		
 		
-		if(searchType.equals("자재코드")) {
-			searchMaterialHistory = materialService.findMaterialHistoryByMaterialId(search);
-		}else if(searchType.equals("자재명")){
-			searchMaterialHistory = materialService.findMaterialHistoryByMaterialName(search);
-		}else if(searchType.equals("발주일")){
-			searchMaterialHistory = materialService.findMaterialHistoryByOrderDate(search);
-		}else if(searchType.equals("입고일")){
-			searchMaterialHistory = materialService.findMaterialHistoryByInboundDate(search);
-		}	
-			return new ResponseEntity<>(searchMaterialHistory, headers, HttpStatus.OK);
+//		if(searchType.equals("자재코드")) {
+//			searchMaterialHistory = materialService.findMaterialHistoryByMaterialId(search);
+//		}else if(searchType.equals("자재명")){
+//			searchMaterialHistory = materialService.findMaterialHistoryByMaterialName(search);
+//		}else if(searchType.equals("발주일")){
+//			searchMaterialHistory = materialService.findMaterialHistoryByOrderDate(search);
+//		}else if(searchType.equals("입고일")){
+//			searchMaterialHistory = materialService.findMaterialHistoryByInboundDate(search);
+//		}	
+			return ResponseEntity.ok(searchMaterialHistory);
 		}
 		
 	/**
@@ -133,10 +124,9 @@ public class MaterialController {
 	 */
 	@GetMapping("/api/materials/order-history/edit/{orderHistoryId}")
 	public ResponseEntity<MaterialOrderEditFormDTO> getdMaterialHistory(@PathVariable(name ="orderHistoryId") Long orderHistoryId) {
-		HttpHeaders headers = new HttpHeaders();
-	    headers.setCacheControl(CacheControl.noStore());
+		
 	    MaterialOrderEditFormDTO editFormDTO = materialService.getMaterialhistoryInfo(orderHistoryId);
-		return new ResponseEntity<> (editFormDTO, headers, HttpStatus.OK);
+		return ResponseEntity.ok(editFormDTO);
 	}
 	
 	/**
@@ -153,8 +143,5 @@ public class MaterialController {
 		
 		return "redirect:http://localhost:3000/materials/order-history";
 	}
-	
-	
-	
 	
 }

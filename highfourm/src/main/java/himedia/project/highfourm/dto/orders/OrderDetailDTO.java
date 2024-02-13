@@ -3,6 +3,7 @@ package himedia.project.highfourm.dto.orders;
 import himedia.project.highfourm.entity.OrderDetail;
 import himedia.project.highfourm.entity.Orders;
 import himedia.project.highfourm.entity.Product;
+import himedia.project.highfourm.entity.pk.MonthlyProductionPlanPK;
 import himedia.project.highfourm.entity.pk.OrderDetailPK;
 import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
@@ -21,26 +22,25 @@ public class OrderDetailDTO {
 	private Long productAmount;
 	private Long unitPrice;
 	
-	public OrderDetail toEntity(OrderDetailDTO orderDetailDTO, Orders orders, Product product) {
+	public OrderDetail toEntity() {
 	    return OrderDetail.builder()
-	            .orderDetailPK(new OrderDetailPK(orderDetailDTO.getOrderId(), orderDetailDTO.getProductId()))
-	            .productAmount(orderDetailDTO.getProductAmount())
-	            .unitPrice(orderDetailDTO.getUnitPrice())
-	            .orders(orders)
-	            .product(product)
-	            .build();
+	    		.orderDetailPK(new OrderDetailPK(this.orderId, this.productId))
+		        .productAmount(this.productAmount)
+		        .unitPrice(this.unitPrice)
+		        .build();
 	}
 	
 	public static OrderDetailDTO fromEntity(OrderDetail orderDetail) {
-	    return OrderDetailDTO.builder()
-	            .orderId(orderDetail.getOrderDetailPK().getOrderId())
-	            .productId(orderDetail.getOrderDetailPK().getProductId())
-	            .productAmount(orderDetail.getProductAmount())
-	            .unitPrice(orderDetail.getUnitPrice())
-	            .build();
+	    return new OrderDetailDTO(
+	            orderDetail.getOrderDetailPK().getOrderId(),
+	            orderDetail.getOrderDetailPK().getProductId(),
+	            orderDetail.getProductAmount(),
+	            orderDetail.getUnitPrice()
+	    );
 	}
+
 	
-	public static OrderDetailDTO fromFormDTO(OrderDetailFormDTO formDTO, String productId) {
+	public static OrderDetailDTO fromFormDTO(OrderFormDTO formDTO, String productId) {
 	    return OrderDetailDTO.builder()
 	            .orderId(formDTO.getOrderId())
 	            .productId(productId)
