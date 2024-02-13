@@ -11,6 +11,9 @@ import jakarta.persistence.EntityManager;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 
+/**
+ * @author 한혜림
+ */
 @Slf4j
 @RequiredArgsConstructor
 @Repository
@@ -84,7 +87,7 @@ public class MrpRepository {
 		String sql = "select o.dueDate, plan.productionPlanId, plan.product.productId, p.productName, plan.productionPlanAmount "
 				+ "from ProductionPlan plan " + "left join plan.product p "
 				+ "left join plan.orders o "
-				+ "where plan.dueDate like concat('%', :dueDate, '%')";
+				+ "where CAST(o.dueDate AS string) like concat('%', :dueDate, '%')";
 		
 		List<MrpProductionPlanDTO> result = em.createQuery(sql, MrpProductionPlanDTO.class)
 				.setParameter("dueDate", dueDate).getResultList();

@@ -9,10 +9,10 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 
-import himedia.project.highfourm.dto.ProductionPlanDTO;
 import himedia.project.highfourm.dto.ProductionStatusDTO;
-import himedia.project.highfourm.dto.ProductionPlanFormDTO;
 import himedia.project.highfourm.dto.WorkPerformanceDTO;
+import himedia.project.highfourm.dto.plan.ProductionPlanDTO;
+import himedia.project.highfourm.dto.plan.ProductionPlanFormDTO;
 import himedia.project.highfourm.service.ProductionPlanService;
 import himedia.project.highfourm.service.WorkPerformanceService;
 import lombok.RequiredArgsConstructor;

@@ -1,6 +1,11 @@
 package himedia.project.highfourm.entity;
 
 import java.time.LocalDate;
+import java.util.ArrayList;
+import java.util.Collection;
+
+import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.userdetails.UserDetails;
 
 import himedia.project.highfourm.dto.user.UserDTO;
 import jakarta.persistence.CascadeType;
@@ -82,6 +87,4 @@ public class User {
 		this.userId = userId;
 		this.password = password;
 	}
-	
-	
 }

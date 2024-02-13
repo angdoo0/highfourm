@@ -1,5 +1,6 @@
 package himedia.project.highfourm.entity;
 
+import himedia.project.highfourm.dto.orders.OrderDetailDTO;
 import himedia.project.highfourm.entity.pk.OrderDetailPK;
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
@@ -41,11 +42,27 @@ public class OrderDetail {
 	@Builder
 	public OrderDetail(OrderDetailPK orderDetailPK, Long productAmount, Long unitPrice, Orders orders,
 			Product product) {
-		super();
 		this.orderDetailPK = orderDetailPK;
 		this.productAmount = productAmount;
 		this.unitPrice = unitPrice;
 		this.orders = orders;
 		this.product = product;
 	}
+	
+	public OrderDetailDTO fromEntity(OrderDetail orderDetail) {
+	    return OrderDetailDTO.builder()
+	            .orderId(orderDetail.getOrderDetailPK().getOrderId())
+	            .productId(orderDetail.getOrderDetailPK().getProductId())
+	            .productAmount(orderDetail.getProductAmount())
+	            .unitPrice(orderDetail.getUnitPrice())
+	            .build();
+	}
+	
+	public void assignOrders(Orders orders) {
+	        this.orders = orders;
+	}
+	
+	public void assignProduct(Product product) {
+        this.product = product;
+}
 }
