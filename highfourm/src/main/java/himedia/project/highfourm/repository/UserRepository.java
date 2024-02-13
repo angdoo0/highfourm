@@ -5,7 +5,6 @@ import java.util.List;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 
-import himedia.project.highfourm.dto.user.UserDTO;
 import himedia.project.highfourm.entity.User;
 
 public interface UserRepository extends JpaRepository<User, Long> {

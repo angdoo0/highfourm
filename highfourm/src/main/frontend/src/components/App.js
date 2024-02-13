@@ -1,5 +1,4 @@
 import React, { useEffect } from 'react';
-import { GoogleOAuthProvider } from '@react-oauth/google';
 import { Layout, theme } from 'antd';
 import { Route, BrowserRouter as Router, Routes } from 'react-router-dom';
 import '../App.css';
@@ -50,6 +49,7 @@ function App() {
               <Route path='/orders' element={<OrderList />} />
               <Route path='/orders/new' element={<OrderNew />} />
               <Route path='/materials/stock' element={<StockList />} />
+              <Route path='/materials/stock/search' element={<StockList />} />
               <Route path='/materials/order-history' element={<MaterialOrderHistory />} />
               <Route path='/materials/order-history/search' element={<MaterialOrderHistory />} />
               <Route path='/materials/order-history/new' element={<MaterialOrderHistoryNew />} />

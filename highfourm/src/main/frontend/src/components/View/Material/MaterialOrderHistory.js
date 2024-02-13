@@ -4,6 +4,7 @@ import { useNavigate, useLocation } from 'react-router-dom';
 import { BtnBlack, SearchInput, SearchSelectBox } from '../../Common/Module';
 import { Popconfirm } from "antd";
 import BasicTable from '../../Common/Table/BasicTable';
+import KeyTable from '../../Common/Table/KeyTable';
 import PageTitle from '../../Common/PageTitle';
 
 const MaterialOrderHistory = () => {
@@ -171,7 +172,13 @@ const MaterialOrderHistory = () => {
             <hr style={{ color: '#000', width: '520px', marginLeft: '20px' }} />
           </div>
           <div style={{ marginTop: '20px', height: '300px', overflowY: 'auto' }}>
-            <BasicTable dataSource={waitingData} defaultColumns={defaultColumnsOne} setDataSource={setDataSource} />
+            <KeyTable 
+              dataSource={waitingData} 
+              defaultColumns={defaultColumnsOne} 
+              setDataSource={setDataSource} 
+              url="materials/order-history/edit"
+              keyName="materialHistoryId"
+              />
           </div>
         </div>
         <div style={{ border: '1px solid #d9d9d9', padding: '30px 35px', marginBottom: '20px' }}>
