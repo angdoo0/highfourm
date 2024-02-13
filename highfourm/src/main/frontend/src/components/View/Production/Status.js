@@ -77,8 +77,9 @@ function Status() {
     {
       title: '진행 단계',
       dataIndex: 'step',
-      render: (state) => 
-      <a href={`/${stepUrl[state]}`}>
+      render: (state, item) => 
+      <a href={`/${stepUrl[state]}/search?searchType=주문%20번호&search=${item.orderId}`}>
+      {/* <a href={`/${stepUrl[state]}`}> */}
         <StepBar stateNum={state}></StepBar>
       </a>
     },

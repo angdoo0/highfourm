@@ -18,7 +18,6 @@ import himedia.project.highfourm.service.UserService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 
-@Slf4j
 @RestController
 @RequiredArgsConstructor
 //@RequestMapping("/users")
