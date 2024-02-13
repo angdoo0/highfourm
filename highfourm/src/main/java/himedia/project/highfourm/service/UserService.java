@@ -1,9 +1,9 @@
 package himedia.project.highfourm.service;
 
 import java.util.List;
-import java.util.Optional;
 import java.util.stream.Collectors;
 
+import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -13,7 +13,6 @@ import himedia.project.highfourm.dto.user.UserEditDTO;
 import himedia.project.highfourm.entity.Company;
 import himedia.project.highfourm.entity.User;
 import himedia.project.highfourm.repository.CompanyRepository;
-import himedia.project.highfourm.repository.EmailTokenRepository;
 import himedia.project.highfourm.repository.UserRepository;
 import jakarta.persistence.EntityManager;
 import lombok.RequiredArgsConstructor;
@@ -26,55 +25,80 @@ public class UserService {
 
 	private final UserRepository repository;
 	private final CompanyRepository companyRepository;
-	private final EmailTokenRepository emailTokenRepository;
 	private final EntityManager em;
+	
+	public Long findCompanyId(Authentication authentication) {
+		User user = repository.findByUserId(authentication.getName());
+		return user.getCompany().getCompanyId();
+	}
 
-	public List<UserDTO> findAllUsers() {
-		List<User> userlist = repository.findAll();
-		Company company = companyRepository.findById(1L).get();
+	public List<UserDTO> findAllUsers(Authentication authentication) {
+		Long companyId = findCompanyId(authentication);
+		Company company = companyRepository.findById(companyId).get();
+		List<User> userlist = repository.findAll(companyId);
 
-		List<UserDTO> result = userlist.stream().map(user -> user.toDTO(company)).collect(Collectors.toList());
+		List<UserDTO> result = userlist.stream()
+				.map(user -> user.toDTO(company))
+				.collect(Collectors.toList());
 
 		return result;
 	}
 
-	public UserDTO findByUserNo(Long userNo) {
+	public UserDTO findByUserNo(Long userNo, Authentication authentication) {
 		User user = repository.findById(userNo).get();
-		Company company = companyRepository.findById(1L).get();
+		Long companyId = findCompanyId(authentication);
+		Company company = companyRepository.findById(companyId).get();
 		return user.toDTO(company);
 	}
 
-	public List<UserDTO> findByEmpNo(Long empNo) {
+	public List<UserDTO> findByEmpNo(Long empNo, Authentication authentication) {
 		List<User> userlist = repository.findByAllEmpNo(empNo);
-		Company company = companyRepository.findById(1L).get();
+		Long companyId = findCompanyId(authentication);
+		Company company = companyRepository.findById(companyId).get();
 
-		return userlist.stream().map(user -> user.toDTO(company)).collect(Collectors.toList());
+		return userlist.stream()
+				.map(user -> user.toDTO(company))
+				.collect(Collectors.toList());
 	}
 
-	public List<UserDTO> findByUserName(String name) {
+	public List<UserDTO> findByUserName(String name, Authentication authentication) {
 		List<User> userlist = repository.findByAllUserName(name);
-		Company company = companyRepository.findById(1L).get();
+		Long companyId = findCompanyId(authentication);
+		Company company = companyRepository.findById(companyId).get();
 
-		return userlist.stream().map(user -> user.toDTO(company)).collect(Collectors.toList());
+		return userlist.stream()
+				.map(user -> user.toDTO(company))
+				.collect(Collectors.toList());
 	}
 
-	public List<UserDTO> findByEmail(String email) {
+	public List<UserDTO> findByEmail(String email, Authentication authentication) {
 		List<User> userlist = repository.findByAllEmail(email);
-		Company company = companyRepository.findById(1L).get();
+		Long companyId = findCompanyId(authentication);
+		Company company = companyRepository.findById(companyId).get();
 
-		return userlist.stream().map(user -> user.toDTO(company)).collect(Collectors.toList());
+		return userlist.stream()
+				.map(user -> user.toDTO(company))
+				.collect(Collectors.toList());
 	}
 
-	public UserEditDTO findByUserNoforEdit(Long userNo) {
+	public UserEditDTO findByUserNoforEdit(Long userNo, Authentication authentication) {
 		User user = repository.findById(userNo).get();
-		Company company = companyRepository.findById(1L).get();
+		Long companyId = findCompanyId(authentication);
+		Company company = companyRepository.findById(companyId).get();
 
 		UserDTO userDTO = user.toDTO(company);
 
-		return UserEditDTO.builder().userNo(userDTO.getUserNo()).userName(userDTO.getUserName())
-				.empNo(userDTO.getEmpNo()).position(userDTO.getPosition()).birth(userDTO.getBirth())
-				.email(userDTO.getEmail()).company(userDTO.getCompany()).registerState(userDTO.getRegisterState())
-				.role(userDTO.getRole()).build();
+		return UserEditDTO.builder()
+				.userNo(userDTO.getUserNo())
+				.userName(userDTO.getUserName())
+				.empNo(userDTO.getEmpNo())
+				.position(userDTO.getPosition())
+				.birth(userDTO.getBirth())
+				.email(userDTO.getEmail())
+				.company(userDTO.getCompany())
+				.registerState(userDTO.getRegisterState())
+				.role(userDTO.getRole())
+				.build();
 
 	}
 
@@ -86,15 +110,14 @@ public class UserService {
 		return repository.findByEmpNo(empNo) == null;
 	}
 
-	public UserDTO save(UserAddDTO user) {
-//		public void save(UserDTO user, Long adminCompanyId) {
-//		Optional<Company> company = companyRepository.findById(adminCompanyId);
-		Optional<Company> company = companyRepository.findById(1L);
+	public User save(UserAddDTO user, Authentication authentication) {
+		Long companyId = findCompanyId(authentication);
+		Company company = companyRepository.findById(companyId).get();
 
-		User userEntity = user.toEntity(company.get());
+		User userEntity = user.toEntity(company);
 
 		User savedUser = repository.save(userEntity);
-		return savedUser.toDTO(company.get());
+		return savedUser;
 	}
 
 	@Transactional

@@ -56,7 +56,7 @@ function App() {
               <Route path='/users' element={<UserList />} />
               <Route path='/users/search' element={<UserList />} />
               <Route path='/mrp' element={<Mrp />} />
-              <Route path='/mrp/search' element={<Mrp />} />
+              <Route path='/mrp/search' element={<MrpDetail />} />
               <Route path='/mrp/:productionPlanId/*' element={<MrpDetail />} />
               <Route path='/production-plan' element={<ProductionPlan />} />
               <Route path='/bom' element={<Bom />} />

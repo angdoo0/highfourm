@@ -9,8 +9,8 @@ import himedia.project.highfourm.entity.User;
 
 public interface UserRepository extends JpaRepository<User, Long> {
 	
-	@Query(value = "select * from users where role not like 'ADMIN'", nativeQuery = true)
-	List<User> findAll();
+	@Query(value = "select * from users where role not like 'ADMIN' and company_id = ?", nativeQuery = true)
+	List<User> findAll(Long companyId);
 	
 	@Query(value = "select * from users where emp_no like %?% and role not like 'ADMIN'", nativeQuery = true)
 	List<User> findByAllEmpNo(Long empNo);
