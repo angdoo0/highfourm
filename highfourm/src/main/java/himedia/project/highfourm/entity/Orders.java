@@ -1,8 +1,11 @@
 package himedia.project.highfourm.entity;
 
 import java.time.LocalDate;
+import java.util.ArrayList;
 import java.util.List;
 
+import himedia.project.highfourm.dto.orders.OrdersDTO;
+import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.Id;
@@ -10,6 +13,7 @@ import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
 import lombok.AccessLevel;
 import lombok.Builder;
+import lombok.Builder.Default;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
@@ -37,7 +41,7 @@ public class Orders {
 	@Column(name = "order_date")
 	private LocalDate orderDate;
 	
-	@OneToMany(mappedBy = "orders")
+	@OneToMany(mappedBy = "orders", cascade = CascadeType.ALL)
 	private List<OrderDetail> orderDetails;
 	
 	@OneToMany(mappedBy = "orders")
@@ -55,5 +59,21 @@ public class Orders {
 		this.orderDetails = orderDetails;
 		this.productionPlans = productionPlans;
 	}
-
+	
+   public OrdersDTO fromEntity() {
+        return OrdersDTO.builder()
+                .orderId(this.orderId)
+                .vendor(this.vendor)
+                .manager(this.manager)
+                .dueDate(this.dueDate)
+                .endingState(this.endingState)
+                .orderDate(this.orderDate)
+                .orderDetails(this.orderDetails)
+                .build();
+    }
+   
+   public void assignOrderDetail(List<OrderDetail> orderDetails) {
+       this.orderDetails = orderDetails;
+   }
+   
 }

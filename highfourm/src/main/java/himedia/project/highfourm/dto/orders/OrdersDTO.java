@@ -2,19 +2,23 @@ package himedia.project.highfourm.dto.orders;
 
 
 import java.time.LocalDate;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.stream.Collectors;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
 
+import himedia.project.highfourm.entity.OrderDetail;
 import himedia.project.highfourm.entity.Orders;
 import lombok.AccessLevel;
-import lombok.AllArgsConstructor;
+import lombok.Builder;
+import lombok.Builder.Default;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 @Getter @Setter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
-@AllArgsConstructor
 public class OrdersDTO {
 	private String orderId;
 	private String vendor;
@@ -24,6 +28,7 @@ public class OrdersDTO {
 	private Boolean endingState;
 	@JsonFormat(pattern = "yyyy-MM-dd")
 	private LocalDate orderDate;
+	private List<OrderDetailDTO> orderDetails;
 	
 	public Orders toEntity(OrdersDTO ordersDTO) {
 	    return Orders.builder()
@@ -35,15 +40,19 @@ public class OrdersDTO {
 	            .orderDate(ordersDTO.getOrderDate())
 	            .build();
 	}
-	
-   public static OrdersDTO fromEntity(Orders orders) {
-        return new OrdersDTO(
-                orders.getOrderId(),
-                orders.getVendor(),
-                orders.getManager(),
-                orders.getDueDate(),
-                orders.getEndingState(),
-                orders.getOrderDate()
-        );
-    }
+
+	@Builder
+	public OrdersDTO(String orderId, String vendor, String manager, LocalDate dueDate, Boolean endingState,
+			LocalDate orderDate, List<OrderDetail> orderDetails) {
+		super();
+		this.orderId = orderId;
+		this.vendor = vendor;
+		this.manager = manager;
+		this.dueDate = dueDate;
+		this.endingState = endingState;
+		this.orderDate = orderDate;
+		this.orderDetails = orderDetails.stream()
+			    .map(OrderDetailDTO::fromEntity)
+			    .collect(Collectors.toList());
+	}
 }
