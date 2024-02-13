@@ -36,6 +36,6 @@ public class ProductionController {
 		List<WorkPerformanceDTO> workPerformanceList = workPerformanceService.findAll();
 		responseMap.put("workPerfomance", workPerformanceList);
 		
-		return ResponseEntity.ok().cacheControl(CacheControl.noStore()).body(responseMap);
+		return ResponseEntity.ok(responseMap);
 	}
 }

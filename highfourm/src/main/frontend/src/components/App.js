@@ -62,9 +62,11 @@ function App() {
               <Route path='/production-plan' element={<ProductionPlan />} />
               <Route path='/production-plan/search' element={<ProductionPlan />} />
               <Route path='/bom' element={<Bom />} />
+              <Route path='/bom/search' element={<Bom />} />
               <Route path='/bom/detail/:productId' element={<BomDetail />} />
               <Route path='/production-status' element={<Status />} />
               <Route path='/work-performance' element={<WorkPerformance />} />
+              <Route path='/work-performance/search' element={<WorkPerformance />} />
               <Route path='/work-performance/new' element={<WorkPerformanceNew />} />
               <Route path='/production-performance' element={<Performance />} />
               <Route path='/production-performance/search' element={<Performance />} />
