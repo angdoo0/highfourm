@@ -23,6 +23,9 @@ import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 
+/**
+ * @author 한혜림
+ */
 @Slf4j
 @Controller
 @RequiredArgsConstructor
@@ -32,12 +35,18 @@ public class UserHtmlController {
 	private final EmailService emailService;
 	private final GmailService gmailService;
 	
+	/**
+	 * 사용자 등록 페이지
+	 */
 	@GetMapping("/users/new")
 	public String addForm(Model model) {
 		model.addAttribute("userAddDTO", new UserAddDTO());
 	    return "userForm";
 	}
 	
+	/**
+	 * 사용자 등록
+	 */
 	@PostMapping("/users/new" )
 	public String addNewUser(@ModelAttribute @Valid UserAddDTO userAddDTO, BindingResult bindingResult, 
 			Authentication authentication, Model model) throws MessagingException, IOException {
@@ -60,6 +69,9 @@ public class UserHtmlController {
 		return "redirect:/users";
 	}
 	
+	/**
+	 * 사용자 수정 페이지
+	 */
 	@GetMapping("/users/edit/{userNo}")
 	public String selectUser(@PathVariable("userNo") Long userNo, Authentication authentication, Model model) {
 		UserEditDTO user = service.findByUserNoforEdit(userNo, authentication);
@@ -68,6 +80,9 @@ public class UserHtmlController {
 		return "userEditForm";
 	}
 	
+	/**
+	 * 사용자 수정
+	 */
 	@PutMapping("/users/edit/{userNo}")
 	public String editUser(@PathVariable("userNo") Long userNo, @ModelAttribute @Valid UserEditDTO userEditDto, 
 			BindingResult bindingResult, Model model) {
@@ -79,6 +94,9 @@ public class UserHtmlController {
 		return "redirect:/users";
 	}
 	
+	/**
+	 * 사용자 인증 이메일 링크 페이지
+	 */
 	@GetMapping("/confirm-email")
 	public String viewConfirmEmail(@RequestParam(value = "token") String token, @RequestParam(value = "userNo") Long userNo) {
 		try {

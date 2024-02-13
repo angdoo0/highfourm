@@ -7,6 +7,10 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Builder.Default;
 
+/**
+ * @author 한혜림
+ * 자재 소요량 산출 페이지 자재 소요 계획
+ */
 @Builder
 @Getter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)

@@ -13,6 +13,10 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
+/**
+ * @author 한혜림
+ * 사용자 Entity 대응 DTO
+ */
 @Builder
 @Setter @Getter
 @AllArgsConstructor
