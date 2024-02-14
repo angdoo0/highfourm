@@ -26,7 +26,7 @@ public class MonthlyProductionPlan {
 	private Long productionAmount;
 	
 	@MapsId("productionPlanId")
-	@ManyToOne(cascade = CascadeType.ALL)
+	@ManyToOne(cascade = CascadeType.REFRESH)
 	@JoinColumn(name = "production_plan_id", referencedColumnName = "production_plan_id")
 	private ProductionPlan productionPlan;
 
