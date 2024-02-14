@@ -1,10 +1,12 @@
 package himedia.project.highfourm.service;
 
 import java.util.ArrayList;
+
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
 
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
 import himedia.project.highfourm.dto.material.MaterialListResponseDTO;
@@ -21,9 +23,17 @@ import himedia.project.highfourm.repository.MaterialHistoryRepository;
 import himedia.project.highfourm.repository.MaterialRepository;
 import himedia.project.highfourm.repository.MaterialStockRepository;
 import himedia.project.highfourm.repository.StockManagementRepository;
+import jakarta.persistence.EntityManager;
+import jakarta.persistence.PersistenceContext;
+import jakarta.persistence.TypedQuery;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
-
+import lombok.extern.slf4j.Slf4j;
+/**
+ * @author 신지은 
+ * 원자재 관련 service
+ */
+@Slf4j
 @Service
 @RequiredArgsConstructor
 public class MaterialService {
@@ -32,6 +42,7 @@ public class MaterialService {
 	private final MaterialHistoryRepository historyRepository;
 	private final MaterialStockRepository stockRepository;
 	private final StockManagementRepository managementRepository;
+
 
 	// 원자재 등록
 	public void saveMaterial(MaterialRequestDTO material) {
@@ -84,8 +95,8 @@ public class MaterialService {
 
 	    return materialOrderResponseDtos;
 	}
+	
 	// 수급내역검색
-
 	public List<MaterialOrderResponseDto> searchMaterialHistory(String searchType, String search) {
 		List<MaterialOrderListDTO> materialOrderListDTOs;
 		
@@ -152,7 +163,7 @@ public class MaterialService {
 
         // 수정된 엔티티 저장
         historyRepository.save(materialHistory);
-	        
 	}
+	
 	
 }

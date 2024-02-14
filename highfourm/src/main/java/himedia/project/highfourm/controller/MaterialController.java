@@ -10,6 +10,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
 import himedia.project.highfourm.dto.material.MaterialListResponseDTO;
@@ -17,6 +18,7 @@ import himedia.project.highfourm.dto.material.MaterialOrderEditFormDTO;
 import himedia.project.highfourm.dto.material.MaterialOrderRequestDTO;
 import himedia.project.highfourm.dto.material.MaterialOrderResponseDto;
 import himedia.project.highfourm.dto.material.MaterialRequestDTO;
+import himedia.project.highfourm.entity.MaterialHistory;
 import himedia.project.highfourm.service.MaterialService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -115,5 +117,5 @@ public class MaterialController {
 		
 		return "redirect:http://localhost:3000/materials/order-history";
 	}
-	
+
 }

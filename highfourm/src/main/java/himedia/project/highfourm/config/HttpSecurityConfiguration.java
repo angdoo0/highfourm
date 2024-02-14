@@ -33,9 +33,9 @@ public class HttpSecurityConfiguration {
 		
 		http.formLogin(formlogin -> 
 			formlogin
-			.loginPage("/")
+			.loginPage("/login")
 			.defaultSuccessUrl("/orders", true)
-			.failureUrl("/")
+			.failureUrl("/login")
 			.loginProcessingUrl("/login")
 			.usernameParameter("userId")
 			.passwordParameter("password")
@@ -55,7 +55,7 @@ public class HttpSecurityConfiguration {
 		http.logout(logout -> 
 			logout
 			.logoutUrl("/api/logout")
-			.logoutSuccessUrl("/")
+			.logoutSuccessUrl("/login")
 			.invalidateHttpSession(true)
 			);
 		return http.build();
