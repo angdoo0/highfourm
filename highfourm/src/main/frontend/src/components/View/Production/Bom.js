@@ -20,20 +20,6 @@ function Bom() {
   const currentURL = window.location.pathname;
 
   useEffect(() => {
-    // fetch('/api/bom')
-    // .then(response => response.json())
-    // .then(result => {
-    //   if (result["product"]) {
-    //     const newData = result["product"].map((item, index) => ({ key: index, ...item }));
-    //     setDataProduct(newData);
-    //   } else{
-    //     setDataProduct(result["product"]);
-    //   }
-    //   })
-    //   .catch(error => {
-    //     console.error('데이터를 가져오는 중 오류 발생:', error);
-    //   });
-
     async function fetchData() {
       try {
         let res;
