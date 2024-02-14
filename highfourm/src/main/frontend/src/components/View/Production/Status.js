@@ -4,7 +4,7 @@ import { SearchInput, SearchSelectBox, StepBar } from '../../Common/Module';
 import PageTitle from '../../Common/PageTitle';
 
 function Status() {
-  const stepUrl = ['/orders','product-management','work-performance','production-performance']
+  const stepUrl = ['orders','production-plan','work-performance','production-performance']
   const [dataProductionPlan, setDataProductionPlan] = useState([]);
   const [dataWorkPerformance, setDataWorkPerformance] = useState([]);
   const [dataSource, setDataSource] = useState([]);
@@ -37,7 +37,18 @@ function Status() {
             }
             const totalProduction = result["workPerfomance"]
             .filter((work) => work.productionPlanId === item.productionPlanId)
-            steps = (totalProduction.length== 0)? 1:2
+            // steps = (totalProduction.length== 0)? 1:2
+            if(totalProduction.length== 0){
+              return{
+                ...item,
+                step:1
+              }
+            }
+
+
+            console.log("totalProduction : ", totalProduction);
+            console.log(totalProduction.length);
+            console.log(steps);
 
             const totalProductionAmount = totalProduction
               .reduce((total, work) => total + work.productionAmount, 0);
@@ -77,11 +88,30 @@ function Status() {
     {
       title: '진행 단계',
       dataIndex: 'step',
-      render: (state, item) => 
-      <a href={`/${stepUrl[state]}/search?searchType=주문%20번호&search=${item.orderId}`}>
-      {/* <a href={`/${stepUrl[state]}`}> */}
-        <StepBar stateNum={state}></StepBar>
-      </a>
+      render: (state, item) => {
+        let link;
+        switch (state) {
+          case 0:
+          case 1:
+          case 3:
+            link = `/${stepUrl[state]}/search?searchType=주문%20번호&search=${item.orderId}`;
+            break;
+          case 2:
+            link = `/${stepUrl[state]}/search?searchType=생산%20계획%20코드&search=${item.productionPlanId}`;
+            break;
+          default:
+            link = '#';
+        }
+        return (
+          <a href={link}>
+            <StepBar stateNum={state}></StepBar>
+          </a>
+        );
+      }
+      // render: (state, item) => 
+      // <a href={`/${stepUrl[state]}/search?searchType=주문%20번호&search=${item.orderId}`}>
+      //   <StepBar stateNum={state}></StepBar>
+      // </a>
     },
   ];
 
