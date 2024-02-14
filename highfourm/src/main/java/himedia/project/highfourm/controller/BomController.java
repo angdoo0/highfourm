@@ -45,19 +45,9 @@ public class BomController {
 	}
 	
 	@GetMapping("/api/bom/search")
-	public ResponseEntity<List<ProductDTO>> searchUserList(@RequestParam(value = "searchType") String searchType, @RequestParam(value = "search") String search) {
-		List<ProductDTO> result = null;
-		
-		if(searchType.equals("제품 코드")) {
-			result = productService.findByProductId(search);
-		} else if(searchType.equals("제품명")) {
-			result = productService.findByProductName(search);
-		}
-		if (result == null) {
-			result = new ArrayList<ProductDTO>();
-		}
-		
-		return ResponseEntity.ok(result);
+	public ResponseEntity<List<ProductDTO>> searchBomList(@RequestParam(value = "searchType") String searchType, @RequestParam(value = "search") String search) {
+		List<ProductDTO> resultList = productService.search(searchType, search);
+		return ResponseEntity.ok(resultList);
 	}
 
 	@GetMapping("/api/bom/detail/{productId}")
