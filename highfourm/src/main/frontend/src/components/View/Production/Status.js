@@ -108,10 +108,6 @@ function Status() {
           </a>
         );
       }
-      // render: (state, item) => 
-      // <a href={`/${stepUrl[state]}/search?searchType=주문%20번호&search=${item.orderId}`}>
-      //   <StepBar stateNum={state}></StepBar>
-      // </a>
     },
   ];
 
