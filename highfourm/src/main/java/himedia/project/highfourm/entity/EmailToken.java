@@ -26,8 +26,7 @@ public class EmailToken {
 	private static final long EMAIL_TOKEN_EXPIRATION_TIME_VALUE = 7L;
 
 	@Id
-	@GeneratedValue(generator = "uuid2")
-	@GenericGenerator(name = "uuid2", strategy = "uuid2")
+	@GeneratedValue(strategy = GenerationType.UUID)
 	@Column(name = "id", length = 36)
 	private String id;
 
