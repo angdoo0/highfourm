@@ -27,12 +27,11 @@ public class EmailService {
 	/**
 	 * 유효한 토큰 가져오기
 	 */
-	public EmailToken findByUserNoAndExpirationDateAfterAndExpired(String emailTokenId) throws Exception {
+	public EmailToken findByUserNoAndExpirationDateAfterAndExpired(String token) throws Exception {
 		Optional<EmailToken> emailToken = emailTokenRepository
-				.findByIdAndExpirationDateAfterAndExpired(emailTokenId, LocalDateTime.now(), false);
+				.findByIdAndExpirationDateAfterAndExpired(token, LocalDateTime.now(), false);
 		
 		return emailToken.orElseThrow(() -> new BadRequestException("토큰을 찾을 수 없습니다."));
-				
 	}
 	
 	/**
