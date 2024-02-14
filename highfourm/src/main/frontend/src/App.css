@@ -377,3 +377,8 @@ span.email {
   font-weight: bold;
   background-color: #ffeded;
 } */
+
+.clickable-table tbody {
+  cursor: pointer;
+}
+

@@ -1,36 +1,54 @@
 import React, { useState, useEffect } from 'react';
+import { useNavigate, useParams, useLocation } from 'react-router-dom';
 import { Modal } from 'antd';
 import BasicTable from '../../Common/Table/BasicTable';
 import { BtnBlack, SearchInput, SearchSelectBox } from '../../Common/Module';
 import PageTitle from '../../Common/PageTitle';
-import { calc } from 'antd/es/theme/internal';
+import axios from 'axios';
 import KeyTable from '../../Common/Table/KeyTable';
-import { useNavigate, useParams } from 'react-router-dom';
 import BomNew from './BomNew';
 
 function Bom() {
   const navigate = useNavigate();
+  const location = useLocation();
   const { productId } = useParams();
   const [dataProduct, setDataProduct] = useState([]);
   const [dataProcess, setDataProcess] = useState([]);
   const [dataRequiredMaterial, setDataRequiredMaterial] = useState([]);
   const [isModalOpen, setIsModalOpen] = useState(false);
-  
+  const [searchType, setSearchType] = useState('제품 코드');
+  const currentURL = window.location.pathname;
+
   useEffect(() => {
-    fetch('/api/bom')
-    .then(response => response.json())
-    .then(result => {
-      if (result["product"]) {
-        const newData = result["product"].map((item, index) => ({ key: index, ...item }));
-        setDataProduct(newData);
-      } else{
-        setDataProduct(result["product"]);
-      }
-      })
-      .catch(error => {
+    async function fetchData() {
+      try {
+        let res;
+
+        if (currentURL === '/bom/search') {
+          const searchParams = new URLSearchParams(location.search);
+          const searchTypeParam = searchParams.get('searchType');
+          const searchValueParam = searchParams.get('search');
+
+          res = await axios.get('/api/bom/search', {
+            params: {
+              searchType: searchTypeParam,
+              search: searchValueParam,
+            },
+          });
+        } else {
+          res = await axios.get('/api/bom');
+        }
+        if (res) {
+          const newData = await res.data.map((item, index) => ({ key: index, ...item }));
+          setDataProduct(newData);
+        } 
+      } catch (error) {
         console.error('데이터를 가져오는 중 오류 발생:', error);
-      });
-  }, []);
+      }
+    };
+  
+    fetchData();
+  }, [currentURL, location.search]);
 
   const defaultColumnsProduct = [
     {
@@ -98,14 +116,11 @@ function Bom() {
   ];
 
   const SelectChangeHandler = (value) => {
-    console.log(`selected ${value}`);
-    // select 값 선택시 기능 구현 핸들러
-    // 각 페이지에서 구현해주세요
+    setSearchType(value);
   };
 
-  const onSearch = (value, _e, info) => {
-    // search 값 기능 구현 함수
-    console.log(info?.source, value);
+  const onSearch = (value) => {
+    navigate(`/bom/search?searchType=${encodeURIComponent(searchType)}&search=${encodeURIComponent(value)}`);
   }
 
   const showModal = () => {
@@ -123,11 +138,11 @@ function Bom() {
   return (
     <div className='bom-page'>
       <PageTitle value={'제품별 공정/소요자재 관리'}/>
-      {/* <h3 style={{marginBottom:'12px'}}>제품 검색</h3>
+      <h3 style={{marginBottom:'12px'}}>제품 검색</h3>
       <div style={{ display: 'flex', flexWrap: 'wrap', gap: '10px 24px', alignItems: 'center' }}>
         <SearchSelectBox selectValue={['제품 코드', '제품명']} SelectChangeHandler={SelectChangeHandler} />
-        <SearchInput onSearch={onSearch} />
-      </div> */}
+        <SearchInput id={'search'} name={'search'} onSearch={onSearch} />
+      </div>
       <div className='add-btn'>
         <BtnBlack value={"항목 추가"} onClick={showModal} />
         <Modal

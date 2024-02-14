@@ -1,5 +1,6 @@
 package himedia.project.highfourm.controller;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -13,10 +14,12 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestParam;
 
 import himedia.project.highfourm.dto.BomRequestDTO;
 import himedia.project.highfourm.dto.ProcessDTO;
 import himedia.project.highfourm.dto.ProductDTO;
+import himedia.project.highfourm.dto.WorkPerformanceListDTO;
 import himedia.project.highfourm.dto.bom.BomRequiredMaterialDTO;
 import himedia.project.highfourm.entity.Product;
 import himedia.project.highfourm.entity.Process;
@@ -36,21 +39,15 @@ public class BomController {
 	private final BomService bomService;
 	
 	@GetMapping("/api/bom")
-	public ResponseEntity<Map<String, Object>> bom() {
-	    Map<String, Object> responseMap = new HashMap<>();
-
-	    // product findAll
-	    List<Product> productEntityList = productService.findAllProduct();
-
-	    // product Entity to DTO
-	    List<ProductDTO> productDTOList = productEntityList.stream()
-	            .map(product -> product.toProductDTO())
-	            .collect(Collectors.toList());
-
-	    // 보내줄 객체에 담기
-	    responseMap.put("product", productDTOList);
-
-	    return ResponseEntity.ok().cacheControl(CacheControl.noStore()).body(responseMap);
+	public ResponseEntity<List<ProductDTO>> bom() {
+	    List<ProductDTO> resultList = productService.findAllProduct();
+	    return ResponseEntity.ok(resultList);
+	}
+	
+	@GetMapping("/api/bom/search")
+	public ResponseEntity<List<ProductDTO>> searchBomList(@RequestParam(value = "searchType") String searchType, @RequestParam(value = "search") String search) {
+		List<ProductDTO> resultList = productService.search(searchType, search);
+		return ResponseEntity.ok(resultList);
 	}
 
 	@GetMapping("/api/bom/detail/{productId}")
@@ -79,7 +76,7 @@ public class BomController {
 	    List<BomRequiredMaterialDTO> bomRequiredMaterialList = requiredMaterialService.findBomRequiredMaterial(productId);
 	    responseMap.put("bomRequiredMaterial", bomRequiredMaterialList);
 	    
-	    return ResponseEntity.ok().cacheControl(CacheControl.noStore()).body(responseMap);
+	    return ResponseEntity.ok(responseMap);
 	}
 	
 	@PostMapping("/api/bom/new")

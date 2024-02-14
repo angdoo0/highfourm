@@ -124,12 +124,11 @@ const OrderList = () => {
           <div className='order-new'>
             <BtnBlack value={'주문 등록'} onClick={() => window.location.href = '/orders/new'} />
           </div>
-          {/* <div className='order-filter'>
-            <BtnFilter valueArr={['전체', '진행중', '완료']} linkArr={['']} />
-          </div> */}
         </div>
       </div>
-      <BasicTable dataSource={orders} defaultColumns={defaultColumns} />
+      <div className='.clickable-table tbody'>
+       <BasicTable dataSource={orders} defaultColumns={defaultColumns} />
+      </div>
     </>
   )
 }

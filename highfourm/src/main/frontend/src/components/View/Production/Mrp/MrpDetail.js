@@ -172,7 +172,7 @@ const MrpDetail = () => {
             <h2 className='bordered-box-title'>생산계획 상세</h2>
             <hr className='box-title-line' />
           </div>
-          <div style={{ height: '706px', overflowY: 'auto' }}>
+          <div style={{ height: '706px', overflowY: 'auto' }} className='clickable-table'>
             <BasicTable dataSource={dataPlan} defaultColumns={planColumns} setDataSource={setDataPlan} pagination={false} onRowClick={(record) => {
               onClick(record);
             }} />
