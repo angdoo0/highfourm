@@ -32,7 +32,8 @@ public class ProductionPlanFormDTO {
 	private Product product;
 	private List<MonthlyProductionPlanDTO> monthlyProductionPlans;
 	
-	public ProductionPlanFormDTO(Long productAmount, String orderId, LocalDate orderDate, LocalDate dueDate,String productName, String productionPlanId, LocalDate productionStartDate, Long productionPlanAmount) {
+	public ProductionPlanFormDTO(Long productAmount, String orderId, LocalDate orderDate, 
+			LocalDate dueDate,String productName, String productionPlanId, LocalDate productionStartDate, Long productionPlanAmount) {
 		this.productAmount = productAmount;
 		this.orderId = orderId;
 		this.orderDate = orderDate;
