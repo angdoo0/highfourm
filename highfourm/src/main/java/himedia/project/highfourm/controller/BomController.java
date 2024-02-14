@@ -1,13 +1,9 @@
 package himedia.project.highfourm.controller;
 
-import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.Optional;
-import java.util.stream.Collectors;
 
-import org.springframework.http.CacheControl;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -19,10 +15,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import himedia.project.highfourm.dto.BomRequestDTO;
 import himedia.project.highfourm.dto.ProcessDTO;
 import himedia.project.highfourm.dto.ProductDTO;
-import himedia.project.highfourm.dto.WorkPerformanceListDTO;
 import himedia.project.highfourm.dto.bom.BomRequiredMaterialDTO;
-import himedia.project.highfourm.entity.Product;
-import himedia.project.highfourm.entity.Process;
 import himedia.project.highfourm.service.BomService;
 import himedia.project.highfourm.service.ProcessService;
 import himedia.project.highfourm.service.ProductService;
@@ -54,25 +47,13 @@ public class BomController {
 	public ResponseEntity<Map<String, Object>> bomDetail(@PathVariable("productId") String productId) {
 	    Map<String, Object> responseMap = new HashMap<>();
 	    
-	    // product findByProductProductId
-	    Optional<Product> productEntity = productService.findById(productId);
-	    if (productEntity.isPresent()) {
-	    	// product Entity to DTO
-	        ProductDTO productDTO = productEntity.get().toProductDTO();
-	        List<ProductDTO> productDTOList =List.of(productDTO);
-	        responseMap.put("product", productDTOList);
-	    }
+	    List<ProductDTO> productList = productService.findById(productId);
+	    // id로 찾는 데이터는 무조건 1개지만 frontend에서 데이터 가공이 쉽도록 List처리
+	    responseMap.put("product", productList);
 
-	    // process findByProductProductId
-	    List<Process> processEntityList = processService.findByProductProductId(productId);
-
-	    // process Entity to DTO
-	    List<ProcessDTO> processDTOList = processEntityList.stream()
-	            .map(process -> process.toProcessDTO())
-	            .collect(Collectors.toList());
-	    responseMap.put("process", processDTOList);
+	    List<ProcessDTO> processList = processService.findByProductProductId(productId);
+	    responseMap.put("process", processList);
 	    
-	    // bomRequiredMaterialDTO findByProductProductId
 	    List<BomRequiredMaterialDTO> bomRequiredMaterialList = requiredMaterialService.findBomRequiredMaterial(productId);
 	    responseMap.put("bomRequiredMaterial", bomRequiredMaterialList);
 	    

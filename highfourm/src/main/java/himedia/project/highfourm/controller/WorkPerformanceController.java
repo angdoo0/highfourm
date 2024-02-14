@@ -1,6 +1,5 @@
 package himedia.project.highfourm.controller;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import org.springframework.http.ResponseEntity;
@@ -33,21 +32,9 @@ public class WorkPerformanceController {
 	}
 	
 	@GetMapping("/api/work-performance/search")
-	public ResponseEntity<List<WorkPerformanceListDTO>> searchUserList(@RequestParam(value = "searchType") String searchType, @RequestParam(value = "search") String search) {
-		List<WorkPerformanceListDTO> result = null;
-		
-		if(searchType.equals("생산 계획 코드")) {
-			result = workPerformanceService.findByProductionPlanId(search);
-		} else if(searchType.equals("담당자")) {
-			result = workPerformanceService.findByManager(search);
-		} else if(searchType.equals("생산품명")) {
-			result = workPerformanceService.findByProductName(search);
-		}
-		if (result == null) {
-			result = new ArrayList<WorkPerformanceListDTO>();
-		}
-		
-		return ResponseEntity.ok(result);
+	public ResponseEntity<List<WorkPerformanceListDTO>> searchWorkPerfomanceList(@RequestParam(value = "searchType") String searchType, @RequestParam(value = "search") String search) {
+		List<WorkPerformanceListDTO> resultList = workPerformanceService.search(searchType, search);
+		return ResponseEntity.ok(resultList);
 	}
 	
 	@GetMapping("/api/work-performance/new")

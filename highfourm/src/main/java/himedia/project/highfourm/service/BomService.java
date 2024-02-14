@@ -6,7 +6,6 @@ import org.springframework.stereotype.Service;
 
 import himedia.project.highfourm.dto.BomRequestDTO;
 import himedia.project.highfourm.entity.Product;
-import himedia.project.highfourm.entity.RequiredMaterial;
 import himedia.project.highfourm.entity.Material;
 import himedia.project.highfourm.repository.ProcessRepository;
 import himedia.project.highfourm.repository.ProductRepository;

@@ -4,22 +4,19 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import org.springframework.http.CacheControl;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 
 import himedia.project.highfourm.dto.ProductionStatusDTO;
 import himedia.project.highfourm.dto.WorkPerformanceDTO;
-import himedia.project.highfourm.dto.plan.ProductionPlanDTO;
-import himedia.project.highfourm.dto.plan.ProductionPlanFormDTO;
 import himedia.project.highfourm.service.ProductionPlanService;
 import himedia.project.highfourm.service.WorkPerformanceService;
 import lombok.RequiredArgsConstructor;
 
 @Controller
 @RequiredArgsConstructor
-public class ProductionController {
+public class ProductionStatusController {
 
 	private final ProductionPlanService productionPlanService;
 	private final WorkPerformanceService workPerformanceService;

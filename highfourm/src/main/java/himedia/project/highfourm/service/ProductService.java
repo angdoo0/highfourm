@@ -24,18 +24,16 @@ public class ProductService {
 		return resultList;
 	}
 	
-	public Optional<Product> findById(String productId) {
-		return productRepository.findById(productId);
+	public List<ProductDTO> findById(String productId) {
+		Optional<Product> productEntity = productRepository.findById(productId);
+		ProductDTO productDTO = productEntity.get().toProductDTO();
+		List<ProductDTO> productList =List.of(productDTO);
+		return productList;
 	}
 	
 	public List<String> findAllProductName(){
 		return productRepository.findAllProductNames();
 	}
-
-//	public List<ProductDTO> findByProductId(String productId) {
-//		return productRepository.findByProductId(productId)
-//				.stream().map(product -> product.toProductDTO()).collect(Collectors.toList());
-//	}
 
 	public List<ProductDTO> findByProductName(String productName) {
 		return productRepository.findAllByProductName(productName)
@@ -50,9 +48,6 @@ public class ProductService {
 		} else if(searchType.equals("제품명")) {
 			productList = productRepository.findAllByProductName(search);
 		}
-//		if (result == null) {
-//			result = new ArrayList<ProductDTO>();
-//		}
 		return productList.stream()
 				.map(product -> product.toProductDTO()).toList();
 	}
