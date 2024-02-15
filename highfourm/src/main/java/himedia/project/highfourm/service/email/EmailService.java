@@ -34,6 +34,13 @@ public class EmailService {
 		return emailToken.orElseThrow(() -> new BadRequestException("토큰을 찾을 수 없습니다."));
 	}
 	
+	public EmailToken findByToken(String token) throws Exception {
+		Optional<EmailToken> emailToken = emailTokenRepository
+				.findById(token);
+		
+		return emailToken.orElseThrow(() -> new BadRequestException("토큰을 찾을 수 없습니다."));
+	}
+	
 	/**
 	 * 토큰이 유효하면 사용 완료 처리
 	 */

@@ -39,14 +39,17 @@ public class JoinController {
 	//회원가입 폼
 	@GetMapping("/users/join/{empNo}")
 	public String signUp(@PathVariable("empNo") Long empNo, @RequestParam("token") String token, Model model) throws Exception {
-		
-		EmailToken emailToken = emailService.findByUserNoAndExpirationDateAfterAndExpired(token);
-		
-		if(token.equals(emailToken.getId())) {
-			UserJoinFormDTO userJoinFormDTO = joinService.findByEmpNO(empNo);
-			model.addAttribute("userJoinFormDTO", userJoinFormDTO);
-			return "join";
+		try {
+			EmailToken emailToken = emailService.findByToken(token);
+			if(token.equals(emailToken.getId())) {
+				UserJoinFormDTO userJoinFormDTO = joinService.findByEmpNO(empNo);
+				model.addAttribute("userJoinFormDTO", userJoinFormDTO);
+				return "join";
+			}
+		} catch (Exception e) {
+			return "tokenError";
 		}
+		
 		return "/";
 	}
 	

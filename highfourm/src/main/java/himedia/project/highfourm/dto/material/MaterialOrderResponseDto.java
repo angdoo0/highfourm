@@ -88,13 +88,18 @@ public class MaterialOrderResponseDto {
 						&& dto.getMaterialHistoryId() < orderListDTO.getMaterialHistoryId())
 				.collect(Collectors.toList());
 		
+		//이전 재고이력이 없으면 사용량은 null
 		if (filteredHistory.isEmpty()) {
 			return null;
 		}
+		
 		// materialHistoryId가 가장 큰 객체 찾기
 		MaterialOrderListDTO maxHistoryDTO = filteredHistory.stream()
 				.max(Comparator.comparing(MaterialOrderListDTO::getMaterialHistoryId)).orElse(null);
-
+		/**
+		 * maxHistoryDTO가 null이 아닌 경우, 즉 이전 이력이 존재하는 경우에는 해당 이력의 총 재고량(getTotalStock())을 maxHistoryInventory 변수에 할당
+		 *그러나 maxHistoryDTO가 null인 경우, 즉 이전 이력이 없는 경우에는 0을 maxHistoryInventory 변수에 할당, 이중 체크
+		 */
 		// 가장 큰 materialHistoryId의 재고량
 		Long maxHistoryInventory = maxHistoryDTO != null ? maxHistoryDTO.getTotalStock() : 0;
 
