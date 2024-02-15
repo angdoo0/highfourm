@@ -22,6 +22,7 @@ public class JoinService {
 	private final BCryptPasswordEncoder bCryptPasswordEncoder;
 	
 	// 회원가입
+	@Transactional
 	public void joinProcess(UserJoinFormDTO joinDTO, Long empNo) {
 		String userId = joinDTO.getUserId();
 		String password = joinDTO.getPassword();
