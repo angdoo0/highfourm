@@ -86,5 +86,6 @@ public class User {
 	public void joinUser(String userId, String password) {
 		this.userId = userId;
 		this.password = password;
+		this.registerState = "Y";
 	}
 }
