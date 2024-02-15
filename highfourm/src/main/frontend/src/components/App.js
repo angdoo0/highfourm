@@ -2,6 +2,7 @@ import React, { useEffect } from 'react';
 import { Layout, theme } from 'antd';
 import { Route, BrowserRouter as Router, Routes } from 'react-router-dom';
 import '../App.css';
+import '../font.css';
 import SideBar from './Common/SideBar';
 import Login from './View/Login/Login';
 import Notice from './View/Login/Notice';
