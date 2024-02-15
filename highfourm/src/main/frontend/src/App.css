@@ -78,6 +78,10 @@
 } */
 
 /* reset */
+body {
+  font-family: 'SUIT', sans-serif;
+}
+
 h1,
 h2,
 h3,
@@ -398,5 +402,9 @@ span.email {
 
 .clickable-table tbody {
   cursor: pointer;
+}
+
+.clickable-table tbody a:visited {
+  font-weight: bold;
 }
 
