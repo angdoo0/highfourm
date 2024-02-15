@@ -2,7 +2,7 @@ package himedia.project.highfourm.service;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.stream.Collectors;
+import java.util.Optional;
 
 import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Service;
@@ -74,9 +74,10 @@ public class UserService {
 	/**
 	 * 수정 기능을 위한 사번 조회
 	 */
-	public UserEditDTO findByEmpNoforEdit(Long empNo, Authentication authentication) {
+	public UserEditDTO findByUserNoforEdit(Long userNo, Authentication authentication) {
 		Company company = findCompanyId(authentication);
-		User user = repository.findByEmpNo(empNo);
+		User user = repository.findById(userNo).get();
+		System.out.println(user.getUserName());
 
 		UserDTO userDTO = user.toDTO(company);
 
@@ -136,7 +137,8 @@ public class UserService {
 				.birth(userEdit.getBirth())
 				.email(existingUser.getEmail())
 				.company(existingUser.getCompany())
-				.registerState(existingUser.getRegisterState()).role(existingUser.getRole()).build();
+				.registerState(existingUser.getRegisterState())
+				.role(existingUser.getRole()).build();
 
 		User mergedUser = em.merge(updatedUser);
 
