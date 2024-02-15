@@ -304,12 +304,14 @@ const ProductionPlan = () => {
               <h2 className='bordered-box-title'>월별 생산 계획</h2>
               <hr className='box-title-line' />
             </div>
-            <BasicTable
-              dataSource={monthlyProductionPlans}
-              defaultColumns={getMonthlyProductionPlanColumns()}
-              setDataSource={setMonthlyProductionPlans}
-              pagination={false}
-            />
+            <div className='.clickable-table tbody'>
+              <BasicTable
+                dataSource={monthlyProductionPlans}
+                defaultColumns={getMonthlyProductionPlanColumns()}
+                setDataSource={setMonthlyProductionPlans}
+                pagination={false}
+                />
+              </div>
             <div style={{ margin: '10px 0 0 0' }}>
               {!selectedProductionPlan.edit && <BtnBlue value={'저장'} onClick={onclick => handleSave()} />}
             </div>

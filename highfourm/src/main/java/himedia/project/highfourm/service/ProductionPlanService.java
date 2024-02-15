@@ -9,7 +9,6 @@ import org.springframework.stereotype.Service;
 
 import himedia.project.highfourm.dto.ProductionStatusDTO;
 import himedia.project.highfourm.dto.WorkPerformanceResponseDTO;
-import himedia.project.highfourm.dto.performance.PerformanceDTO;
 import himedia.project.highfourm.dto.plan.MonthlyProductionPlanDTO;
 import himedia.project.highfourm.dto.plan.ProductionPlanFormDTO;
 import himedia.project.highfourm.entity.MonthlyProductionPlan;
@@ -27,9 +26,7 @@ public class ProductionPlanService {
 	
 	private final ProductionPlanRepository productionPlanRepository;
 	private final MonthlyProductionPlanRepository monthlyProductionPlanRepository;
-	private final EntityManager em;
 	
-//	public Map<String, Object> findAllProductionPlans() {
 	public List<ProductionPlanFormDTO> findAllProductionPlans() {
 		List<ProductionPlanFormDTO> productionPlans = productionPlanRepository.findAllProductionPlan(Sort.by(Sort.Direction.DESC, "o.orderId"));
 		return productionPlans;
