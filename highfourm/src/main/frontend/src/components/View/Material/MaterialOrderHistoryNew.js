@@ -29,18 +29,22 @@ const MaterialOrderHistoryNew = () => {
 
   const onClickSubmit = (e) => {
     e.preventDefault(); // 폼의 기본 동작 방지
+    const isConfirmed = window.confirm('등록하시겠습니까?');
 
-    axios({
-      method: 'POST',
-      url: '/api/materials/order-history/new',
-      data: JSON.stringify(formData),
-      headers: { 'Content-Type': 'application/json' },
-    })
-      .then((res) => {
-        console.log(res);
-        navigate('/materials/order-history');
+    if (isConfirmed) {
+      axios({
+        method: 'POST',
+        url: '/api/materials/order-history/new',
+        data: JSON.stringify(formData),
+        headers: { 'Content-Type': 'application/json' },
       })
-      .catch((error) => console.log(error))
+        .then((res) => {
+          console.log(res);
+          window.alert('등록되었습니다.');
+          navigate('/materials/order-history');
+        })
+        .catch((error) => console.log(error))
+    }
   };
 
   const goBackNavigate = () => {

@@ -34,7 +34,7 @@ public class OrderDetail {
 	@JoinColumn(name = "order_id", referencedColumnName = "order_id")
 	private Orders orders;
 
-	@MapsId("productId") 
+	@MapsId("productId")
 	@ManyToOne(cascade = CascadeType.REFRESH)
 	@JoinColumn(name = "product_id", referencedColumnName = "product_id")
 	private Product product;

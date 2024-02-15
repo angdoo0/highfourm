@@ -50,6 +50,7 @@ function App() {
               <Route path='/orders/search' element={<OrderList />} />
               <Route path='/orders/new' element={<OrderNew />} />
               <Route path='/materials/stock' element={<StockList />} />
+              <Route path='/materials/stock/search' element={<StockList />} />
               <Route path='/materials/order-history' element={<MaterialOrderHistory />} />
               <Route path='/materials/order-history/search' element={<MaterialOrderHistory />} />
               <Route path='/materials/order-history/new' element={<MaterialOrderHistoryNew />} />

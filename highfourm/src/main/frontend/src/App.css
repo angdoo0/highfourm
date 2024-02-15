@@ -373,6 +373,12 @@ span.email {
   border-inline-end: 0;
 }
 
+/* .below-safety-stock {
+  font-weight: bold;
+  background-color: #ffeded;
+} */
+
 .clickable-table tbody {
   cursor: pointer;
 }
+

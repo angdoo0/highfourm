@@ -6,6 +6,7 @@ import { BtnBlue, InputBar } from '../../Common/Module';
 const StockNew = ({  onSubmit, onSubmitSuccess }) => {
   const [manageValue, setManageValue] = useState("");
   const [leadTimeDisabled, setLeadTimeDisabled] = useState(false);
+  const [formData, setFormData] = useState(null);
 
   const formRef = useRef(null);
 
@@ -14,55 +15,45 @@ const StockNew = ({  onSubmit, onSubmitSuccess }) => {
     setLeadTimeDisabled(value === '3');
   };
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
 
-    // Get form data
-    const formData = new FormData(document.getElementById('stockNewForm'));
-
-    const jsonData = {};
-    formData.forEach((value, key) => {
-      jsonData[key] = value;
-    });
-
-    // 예제: MaterialRequestDTO와 일치하도록 구성
     const materialRequest = {
-      materialId: jsonData.materialId,
-      materialName: jsonData.materialName,
-      unit: jsonData.unit,
-      managementId: parseInt(jsonData.managementId),
+      materialId: formData.get('materialId'),
+      materialName: formData.get('materialName'),
+      unit: formData.get('unit'),
+      managementId: parseInt(formData.get('managementId')),
       totalStock: 0, 
-      safetyStock: jsonData.managementId === '3' ? 0 : parseInt(jsonData.safetyStock),
-      maxStock: parseInt(jsonData.maxStock),
-      leadTime: jsonData.managementId === '3' ? 0 : parseInt(jsonData.LeadTime),
+      safetyStock: formData.get('managementId') === '3' ? 0 : parseInt(formData.get('safetyStock')),
+      maxStock: parseInt(formData.get('maxStock')),
+      leadTime: formData.get('managementId') === '3' ? 0 : parseInt(formData.get('LeadTime')),
     };
 
-    // Send POST request using Axios
-    axios.post('/api/materials/stock/new', JSON.stringify(materialRequest),
-      {
-        headers: {
-          'Content-Type': 'application/json',
-        },
-      })
-      .then(response => {
-        // Handle successful response
+    // 사용자에게 데이터를 한 번 더 확인 요청
+    const isConfirmed = window.confirm("원자재를 저장하시겠습니까?");
+    
+    if (isConfirmed) {
+      try {
+        const response = await axios.post('/api/materials/stock/new', JSON.stringify(materialRequest), {
+          headers: {
+            'Content-Type': 'application/json',
+          },
+        });
         console.log('Material added successfully');
-        // Redirect user to another page if needed
-      })
-      .catch(error => {
-        // Handle errors
-        console.log(jsonData)
+        if (onSubmitSuccess) {
+          onSubmitSuccess();
+        }
+      } catch (error) {
         console.error('Error adding material:', error);
-      });
+      }
 
-    if (onSubmit) {
-      onSubmit();
-      // 폼이 성공적으로 제출되면 콜백을 호출합니다.
-      if (onSubmitSuccess) {
-        onSubmitSuccess();
+      if (onSubmit) {
+        onSubmit();
       }
     }
   };
+
+  
 
   const ManageOptions = [
     { value: '1', label: '정량' },
@@ -121,7 +112,7 @@ const StockNew = ({  onSubmit, onSubmitSuccess }) => {
           </div>
         </div>
         <div>
-          <BtnBlue value={'저장'} type={'submit'} />
+          <BtnBlue value={'저장'} type={'submit'}  onClick={() => setFormData(new FormData(document.getElementById('stockNewForm')))} />
         </div>
       </form>
     </>
