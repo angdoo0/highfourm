@@ -12,16 +12,13 @@ import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.Table;
-import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
 @Getter
 @NoArgsConstructor
-@AllArgsConstructor
 @Entity
-@Builder
 @Table(name = "work_performance")
 public class WorkPerformance {
 	@Id
@@ -59,6 +56,24 @@ public class WorkPerformance {
 	
 	@Column(name = "note")
 	private String note;
+	
+	@Builder
+	public WorkPerformance(Long workPerformanceId, ProductionPlan productionPlan,
+			LocalDate workDate, Long productionAmount, Long acceptanceAmount,
+			Long defectiveAmount, Long workingTime, String manager,
+			Long lotNo, LocalDate validDate, String note) {
+		this.workPerformanceId = workPerformanceId;
+		this.productionPlan = productionPlan;
+		this.workDate = workDate;
+		this.productionAmount = productionAmount;
+		this.acceptanceAmount = acceptanceAmount;
+		this.defectiveAmount = defectiveAmount;
+		this.workingTime = workingTime;
+		this.manager = manager;
+		this.lotNo = lotNo;
+		this.validDate = validDate;
+		this.note = note;
+	}
 	
 	public WorkPerformanceDTO toWorkPerformanceDTO() {
 		return WorkPerformanceDTO

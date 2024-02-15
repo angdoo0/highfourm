@@ -2,9 +2,10 @@ import React, { useState, useEffect } from 'react';
 import { useNavigate, useParams, useLocation } from 'react-router-dom';
 import { Modal } from 'antd';
 import BasicTable from '../../Common/Table/BasicTable';
-import { BtnBlack, SearchInput, SearchSelectBox } from '../../Common/Module';
+import { BtnBlack, BtnBlue, SearchInput, SearchSelectBox } from '../../Common/Module';
 import PageTitle from '../../Common/PageTitle';
 import axios from 'axios';
+import downloadXlsx from '../../Common/DownloadXlsx';
 import KeyTable from '../../Common/Table/KeyTable';
 import BomNew from './BomNew';
 
@@ -125,7 +126,6 @@ function Bom() {
 
   const showModal = () => {
     setIsModalOpen(true);
-    // document.body.style.overflow = 'hidden';
   };
 
   const handleBomNewSubmit = () => {
@@ -139,9 +139,12 @@ function Bom() {
     <div className='bom-page'>
       <PageTitle value={'제품별 공정/소요자재 관리'}/>
       <h3 style={{marginBottom:'12px'}}>제품 검색</h3>
-      <div style={{ display: 'flex', flexWrap: 'wrap', gap: '10px 24px', alignItems: 'center' }}>
-        <SearchSelectBox selectValue={['제품 코드', '제품명']} SelectChangeHandler={SelectChangeHandler} />
-        <SearchInput id={'search'} name={'search'} onSearch={onSearch} />
+      <div style={{ display: 'flex', flexWrap: 'wrap', alignItems: 'center', justifyContent: 'space-between' }}>
+        <div style={{ display: 'flex', flexWrap: 'wrap', gap: '10px 24px', alignItems: 'center' }}>
+          <SearchSelectBox selectValue={['제품 코드', '제품명']} SelectChangeHandler={SelectChangeHandler} />
+          <SearchInput id={'search'} name={'search'} onSearch={onSearch} />
+        </div>
+        <BtnBlue value={'엑셀 저장'} onClick={() => { downloadXlsx(dataProduct, ['제품 코드', '제품명', '작성일', '수정일'], 'Product1', 'Product.xlsx') }} />
       </div>
       <div className='add-btn'>
         <BtnBlack value={"항목 추가"} onClick={showModal} />
