@@ -86,6 +86,7 @@ const UserList = () => {
     {
       title: '이메일',
       dataIndex: 'email',
+      render: (text, record) => <a href={`/users/edit/${record.emp_no}`}>{text}</a>
     },
     {
       title: '가입 여부',

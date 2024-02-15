@@ -30,10 +30,8 @@ public class ProductionPlanController {
 	}
 	
 	@PostMapping("/api/production-plan")
-	public List<ProductionPlanFormDTO> saveProductionPlan(@RequestBody ProductionPlanFormDTO productionPlanForm) {
+	public void saveProductionPlan(@RequestBody ProductionPlanFormDTO productionPlanForm) {
 		productionPlanService.updateProductionPlan(productionPlanForm);
-	
-		return productionPlanService.findAllProductionPlans();
 	}
 	
 	@GetMapping("/api/production-plan/{productionPlanId}")

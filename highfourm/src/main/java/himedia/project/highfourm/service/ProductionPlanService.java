@@ -26,7 +26,6 @@ public class ProductionPlanService {
 	
 	private final ProductionPlanRepository productionPlanRepository;
 	private final MonthlyProductionPlanRepository monthlyProductionPlanRepository;
-	private final EntityManager em;
 	
 	public List<ProductionPlanFormDTO> findAllProductionPlans() {
 		List<ProductionPlanFormDTO> productionPlans = productionPlanRepository.findAllProductionPlan(Sort.by(Sort.Direction.DESC, "o.orderId"));

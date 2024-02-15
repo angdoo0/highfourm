@@ -1,8 +1,10 @@
 package himedia.project.highfourm.controller.user;
 
+import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 
+import jakarta.servlet.http.HttpSession;
 import lombok.RequiredArgsConstructor;
 
 @Controller
@@ -10,8 +12,12 @@ import lombok.RequiredArgsConstructor;
 public class LogincController {
 	
 	//로그인 페이지
-	@GetMapping("/")
+	@GetMapping("/login")
 	public String login() {
+		return "login";
+	}
+	@GetMapping("/")
+	public String loginTwo() {
 		return "login";
 	}
 	
