@@ -1,8 +1,8 @@
 package himedia.project.highfourm.service;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
-//import java.util.stream.Collectors;
 import java.util.stream.Collectors;
 
 import org.springframework.stereotype.Service;
@@ -12,7 +12,6 @@ import himedia.project.highfourm.dto.WorkPerformanceListDTO;
 import himedia.project.highfourm.entity.MaterialStock;
 import himedia.project.highfourm.entity.ProductionPlan;
 import himedia.project.highfourm.entity.RequiredMaterial;
-import himedia.project.highfourm.entity.WorkPerformance;
 import himedia.project.highfourm.repository.MaterialStockRepository;
 import himedia.project.highfourm.repository.ProductionPlanRepository;
 import himedia.project.highfourm.repository.RequiredMaterialRepository;
@@ -81,5 +80,17 @@ public class WorkPerformanceService {
 	        // ProductionPlan이 존재하지 않을 경우 처리 로직
 	    	log.info("생산 계획이 없음");
 	    }
+	}
+	public List<WorkPerformanceListDTO> search(String searchType, String search) {
+		List<WorkPerformanceListDTO> workPerformanceList = new ArrayList<WorkPerformanceListDTO>();
+		
+		if(searchType.equals("생산 계획 코드")) {
+			workPerformanceList = workPerformanceRepository.findByProductionPlanId(search);
+		} else if(searchType.equals("담당자")) {
+			workPerformanceList = workPerformanceRepository.findByManager(search);
+		} else if(searchType.equals("생산품명")) {
+			workPerformanceList = workPerformanceRepository.findByProductName(search);
+		}
+		return workPerformanceList;
 	}
 }
