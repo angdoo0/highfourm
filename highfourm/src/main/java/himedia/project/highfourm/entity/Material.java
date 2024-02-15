@@ -1,9 +1,15 @@
 package himedia.project.highfourm.entity;
 
+import java.util.List;
+
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
+import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.FetchType;
 import jakarta.persistence.Id;
+import jakarta.persistence.OneToMany;
 import jakarta.persistence.OneToOne;
 import jakarta.persistence.Table;
 import lombok.AccessLevel;
@@ -29,8 +35,8 @@ public class Material {
     @OneToOne(mappedBy = "material", fetch = FetchType.LAZY)
     private MaterialStock materialStock;
     
-    //@OneToMany(mappedBy = "material", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
-    //private List<MaterialHistory> materialHistories;
+    @OneToMany(mappedBy = "material", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    private List<MaterialHistory> materialHistories;
     
     @Builder
 	public Material(String materialId, String materialName, String unit, MaterialStock materialStock) {

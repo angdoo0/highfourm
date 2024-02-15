@@ -1,7 +1,11 @@
 /* ant design customize - table */
 :where(.css-dev-only-do-not-override-1qhpsh8).ant-table-wrapper .ant-table-thead>tr>th,
 :where(.css-dev-only-do-not-override-1qhpsh8).ant-table-wrapper .ant-table-thead>tr>td {
-  background: #f0f0f0;
+  background-color: #f0f0f0;
+}
+:where(.css-1qhpsh8).ant-table-wrapper .ant-table-thead >tr>th, 
+:where(.css-1qhpsh8).ant-table-wrapper .ant-table-thead >tr>td {
+  background-color: #f0f0f0;
 }
 
 :where(.css-dev-only-do-not-override-1qhpsh8).ant-table-wrapper .ant-table.ant-table-bordered>.ant-table-container>.ant-table-content>table>thead>tr>th,
@@ -31,14 +35,24 @@
   border-inline-end: 1px solid #dddddd;
 }
 
+:where(.css-1qhpsh8).ant-table-wrapper .ant-table.ant-table-middle .ant-table-title, :where(.css-1qhpsh8).ant-table-wrapper .ant-table.ant-table-middle .ant-table-footer, :where(.css-1qhpsh8).ant-table-wrapper .ant-table.ant-table-middle .ant-table-cell, :where(.css-1qhpsh8).ant-table-wrapper .ant-table.ant-table-middle .ant-table-thead>tr>th, :where(.css-1qhpsh8).ant-table-wrapper .ant-table.ant-table-middle .ant-table-tbody>tr>th, :where(.css-1qhpsh8).ant-table-wrapper .ant-table.ant-table-middle .ant-table-tbody>tr>td, :where(.css-1qhpsh8).ant-table-wrapper .ant-table.ant-table-middle tfoot>tr>th, :where(.css-1qhpsh8).ant-table-wrapper .ant-table.ant-table-middle tfoot>tr>td {
+  border-inline-end: 1px solid #dddddd;
+}
+
 :where(.css-dev-only-do-not-override-1qhpsh8).ant-table-wrapper .ant-table-tbody>tr>th,
 :where(.css-dev-only-do-not-override-1qhpsh8).ant-table-wrapper .ant-table-tbody>tr>td {
+  border-bottom: 1px solid #dddddd;
+}
+
+:where(.css-1qhpsh8).ant-table-wrapper .ant-table-tbody>tr>th,
+:where(.css-1qhpsh8).ant-table-wrapper .ant-table-tbody>tr>td {
   border-bottom: 1px solid #dddddd;
 }
 
 :where(.css-dev-only-do-not-override-1qhpsh8).ant-table-wrapper .ant-table-thead>tr>th {
   text-align: center;
 }
+
 
 .editable-cell {
   position: relative;
@@ -56,8 +70,12 @@
 }
 
 .ant-table-middle .ant-table-row {
-  height: 57px;
+  height: 48px;
 }
+
+/* .ant-table-middle .ant-table-cell {
+  font-size: 16px;
+} */
 
 /* reset */
 body {
@@ -377,6 +395,11 @@ span.email {
   border-inline-end: 0;
 }
 
+/* .below-safety-stock {
+  font-weight: bold;
+  background-color: #ffeded;
+} */
+
 .clickable-table tbody {
   cursor: pointer;
 }
@@ -384,3 +407,4 @@ span.email {
 .clickable-table tbody a:visited {
   font-weight: bold;
 }
+

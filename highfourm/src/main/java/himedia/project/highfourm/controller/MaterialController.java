@@ -4,24 +4,21 @@ package himedia.project.highfourm.controller;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.springframework.http.CacheControl;
-import org.springframework.http.HttpHeaders;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
 import himedia.project.highfourm.dto.material.MaterialListResponseDTO;
-import himedia.project.highfourm.dto.material.MaterialOrderEditDTO;
 import himedia.project.highfourm.dto.material.MaterialOrderEditFormDTO;
 import himedia.project.highfourm.dto.material.MaterialOrderRequestDTO;
 import himedia.project.highfourm.dto.material.MaterialOrderResponseDto;
 import himedia.project.highfourm.dto.material.MaterialRequestDTO;
+import himedia.project.highfourm.entity.MaterialHistory;
 import himedia.project.highfourm.service.MaterialService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -61,16 +58,9 @@ public class MaterialController {
 	@GetMapping("/api/materials/stock/search")
 	public ResponseEntity<List<MaterialListResponseDTO>> searchMaterialList(
 								@RequestParam(value="searchType") String searchType, @RequestParam(value="search") String search) {
-	    
 		List<MaterialListResponseDTO> searchMaterialList = new ArrayList<>();
-		
-		if(searchType.equals("자재코드")) {
-			searchMaterialList = materialService.findMaterialByMaterialId(search);
-		}else if(searchType.equals("자재명")){
-			searchMaterialList = materialService.findMaterialByMaterialName(search);
-		}else if(searchType.equals("재고관리 방식")){
-			searchMaterialList = materialService.findMaterialByManagement(search);
-		}	
+
+		searchMaterialList = materialService.searchMaterial(searchType, search);
 		return ResponseEntity.ok(searchMaterialList);
 	}
 
@@ -80,7 +70,6 @@ public class MaterialController {
 	
 	@GetMapping("/api/materials/order-history")
 	public ResponseEntity<List<MaterialOrderResponseDto>> getdMaterialHistoryList() {
-	    
 		List<MaterialOrderResponseDto> mateiralOderList =materialService.getMaterialOrderList();
 		
 		return ResponseEntity.ok(mateiralOderList);
@@ -92,21 +81,10 @@ public class MaterialController {
 	@GetMapping("/api/materials/order-history/search")
 	public ResponseEntity<List<MaterialOrderResponseDto>> searchMaterialOrderHistory(
 								@RequestParam(value="searchType") String searchType, @RequestParam(value="search") String search) {
-	    
 		List<MaterialOrderResponseDto> searchMaterialHistory = null;
 		
 		searchMaterialHistory = materialService.searchMaterialHistory(searchType, search);
 		
-		
-//		if(searchType.equals("자재코드")) {
-//			searchMaterialHistory = materialService.findMaterialHistoryByMaterialId(search);
-//		}else if(searchType.equals("자재명")){
-//			searchMaterialHistory = materialService.findMaterialHistoryByMaterialName(search);
-//		}else if(searchType.equals("발주일")){
-//			searchMaterialHistory = materialService.findMaterialHistoryByOrderDate(search);
-//		}else if(searchType.equals("입고일")){
-//			searchMaterialHistory = materialService.findMaterialHistoryByInboundDate(search);
-//		}	
 			return ResponseEntity.ok(searchMaterialHistory);
 		}
 		
@@ -124,9 +102,9 @@ public class MaterialController {
 	 */
 	@GetMapping("/api/materials/order-history/edit/{orderHistoryId}")
 	public ResponseEntity<MaterialOrderEditFormDTO> getdMaterialHistory(@PathVariable(name ="orderHistoryId") Long orderHistoryId) {
-		
 	    MaterialOrderEditFormDTO editFormDTO = materialService.getMaterialhistoryInfo(orderHistoryId);
-		return ResponseEntity.ok(editFormDTO);
+		
+	    return ResponseEntity.ok(editFormDTO);
 	}
 	
 	/**
@@ -135,13 +113,9 @@ public class MaterialController {
 	@PostMapping("/api/materials/order-history/edit/{orderHistoryId}")
 	public String editdMaterialHistory(@PathVariable(name ="orderHistoryId") Long orderHistoryId, 
 										@RequestBody MaterialOrderEditFormDTO editDTO) {
-		log.info("RecievingDate >>>>> {}", editDTO.getRecievingDate());
-		log.info("Note >>>>> {}", editDTO.getNote());
-		System.out.println(">>>>>>>" + editDTO.getInboundAmount());
-		
 		materialService.updateMaterialHistory(editDTO);
 		
 		return "redirect:http://localhost:3000/materials/order-history";
 	}
-	
+
 }

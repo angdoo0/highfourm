@@ -51,6 +51,7 @@ function App() {
               <Route path='/orders/search' element={<OrderList />} />
               <Route path='/orders/new' element={<OrderNew />} />
               <Route path='/materials/stock' element={<StockList />} />
+              <Route path='/materials/stock/search' element={<StockList />} />
               <Route path='/materials/order-history' element={<MaterialOrderHistory />} />
               <Route path='/materials/order-history/search' element={<MaterialOrderHistory />} />
               <Route path='/materials/order-history/new' element={<MaterialOrderHistoryNew />} />
@@ -63,9 +64,11 @@ function App() {
               <Route path='/production-plan' element={<ProductionPlan />} />
               <Route path='/production-plan/search' element={<ProductionPlan />} />
               <Route path='/bom' element={<Bom />} />
+              <Route path='/bom/search' element={<Bom />} />
               <Route path='/bom/detail/:productId' element={<BomDetail />} />
               <Route path='/production-status' element={<Status />} />
               <Route path='/work-performance' element={<WorkPerformance />} />
+              <Route path='/work-performance/search' element={<WorkPerformance />} />
               <Route path='/work-performance/new' element={<WorkPerformanceNew />} />
               <Route path='/production-performance' element={<Performance />} />
               <Route path='/production-performance/search' element={<Performance />} />

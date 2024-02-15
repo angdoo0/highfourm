@@ -1,26 +1,64 @@
 import React, { useState, useEffect } from 'react';
+import { useNavigate, useLocation } from 'react-router-dom';
 import BasicTable from '../../Common/Table/BasicTable';
-import { Input, Popconfirm } from "antd";
-import { BtnBlack, BtnGray, InputBar } from '../../Common/Module';
+import { BtnBlack, BtnGray, InputBar, SearchInput, SearchSelectBox } from '../../Common/Module';
+import axios from 'axios';
 import PageTitle from '../../Common/PageTitle';
 
 function WorkPerformance() {
+  const navigate = useNavigate();
+  const location = useLocation();
   const [dataSource, setDataSource] = useState([]);
-  
+  const [searchType, setSearchType] = useState('생산 계획 코드');
+  const currentURL = window.location.pathname;
+
+  // useEffect(() => {
+  //   fetch('/api/work-performance')
+  //   .then(response => response.json())
+  //   .then(result => {
+  //       console.log(result);
+  //       if (result) {
+  //         const newData = result.map((item, index) => ({ key: index, ...item }));
+  //         setDataSource(newData);
+  //       } 
+  //     })
+  //     .catch(error => {
+  //       console.error('데이터를 가져오는 중 오류 발생:', error);
+  //     });
+  // }, []);
   useEffect(() => {
-    fetch('/api/work-performance')
-    .then(response => response.json())
-    .then(result => {
-        console.log(result);
-        if (result) {
-          const newData = result.map((item, index) => ({ key: index, ...item }));
+    async function fetchData() {
+      try {
+        let res;
+
+        if (currentURL === '/work-performance/search') {
+          const searchParams = new URLSearchParams(location.search);
+          const searchTypeParam = searchParams.get('searchType');
+          const searchValueParam = searchParams.get('search');
+
+          res = await axios.get('/api/work-performance/search', {
+            params: {
+              searchType: searchTypeParam,
+              search: searchValueParam,
+            },
+          });
+        } else {
+          res = await axios.get('/api/work-performance');
+        }
+        console.log(res);
+        console.log(res.data);
+
+        if (res) {
+          const newData = await res.data.map((item, index) => ({ key: index, ...item }));
           setDataSource(newData);
         } 
-      })
-      .catch(error => {
+      } catch (error) {
         console.error('데이터를 가져오는 중 오류 발생:', error);
-      });
-  }, []);
+      }
+    };
+  
+    fetchData();
+  }, [currentURL, location.search]);
 
   const defaultColumns = [
     {
@@ -77,6 +115,14 @@ function WorkPerformance() {
     },
   ];
 
+  const SelectChangeHandler = (value) => {
+    setSearchType(value);
+  };
+
+  const onSearch = (value) => {
+    navigate(`/work-performance/search?searchType=${encodeURIComponent(searchType)}&search=${encodeURIComponent(value)}`);
+  }
+
   return (
     <div className='work-performance-page'>
         <PageTitle value={'작업 실적 조회'}/>
@@ -103,6 +149,10 @@ function WorkPerformance() {
             <BtnGray value={'검색'}> type={'button'}</BtnGray>
           </div>
         </form> */}
+        <div style={{ display: 'flex', flexWrap: 'wrap', gap: '10px 24px', marginBottom: '24px' }}>
+          <SearchSelectBox selectValue={['생산 계획 코드', '담당자', '생산품명']} SelectChangeHandler={SelectChangeHandler} />
+          <SearchInput id={'search'} name={'search'} onSearch={onSearch} />
+        </div>
         <div>
           <BasicTable 
           dataSource={dataSource} 

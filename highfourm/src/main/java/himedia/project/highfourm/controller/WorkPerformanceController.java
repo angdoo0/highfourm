@@ -2,12 +2,12 @@ package himedia.project.highfourm.controller;
 
 import java.util.List;
 
-import org.springframework.http.CacheControl;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestParam;
 
 import himedia.project.highfourm.dto.WorkPerformanceDTO;
 import himedia.project.highfourm.dto.WorkPerformanceListDTO;
@@ -28,21 +28,27 @@ public class WorkPerformanceController {
 	@GetMapping("/api/work-performance")
 	public ResponseEntity<List<WorkPerformanceListDTO>> workPerformance() {
 		List<WorkPerformanceListDTO> WorkPerformanceList = workPerformanceService.findList();
-		return ResponseEntity.ok().cacheControl(CacheControl.noStore()).body(WorkPerformanceList);
+		return ResponseEntity.ok(WorkPerformanceList);
+	}
+	
+	@GetMapping("/api/work-performance/search")
+	public ResponseEntity<List<WorkPerformanceListDTO>> searchWorkPerfomanceList(@RequestParam(value = "searchType") String searchType, @RequestParam(value = "search") String search) {
+		List<WorkPerformanceListDTO> resultList = workPerformanceService.search(searchType, search);
+		return ResponseEntity.ok(resultList);
 	}
 	
 	@GetMapping("/api/work-performance/new")
 	public ResponseEntity<List<WorkPerformanceResponseDTO>> workPerformanceNew() {
 		List<WorkPerformanceResponseDTO> reponseList = productionPlanService.findProductionPlanDetails();
-		return ResponseEntity.ok().cacheControl(CacheControl.noStore()).body(reponseList);
+		return ResponseEntity.ok(reponseList);
 	}
 	
 	@PostMapping("/api/work-performance/new")
-	public ResponseEntity<String> saveWorkPerformance(@RequestBody WorkPerformanceDTO[] workPerformanceDTOArray) {
+	public ResponseEntity<String> saveWorkPerformanceAndUpdateMaterialStock(@RequestBody WorkPerformanceDTO[] workPerformanceDTOArray) {
 		for (WorkPerformanceDTO workPerformanceDTO : workPerformanceDTOArray) {
-			workPerformanceService.saveWorkPerformance(workPerformanceDTO);
+			workPerformanceService.saveWorkPerformanceAndUpdateMaterialStock(workPerformanceDTO);
 		}
 		log.info(workPerformanceDTOArray.toString());
-		return ResponseEntity.ok().cacheControl(CacheControl.noStore()).body("Success");
+		return ResponseEntity.ok("Success");
 	}
 }

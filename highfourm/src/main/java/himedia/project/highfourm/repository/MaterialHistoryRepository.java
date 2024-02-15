@@ -14,7 +14,7 @@ public interface MaterialHistoryRepository extends JpaRepository<MaterialHistory
             + "mh.materialHistoryId, ma.materialId, mh.orderDate, mh.recievingDate, mh.standard,"
             + "mh.supplier, ms.totalStock, mh.inboundAmount, mh.orderAmount, mh.unitPrice, mh.note, ma.materialName, ma.unit) "
             + "FROM MaterialHistory mh "
-            + "LEFT JOIN mh.material ma " // fetch에러 나서 수정된 부분
+            + "LEFT JOIN mh.material ma " 
             + "LEFT JOIN ma.materialStock ms "
             + "ORDER BY mh.materialHistoryId DESC")
     List<MaterialOrderListDTO> findAllWithMaterialFields();
@@ -23,7 +23,7 @@ public interface MaterialHistoryRepository extends JpaRepository<MaterialHistory
     		+ "mh.materialHistoryId, ma.materialId, mh.orderDate, mh.recievingDate, mh.standard,"
     		+ "mh.supplier, ms.totalStock, mh.inboundAmount, mh.orderAmount, mh.unitPrice, mh.note, ma.materialName, ma.unit) "
     		+ "FROM MaterialHistory mh "
-    		+ "LEFT JOIN mh.material ma " // fetch에러 나서 수정된 부분
+    		+ "LEFT JOIN mh.material ma " 
     		+ "LEFT JOIN ma.materialStock ms "
     		+ "WHERE ma.materialId like %:materialId% "
     		+ "ORDER BY mh.materialHistoryId DESC")
@@ -33,7 +33,7 @@ public interface MaterialHistoryRepository extends JpaRepository<MaterialHistory
     		+ "mh.materialHistoryId, ma.materialId, mh.orderDate, mh.recievingDate, mh.standard,"
     		+ "mh.supplier, ms.totalStock, mh.inboundAmount, mh.orderAmount, mh.unitPrice, mh.note, ma.materialName, ma.unit) "
     		+ "FROM MaterialHistory mh "
-    		+ "LEFT JOIN mh.material ma " // fetch에러 나서 수정된 부분
+    		+ "LEFT JOIN mh.material ma " 
     		+ "LEFT JOIN ma.materialStock ms "
     		+ "WHERE ma.materialName like %:materialName% "
     		+ "ORDER BY mh.materialHistoryId DESC")
@@ -43,17 +43,18 @@ public interface MaterialHistoryRepository extends JpaRepository<MaterialHistory
     		+ "mh.materialHistoryId, ma.materialId, mh.orderDate, mh.recievingDate, mh.standard,"
     		+ "mh.supplier, ms.totalStock, mh.inboundAmount, mh.orderAmount, mh.unitPrice, mh.note, ma.materialName, ma.unit) "
     		+ "FROM MaterialHistory mh "
-    		+ "LEFT JOIN mh.material ma " // fetch에러 나서 수정된 부분
+    		+ "LEFT JOIN mh.material ma " 
     		+ "LEFT JOIN ma.materialStock ms "
     		+ "WHERE mh.orderDate like %:orderDate% "
     		+ "ORDER BY mh.materialHistoryId DESC")
     List<MaterialOrderListDTO> findMaterialHistoryByOrderDate(@Param("orderDate")String orderDate);
     
+    
     @Query("SELECT new himedia.project.highfourm.dto.material.MaterialOrderListDTO("
     		+ "mh.materialHistoryId, ma.materialId, mh.orderDate, mh.recievingDate, mh.standard,"
     		+ "mh.supplier, ms.totalStock, mh.inboundAmount, mh.orderAmount, mh.unitPrice, mh.note, ma.materialName, ma.unit) "
     		+ "FROM MaterialHistory mh "
-    		+ "LEFT JOIN mh.material ma " // fetch에러 나서 수정된 부분
+    		+ "LEFT JOIN mh.material ma " 
     		+ "LEFT JOIN ma.materialStock ms "
     		+ "WHERE mh.recievingDate like %:recievingDate% "
     		+ "ORDER BY mh.materialHistoryId DESC")

@@ -19,10 +19,22 @@ const StockList = () => {
     {
       title: '자재 코드',
       dataIndex: 'materialId',
+      render: (text, record) => {
+        if (record.isBelowSafetyStock) {
+          return <span style={{ fontWeight: 'bold' }}>{text}</span>;
+        }
+        return text;
+      },
     },
     {
       title: '자재명',
       dataIndex: 'materialName',
+      render: (text, record) => {
+        if (record.isBelowSafetyStock) {
+          return <span style={{ fontWeight: 'bold' }}>{text}</span>;
+        }
+        return text;
+      },
     },
     {
       title: '단위',
@@ -31,6 +43,12 @@ const StockList = () => {
     {
       title: '총재고량',
       dataIndex: 'totalStock',
+      render: (text, record) => {
+        if (record.isBelowSafetyStock) {
+          return <span style={{ color: 'red', fontWeight: 'bold' }}>{text}</span>;
+        }
+        return text;
+      },
     },
     {
       title: '재고관리 방식',
@@ -55,7 +73,7 @@ const StockList = () => {
       try {
         let res;
 
-        if(currentURL === '/materials/stock/search'){
+        if (currentURL === '/materials/stock/search') {
           const searchParams = new URLSearchParams(location.search);
           const searchTypeParam = searchParams.get('searchType');
           const searchValueParam = searchParams.get('search');
@@ -80,8 +98,16 @@ const StockList = () => {
           safetyStock: rowData.safetyStock,
           maxStock: rowData.maxStock,
           leadTime: rowData.leadTime,
+          isBelowSafetyStock: rowData.totalStock <= rowData.safetyStock * 1.1,
         }));
-        setDataSource(materialRequest);
+
+        const sortedData = [...materialRequest];
+        sortedData.sort((a, b) => {
+          if (a.isBelowSafetyStock) return -1;
+          return 1;
+        });
+
+        setDataSource(sortedData);
       } catch (e) {
         console.error(e.message);
       }
@@ -129,12 +155,14 @@ const StockList = () => {
           <StockNew onSubmit={handleStockNewSubmit} />
         </Modal>
       </div>
-      <div style={{ width: '1200px', display: 'flex', gap: '10px', flexDirection: 'column' }}>
+      <div style={{ width: '1200px', display: 'flex', gap: '10px', flexDirection: 'column' }} >
         <BasicTable
           dataSource={dataSource}
           defaultColumns={defaultColumnsOne}
           setDataSource={setDataSource}
+          rowClassName={(record) => (record.isBelowSafetyStock ? 'below-safety-stock' : '')}
         />
+
       </div>
     </div>
   )

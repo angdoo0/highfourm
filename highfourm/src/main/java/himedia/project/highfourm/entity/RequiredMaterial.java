@@ -6,16 +6,13 @@ import jakarta.persistence.Column;
 import jakarta.persistence.EmbeddedId;
 import jakarta.persistence.Entity;
 import jakarta.persistence.Table;
-import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
-@Getter
+@Getter @Builder
 @NoArgsConstructor
-@AllArgsConstructor
 @Entity
-@Builder
 @Table(name = "required_material")
 public class RequiredMaterial {
 	
@@ -27,6 +24,13 @@ public class RequiredMaterial {
 	
 	@Column(name = "input_amount")
 	private Long inputAmount;
+	
+	@Builder
+	public RequiredMaterial(RequiredMaterialPK requriedMaterialPK, String inputProcess, Long inputAmount) {
+		this.requriedMaterialPK = requriedMaterialPK;
+		this.inputProcess = inputProcess;
+		this.inputAmount = inputAmount;
+	}
 	
 	public RequiredMaterialDTO toRequiredMaterialDTO() {
 		return RequiredMaterialDTO

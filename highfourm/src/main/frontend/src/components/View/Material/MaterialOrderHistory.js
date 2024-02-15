@@ -2,8 +2,8 @@ import React, { useEffect, useState } from 'react';
 import axios from 'axios';
 import { useNavigate, useLocation } from 'react-router-dom';
 import { BtnBlack, SearchInput, SearchSelectBox } from '../../Common/Module';
-import { Popconfirm } from "antd";
 import BasicTable from '../../Common/Table/BasicTable';
+import KeyTable from '../../Common/Table/KeyTable';
 import PageTitle from '../../Common/PageTitle';
 
 const MaterialOrderHistory = () => {
@@ -150,9 +150,6 @@ const MaterialOrderHistory = () => {
   const onSearch = (value) => {
     navigate(`/materials/order-history/search?searchType=${encodeURIComponent(searchType)}&search=${encodeURIComponent(value)}`);
   }
-  const onClick = () => {
-    window.location.href = '/materials/order-history/new'
-  }
 
   return (
     <div>
@@ -162,7 +159,7 @@ const MaterialOrderHistory = () => {
         <SearchInput id={'search'} name={'search'} onSearch={onSearch} />
       </div>
       <div style={{ marginBottom: '24px' }}>
-        <BtnBlack value={'수급내역 등록'} onClick={onClick} />
+        <BtnBlack value={'수급내역 등록'} onClick={() => window.location.href = '/materials/order-history/new'} />
       </div>
       <div style={{ display: 'flex', flexDirection: 'column' }}>
         <div style={{ border: '1px solid #d9d9d9', padding: '30px 35px', marginBottom: '20px' }}>
@@ -170,8 +167,14 @@ const MaterialOrderHistory = () => {
             <h2 style={{ fontSize: '16px', display: 'inline-block' }}>입고대기</h2>
             <hr style={{ color: '#000', width: '520px', marginLeft: '20px' }} />
           </div>
-          <div style={{ marginTop: '20px', height: '300px', overflowY: 'auto' }}>
-            <BasicTable dataSource={waitingData} defaultColumns={defaultColumnsOne} setDataSource={setDataSource} />
+          <div style={{ marginTop: '20px', height: '300px', overflowY: 'auto' }} className ="clickable-table">
+            <KeyTable 
+              dataSource={waitingData} 
+              defaultColumns={defaultColumnsOne} 
+              setDataSource={setDataSource} 
+              url="materials/order-history/edit"
+              keyName="materialHistoryId"
+              />
           </div>
         </div>
         <div style={{ border: '1px solid #d9d9d9', padding: '30px 35px', marginBottom: '20px' }}>
