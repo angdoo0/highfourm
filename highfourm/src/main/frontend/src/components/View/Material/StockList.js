@@ -15,6 +15,13 @@ const StockList = () => {
   const location = useLocation();
   const navigate = useNavigate();
 
+  const formatNumber = (number) => {
+    if (typeof number === 'undefined' || number === null) {
+      return '';
+    }
+    return number.toLocaleString('ko-KR');
+  };
+
   const defaultColumnsOne = [
     {
       title: '자재 코드',
@@ -37,18 +44,19 @@ const StockList = () => {
       },
     },
     {
-      title: '단위',
-      dataIndex: 'unit',
-    },
-    {
       title: '총재고량',
       dataIndex: 'totalStock',
       render: (text, record) => {
+        formatNumber(text);
         if (record.isBelowSafetyStock) {
           return <span style={{ color: 'red', fontWeight: 'bold' }}>{text}</span>;
         }
         return text;
       },
+    },
+    {
+      title: '단위',
+      dataIndex: 'unit',
     },
     {
       title: '재고관리 방식',
@@ -57,10 +65,12 @@ const StockList = () => {
     {
       title: '안전재고',
       dataIndex: 'safetyStock',
+      render: (text) => formatNumber(text),
     },
     {
       title: '최대재고',
       dataIndex: 'maxStock',
+      render: (text) => formatNumber(text),
     },
     {
       title: 'LeadTime',
