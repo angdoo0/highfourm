@@ -50,6 +50,9 @@ public class MaterialHistory {
 	@Column(name = "order_amount", nullable = false)
 	private Long orderAmount;
 	
+//	@Column(name = "rest_stock")
+//	private Long restStock;
+	
 	@Column(name = "unit_price")
 	private Long unitPrice;
 	

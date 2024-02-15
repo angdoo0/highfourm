@@ -39,31 +39,41 @@ public class MaterialOrderResponseDto {
 		Long totalPrice = calculateTotalPrice(orderListDTO);
 		Long materialInventory = calculateMaterialInventory(orderListDTO);
 
-		return MaterialOrderResponseDto.builder().materialHistoryId(orderListDTO.getMaterialHistoryId())
-				.orderDate(orderListDTO.getOrderDate()).recievingDate(orderListDTO.getRecievingDate())
-				.materialId(orderListDTO.getMaterialId()).materialName(orderListDTO.getMaterialName())
-				.standard(orderListDTO.getStandard()).unit(orderListDTO.getUnit()).supplier(orderListDTO.getSupplier())
-				.restStock(restStock).materialInventory(materialInventory) // totalStock을 materialInventory에 저장
+		return MaterialOrderResponseDto.builder()
+				.materialHistoryId(orderListDTO.getMaterialHistoryId())
+				.orderDate(orderListDTO.getOrderDate())
+				.recievingDate(orderListDTO.getRecievingDate())
+				.materialId(orderListDTO.getMaterialId())
+				.materialName(orderListDTO.getMaterialName())
+				.standard(orderListDTO.getStandard())
+				.unit(orderListDTO.getUnit())
+				.supplier(orderListDTO.getSupplier())
+				.restStock(restStock) // totalStock을 materialInventory에 저장
+				.materialInventory(materialInventory)
 				.usedAmount(usedAmount).inboundAmount(orderListDTO.getInboundAmount())
-				.orderAmount(orderListDTO.getOrderAmount()).unitPrice(orderListDTO.getUnitPrice())
-				.totalPrice(totalPrice).note(orderListDTO.getNote()).build();
+				.orderAmount(orderListDTO.getOrderAmount())
+				.unitPrice(orderListDTO.getUnitPrice())
+				.totalPrice(totalPrice)
+				.note(orderListDTO.getNote())
+				.build();
 	}
 
+	// 이월 재고량
+	private static Long calculateRestStock(MaterialOrderListDTO orderListDTO) {
+		if (orderListDTO.getTotalStock() == 0) {
+			return null;
+		}
+		return orderListDTO.getMaterialInventory();
+	}
+	
 	// 재고량
 	private static Long calculateMaterialInventory(MaterialOrderListDTO orderListDTO) {
 		if (orderListDTO.getRecievingDate() == null) {
 			return null;
 		}
-		return orderListDTO.getTotalStock() + orderListDTO.getInboundAmount();
+		return orderListDTO.getMaterialInventory() + orderListDTO.getInboundAmount();
 	}
 
-	// 이월 재고량
-	private static Long calculateRestStock(MaterialOrderListDTO orderListDTO) {
-		if (orderListDTO.getTotalStock() == 0 || orderListDTO.getRecievingDate() == null) {
-			return null;
-		}
-		return orderListDTO.getTotalStock();
-	}
 
 	// 사용량
 	private static Long calculateUsedAmount(MaterialOrderListDTO orderListDTO,

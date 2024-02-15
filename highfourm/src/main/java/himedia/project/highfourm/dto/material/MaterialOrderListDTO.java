@@ -18,6 +18,7 @@ public class MaterialOrderListDTO {
 	private Long totalStock;	//이월재고량materialInventory;
 	private Long inboundAmount;
 	private Long orderAmount;
+	private Long materialInventory;
 	private Long unitPrice;
 	private String note;
 	private String materialName;
