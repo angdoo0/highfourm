@@ -9,6 +9,7 @@ import org.springframework.web.bind.WebDataBinder;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.InitBinder;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
@@ -54,7 +55,7 @@ public class JoinController {
 	}
 	
 	//회원가입 처리
-	@PutMapping("/users/join/")
+	@PostMapping("/users/join/{empNo}")
 	public String signUpProcess(@PathVariable("empNo") Long empNo,
 			@Valid UserJoinFormDTO joinDTO, BindingResult bindingResult,  Model model) {
 		
@@ -69,13 +70,6 @@ public class JoinController {
 			
 			return "join";
 		}
-		
-//		if(!joinDTO.getPassword().equals(joinDTO.getPasswordCheck())) {
-//			model.addAttribute("userJoinFormDTO", joinDTO);
-//			bindingResult.rejectValue("password", "passwordInCorrect",
-//					"2개의 패스워드가 일치하지 않습니다.");
-//			return "join";
-//		}
 		
 		joinService.joinProcess(joinDTO, empNo);
 		return "redirect:/";
