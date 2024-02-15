@@ -74,6 +74,12 @@ const MaterialOrderHistory = () => {
     setCompletedData(completedData);
   };
 
+  const formatNumber = (number) => {
+    if (typeof number === 'undefined' || number === null) {
+      return '';
+    }
+    return number.toLocaleString('ko-KR');
+  };
 
   const defaultColumnsOne = [
     {
@@ -98,10 +104,6 @@ const MaterialOrderHistory = () => {
       dataIndex: 'materialName',
     },
     {
-      title: '규격/사양',
-      dataIndex: 'standard',
-    },
-    {
       title: '단위',
       dataIndex: 'unit',
     },
@@ -112,30 +114,41 @@ const MaterialOrderHistory = () => {
     {
       title: '이월재고량',
       dataIndex: 'restStock',
+      render: (text) => formatNumber(text),
     },
     {
       title: '재고량',
       dataIndex: 'materialInventory',
+      render: (text) => formatNumber(text),
     },
     {
       title: '사용량',
       dataIndex: 'usedAmount',
+      render: (text) => formatNumber(text),
     },
     {
       title: '입고량',
       dataIndex: 'inboundAmount',
+      render: (text) => formatNumber(text),
     },
     {
       title: '발주량',
       dataIndex: 'orderAmount',
+      render: (text) => formatNumber(text),
+    },
+    {
+      title: '규격/사양',
+      dataIndex: 'standard',
     },
     {
       title: '입고 단가',
       dataIndex: 'unitPrice',
+      render: (text) => `${formatNumber(text)}원`,
     },
     {
       title: '금액',
       dataIndex: 'totalPrice',
+      render: (text) => `${formatNumber(text)}원`,
     },
     {
       title: '비고',

@@ -90,7 +90,7 @@ public class MaterialService {
 
 	    // MaterialOrderListDTO를 MaterialOrderResponseDto로 변환
 	    List<MaterialOrderResponseDto> materialOrderResponseDtos = materialOrderListDTOs.stream()
-	            .map(orderListDto -> MaterialOrderResponseDto.toOrderDTO(orderListDto, materialOrderListDTOs))
+	            .map(orderListDto -> MaterialOrderResponseDto.toOrderResponseDTO(orderListDto, materialOrderListDTOs))
 	            .collect(Collectors.toList());
 
 	    return materialOrderResponseDtos;
@@ -113,12 +113,12 @@ public class MaterialService {
 		}
 		
 		List<MaterialOrderResponseDto> materialOrderResponseDtos = materialOrderListDTOs.stream()
-				.map(orderListDto -> MaterialOrderResponseDto.toOrderDTO(orderListDto, materialOrderListDTOs))
+				.map(orderListDto -> MaterialOrderResponseDto.toOrderResponseDTO(orderListDto, materialOrderListDTOs))
 				.collect(Collectors.toList());
 		return materialOrderResponseDtos;
 	}
 	
-	// 입고내역 등록화면 조회
+	// 입고내역 등록 form 조회
 	public MaterialOrderEditFormDTO getMaterialhistoryInfo(Long materialHistoryId) {
 		Optional<MaterialHistory> materialHistory = historyRepository.findById(materialHistoryId);
 		
@@ -161,9 +161,6 @@ public class MaterialService {
 		
 		materialHistory.updateMaterialHistory(editDTO.getInboundAmount(), materialInventory, editDTO.getRecievingDate(), editDTO.getNote());
 
-        // 수정된 엔티티 저장
-        historyRepository.save(materialHistory);
 	}
-	
 	
 }

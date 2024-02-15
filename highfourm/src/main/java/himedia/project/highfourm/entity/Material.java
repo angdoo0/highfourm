@@ -35,7 +35,8 @@ public class Material {
     @OneToOne(mappedBy = "material", fetch = FetchType.LAZY)
     private MaterialStock materialStock;
     
-    @OneToMany(mappedBy = "material", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    @OneToMany(mappedBy = "material", 
+    			cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     private List<MaterialHistory> materialHistories;
     
     @Builder
