@@ -66,7 +66,7 @@ const UserList = () => {
       headers: { 'Content-Type': 'application/json' },
     })
       .then(res =>
-        res.ok() ? alert(`${deleteUserInfo} 사원이 삭제되었습니다`) : null
+        res.status >= 200 && res.status < 300 ? alert(`${deleteUserInfo} 사원이 삭제되었습니다`) : null
       )
       .catch(e => alert('삭제가 실패했습니다'));
   }
