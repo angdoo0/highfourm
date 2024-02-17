@@ -2,6 +2,7 @@ package himedia.project.highfourm.service.email;
 
 import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.mail.javamail.MimeMessageHelper;
+import org.springframework.scheduling.annotation.Async;
 import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Service;
 
@@ -21,6 +22,11 @@ public class SmtpEmailService {
 	private final UserService userService;
 	private final EmailTokenRepository emailTokenRepository;
 	private final JavaMailSender javaMailSender;
+	
+	@Async
+	public void sendEmail(MimeMessage email) {
+		javaMailSender.send(email);
+	}
 
 	public String createEmail(UserAddDTO newUser, Authentication authentication) {
 	    User savedUser = userService.save(newUser, authentication);
@@ -43,7 +49,7 @@ public class SmtpEmailService {
 	            helper.setTo(savedUser.getEmail());
 	            helper.setSubject("하이포엠 회원가입 사용자 인증 이메일입니다");
 	            helper.setText(body, true);
-	            javaMailSender.send(mailMessage);
+	            sendEmail(mailMessage);
 	        } catch (MessagingException e) {
 	            e.printStackTrace();
 	        }
