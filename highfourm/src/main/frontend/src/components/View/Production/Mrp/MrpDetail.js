@@ -44,7 +44,7 @@ const MrpDetail = () => {
             production_plan_id: rowData.productionPlanId,
             product_id: rowData.productId,
             product_name: rowData.productName,
-            production_plan_amount: (rowData.productionPlanAmount).toLocaleString(),
+            production_plan_amount: rowData.productionPlanAmount,
           }))
           setDataPlan(newDataPlan);
         }
@@ -110,7 +110,7 @@ const MrpDetail = () => {
     {
       title: '계획 수량',
       dataIndex: 'production_plan_amount',
-      render: (text) => text.toLocaleString()
+      render: (text) => text !== null ? text.toLocaleString() : text
       // production_plan
     },
   ];
