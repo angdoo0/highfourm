@@ -44,17 +44,16 @@ create table IF NOT EXISTS orders (
 
 create table IF NOT EXISTS file (
 	file_id	bigint auto_increment COMMENT '파일 아이디',
-#	order_id varchar(50) unique NOT NULL COMMENT '주문 코드',
+	order_id varchar(50) unique NOT NULL COMMENT '주문 코드',
 	original_name varchar(300) NOT NULL COMMENT '파일 원본명',
 	changed_name varchar(300) unique NOT NULL COMMENT '파일 변경명',
 	file_type varchar(50) NOT NULL COMMENT '파일 타입',
 	file_size bigint NOT NULL COMMENT '파일 크기',
 	file_path varchar(225) NOT NULL COMMENT '파일 저장 위치',
-    primary key(file_id)
- #   foreign key(order_id) references orders(order_id)
- #   ON UPDATE CASCADE
+    primary key(file_id),
+    foreign key(order_id) references orders(order_id)
+    ON UPDATE CASCADE
 );
-select * from file;
 
 create table IF NOT EXISTS product (
 	product_id varchar(50) NOT NULL COMMENT '제품 코드', 
@@ -63,7 +62,6 @@ create table IF NOT EXISTS product (
 	update_date date COMMENT '수정일',
     primary key(product_id)
 );
-
 create table IF NOT EXISTS order_detail (
 	order_id varchar(50) NOT NULL COMMENT '주문 코드',
     product_id varchar(50) NOT NULL COMMENT '제품 코드',

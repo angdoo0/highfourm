@@ -9,17 +9,9 @@ import java.util.ArrayList;
 import java.util.Base64;
 import java.util.List;
 import java.util.Map;
-import java.util.Optional;
 import java.util.UUID;
 
-import org.apache.commons.io.IOUtils;
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.http.HttpHeaders;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.MediaType;
-import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
@@ -37,81 +29,75 @@ import lombok.RequiredArgsConstructor;
 @RestController
 @RequiredArgsConstructor
 public class FileController {
-    
-    private final FileService fileService;
-    private final OrderService orderService; 
-    @Value("${file.upload-dir}")
-    private String uploadDir;
-    
-    @PostMapping("/api/orders/new/upload")
-    public void uploadFile(@RequestParam("file") MultipartFile file) {
-        try {
-        	  String originalFileName = file.getOriginalFilename();
-              String changedFileName = UUID.randomUUID().toString(); 
-              String fileExtension = ""; 
 
-              if(originalFileName.contains(".")) {
-                  fileExtension = originalFileName.substring(originalFileName.lastIndexOf("."));
-              }
+	private final FileService fileService;
+	private final OrderService orderService;
+	@Value("${file.upload-dir}")
+	private String uploadDir;
 
-              changedFileName += fileExtension;
+	@PostMapping("/api/orders/new/upload")
+	public void uploadFile(@RequestParam("file") MultipartFile file) {
+		try {
+			String originalFileName = file.getOriginalFilename();
+			String changedFileName = UUID.randomUUID().toString();
+			String fileExtension = "";
 
-              String filePath = uploadDir + java.io.File.separator + changedFileName;
-              java.io.File dest = new java.io.File(filePath);
-              file.transferTo(dest);
-              
-              FileDTO fileInfo = new FileDTO();
-              fileInfo.setOriginalName(originalFileName);
-              fileInfo.setChangedName(changedFileName);
-              fileInfo.setFileType(file.getContentType());
-              fileInfo.setFileSize(Long.toString(file.getSize()));
-              fileInfo.setFilePath(filePath);
-              
-              String pdfPath = "c:/pdf/" + changedFileName;
+			if (originalFileName.contains(".")) {
+				fileExtension = originalFileName.substring(originalFileName.lastIndexOf("."));
+			}
 
-            
-            Map<String, Object> orderInfo = fileService.extractTableFromPdf(pdfPath);
-            List<List<String>> orderData = (List<List<String>>) orderInfo.get("order");
-            
-            List<String> orderFields = orderData.get(0);
-            OrdersDTO ordersDTO = new OrdersDTO(orderFields.get(0), orderFields.get(1), orderFields.get(2), orderFields.get(3),false);
-            
-            @SuppressWarnings("unchecked")
+			changedFileName += fileExtension;
+
+			String filePath = uploadDir + java.io.File.separator + changedFileName;
+			java.io.File dest = new java.io.File(filePath);
+			file.transferTo(dest);
+
+			FileDTO fileInfo = new FileDTO();
+			fileInfo.setOriginalName(originalFileName);
+			fileInfo.setChangedName(changedFileName);
+			fileInfo.setFileType(file.getContentType());
+			fileInfo.setFileSize(Long.toString(file.getSize()));
+			fileInfo.setFilePath(filePath);
+
+			String pdfPath = "c:/pdf/" + changedFileName;
+
+			Map<String, Object> orderInfo = fileService.extractTableFromPdf(pdfPath);
+			List<List<String>> orderData = (List<List<String>>) orderInfo.get("order");
+
+			List<String> orderFields = orderData.get(0);
+			OrdersDTO ordersDTO = new OrdersDTO(orderFields.get(0), orderFields.get(1), orderFields.get(2),
+					orderFields.get(3), false);
+
+			@SuppressWarnings("unchecked")
 			List<List<Object>> test = (List<List<Object>>) orderInfo.get("detail");
-            System.out.println(test.get(0));
-            System.out.println(test.get(0));
-            
-            List<Object> test2 = test.get(0);
-            System.out.println(test2.size());
-            System.out.println(test2.getClass());
-            System.out.println(test2.get(0));
-            
-            @SuppressWarnings("unchecked")
-            List<List<List<Object>>> details = (List<List<List<Object>>>) orderInfo.get("detail");
-            List<OrderFormDTO> orderFormDTOs = new ArrayList<>();
-            for (List<List<Object>> detailList : details) {
-                for (List<Object> detail : detailList) {
-                    String productName = detail.get(0).toString();
-                    Long productionAmount = parseLongWithDefault(detail.get(1).toString(), 0L);
-                    Long unitPrice = parseLongWithDefault(detail.get(2).toString(), 0L);
-                    orderFormDTOs.add(new OrderFormDTO(productName, productionAmount, unitPrice));
-                }
-            }
-            
-            OrdersAndDetailsDTO ordersAndDetailsDTO = new OrdersAndDetailsDTO(ordersDTO, orderFormDTOs);
-            String orderId = orderService.saveOrder(ordersAndDetailsDTO);
-            fileInfo.setOrderId(orderId);
-            fileService.save(fileInfo);
-            
-        } catch (IOException e) {
-        }
-    }
-    
-    private Long parseLongWithDefault(String value, Long defaultValue) {
-        try {
-            return Long.parseLong(value);
-        } catch (NumberFormatException e) {
-            return defaultValue;
-        }
-    }
+			List<Object> test2 = test.get(0);
+
+			@SuppressWarnings("unchecked")
+			List<List<List<Object>>> details = (List<List<List<Object>>>) orderInfo.get("detail");
+			List<OrderFormDTO> orderFormDTOs = new ArrayList<>();
+			for (List<List<Object>> detailList : details) {
+				for (List<Object> detail : detailList) {
+					String productName = detail.get(0).toString();
+					Long productionAmount = parseLongWithDefault(detail.get(1).toString(), 0L);
+					Long unitPrice = parseLongWithDefault(detail.get(2).toString(), 0L);
+					orderFormDTOs.add(new OrderFormDTO(productName, productionAmount, unitPrice));
+				}
+			}
+
+			OrdersAndDetailsDTO ordersAndDetailsDTO = new OrdersAndDetailsDTO(ordersDTO, orderFormDTOs);
+			String orderId = orderService.saveOrder(ordersAndDetailsDTO);
+			fileInfo.setOrderId(orderId);
+			fileService.save(fileInfo);
+
+		} catch (IOException e) {
+		}
+	}
+
+	private Long parseLongWithDefault(String value, Long defaultValue) {
+		try {
+			return Long.parseLong(value);
+		} catch (NumberFormatException e) {
+			return defaultValue;
+		}
+	}
 }

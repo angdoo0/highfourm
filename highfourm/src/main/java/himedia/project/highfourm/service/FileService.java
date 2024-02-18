@@ -34,8 +34,9 @@ public class FileService {
 	}
 	
 	public Map<String, Object> extractTableFromPdf(String pdfPath) {
-		ProcessBuilder processBuilder = new ProcessBuilder("python", "scripts/textConversion.py", pdfPath);
-		processBuilder.redirectErrorStream(true);
+		String basePath = System.getProperty("user.dir");
+		String scriptPath = basePath + "/scripts/textConversion.py";
+		ProcessBuilder processBuilder = new ProcessBuilder("python", scriptPath, pdfPath);
 		
         try {
             Process process = processBuilder.start();
