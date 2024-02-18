@@ -42,7 +42,7 @@ const PerformanceChart = () => {
     const currentDate = new Date();
     const totalDays = (dueDate - orderDate) / (1000 * 3600 * 24);
     const elapsedDays = (currentDate - orderDate) / (1000 * 3600 * 24);
-    return Math.min(Math.max((elapsedDays / totalDays) * 100, 0), 100);
+    return Math.min(Math.ceil((elapsedDays / totalDays) * 100), 100);
   };
 
   const calculateProgressPercentage = () => {
@@ -59,14 +59,17 @@ const PerformanceChart = () => {
     {
       title: '작업 시간',
       dataIndex: 'workingTime',
+      render: text => new Intl.NumberFormat('ko-KR').format(text),
     },
     {
       title: '생산 수량',
       dataIndex: 'productionAmount',
+      render: text => new Intl.NumberFormat('ko-KR').format(text),
     },
     {
       title: '불량 수량',
       dataIndex: 'defectiveAmount',
+      render: text => new Intl.NumberFormat('ko-KR').format(text),
     },
     {
       title: '불량률',
@@ -125,31 +128,31 @@ const PerformanceChart = () => {
             <div className='search-input-wrap'>
               <div className='search-input'>
                 <label htmlFor="order-number">주문 번호</label>
-                <InputBar disabled={'disabled'} id={'orderId'} value={performance ? performance.orderId : ''} />
+                <InputBar readOnly={'readOnly'} id={'orderId'} value={performance ? performance.orderId : ''} />
               </div>
               <div className='search-input'>
                 <label htmlFor="amount">주문 수량</label>
-                <InputBar disabled={'disabled'} id={'amount'} value={performance ? performance.productAmount : ''} />
+                <InputBar readOnly={'readOnly'} id={'amount'} value={performance ? performance.productAmount : ''} />
               </div>
             </div>
             <div className='search-input-wrap'>
               <div className='search-input'>
                 <label htmlFor="orderDate">주문일</label>
-                <InputBar disabled={'disabled'} id={'orderDate'} value={performance ? performance.orderDate : ''} />
+                <InputBar readOnly={'readOnly'} id={'orderDate'} value={performance ? performance.orderDate : ''} />
               </div>
               <div className='search-input'>
                 <label htmlFor="totalProductionAmount">생산량</label>
-                <InputBar disabled={'disabled'} id={'totalProductionAmount'} value={performance ? performance.totalProductionAmount : ''} />
+                <InputBar readOnly={'readOnly'} id={'totalProductionAmount'} value={performance ? performance.totalProductionAmount : ''} />
               </div>
             </div>
             <div className='search-input-wrap'>
               <div className='search-input'>
                 <label htmlFor="dueDate">납기일</label>
-                <InputBar disabled={'disabled'} id={'dueDate'} value={performance ? performance.dueDate : ''} />
+                <InputBar readOnly={'readOnly'} id={'dueDate'} value={performance ? performance.dueDate : ''} />
               </div>
               <div className='search-input'>
                 <label htmlFor="presentState">진행 상태</label>
-                <InputBar disabled={'disabled'} id={'presentState'} value={performance && performance.totalProductionAmount >= performance.productAmount ? '완료' : '진행 중'} />
+                <InputBar readOnly={'readOnly'} id={'presentState'} value={performance && performance.totalProductionAmount >= performance.productAmount ? '완료' : '진행 중'} />
               </div>
             </div>
           </form>

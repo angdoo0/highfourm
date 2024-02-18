@@ -2,6 +2,7 @@ package himedia.project.highfourm.dto.orders;
 
 
 import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -39,6 +40,14 @@ public class OrdersDTO {
 	            .endingState(ordersDTO.getEndingState())
 	            .orderDate(ordersDTO.getOrderDate())
 	            .build();
+	}
+	
+	public OrdersDTO(String manager, String orderDate, String dueDate, String vendor, Boolean endingState) {
+		this.manager = manager;
+		this.orderDate = LocalDate.parse(orderDate, DateTimeFormatter.ISO_DATE);
+		this.dueDate = LocalDate.parse(dueDate, DateTimeFormatter.ISO_DATE);
+		this.vendor = vendor;
+		this.endingState = endingState;
 	}
 
 	@Builder

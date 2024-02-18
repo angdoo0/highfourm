@@ -53,7 +53,7 @@ public class OrderService {
 	}
 	
 	@Transactional
-	public void saveOrder(OrdersAndDetailsDTO ordersAndDetailsDTO) {
+	public String saveOrder(OrdersAndDetailsDTO ordersAndDetailsDTO) {
 		LocalDate orderDate = ordersAndDetailsDTO.getOrders().getOrderDate();
 		OrdersDTO ordersDTO = ordersAndDetailsDTO.getOrders();
 		
@@ -71,6 +71,8 @@ public class OrderService {
 		em.persist(orders);
 		
 		saveProductionPlan(orders, orderDetails);
+		
+		return orders.getOrderId();
 	}
 
 	public void saveProductionPlan(Orders orders, List<OrderDetail> orderDetails) {

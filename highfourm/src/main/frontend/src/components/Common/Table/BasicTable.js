@@ -3,7 +3,7 @@ import { Table } from 'antd';
 import EditableRow from './EditableRow';
 import EditableCell from './EditableCell';
 
-const BasicTable = ({ dataSource, defaultColumns, setDataSource, pagination, onRowClick}) => {
+const BasicTable = ({ dataSource, defaultColumns, setDataSource, pagination, onRowClick }) => {
   const handleSave = (row) => {
     const newData = [...dataSource];
     const index = newData.findIndex((item) => row.key === item.key);
@@ -33,7 +33,7 @@ const BasicTable = ({ dataSource, defaultColumns, setDataSource, pagination, onR
         title: col.title,
         handleSave,
       }),
-      
+
     };
   });
 
@@ -46,7 +46,7 @@ const BasicTable = ({ dataSource, defaultColumns, setDataSource, pagination, onR
   };
 
   const rowClassName = (record, index) => {
-    return record.isBelowSafetyStock ? 'below-safety-stock' : '';
+    return `clickable-row ${record.isBelowSafetyStock ? 'below-safety-stock' : ''}`
   };
 
   return (
