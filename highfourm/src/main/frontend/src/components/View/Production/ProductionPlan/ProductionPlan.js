@@ -6,6 +6,7 @@ import { Popconfirm, Input } from "antd";
 import BasicTable from '../../../Common/Table/BasicTable';
 import PageTitle from '../../../Common/PageTitle';
 import { useNavigate, useLocation } from 'react-router';
+import { initComponentToken } from 'antd/es/input/style';
 
 const ProductionPlan = () => {
   const navigate = useNavigate();
@@ -14,6 +15,7 @@ const ProductionPlan = () => {
   const [productionPlans, setProductionPlans] = useState([]);
   const [monthlyProductionPlans, setMonthlyProductionPlans] = useState([]);
   const [selectedProductionPlan, setSelectedProductionPlan] = useState(false);
+  const [isMonthlyProductionPlan, setIsMonthlyProductionPlan] = useState([]);
   const searchParams = new URLSearchParams(location.search);
   const [searchType, setSearchType] = useState('주문 번호');
   const searchTypeParam = searchParams.get('searchType');
@@ -71,19 +73,25 @@ const ProductionPlan = () => {
     });
     setProductionPlans(updatedPlans);
 
-    if (selectedProductionPlan && selectedProductionPlan.key === key) {
-      setSelectedProductionPlan({ ...selectedProductionPlan, [field]: value });
+    if (field === 'productionPlanAmount' && selectedProductionPlan && selectedProductionPlan.key === key) {
+      setSelectedProductionPlan(prev => ({ ...prev, [field]: value }));
+      const newAmount = parseInt(value, 10);
+      if (!isNaN(newAmount)) {
+        updateMonthlyPlansBasedOnAmount(newAmount);
+      }
     }
   };
 
-  const updateMonthlyProductionPlan = (key, value) => {
-    const updatedPlans = monthlyProductionPlans.map(plan => {
-      if (plan.key === key) {
-        return { ...plan, productionAmount: value };
-      }
-      return plan;
-    });
-    setMonthlyProductionPlans(updatedPlans);
+  const updateMonthlyPlansBasedOnAmount = (amount) => {
+    if (!selectedProductionPlan) return;
+    const { monthsAndDays, totalDays } = getMonthsAndDays(new Date(selectedProductionPlan.orderDate), new Date(selectedProductionPlan.dueDate));
+    const newPlans = Object.entries(monthsAndDays).map(([month, days]) => ({
+      month: month,
+      productionAmount: Math.ceil((days / totalDays) * amount),
+      key: `${selectedProductionPlan.productionPlanId}-${month}`,
+      edit: true,
+    }));
+    setMonthlyProductionPlans(newPlans);
   };
 
   const onProductionPlanClick = (record) => {
@@ -94,26 +102,37 @@ const ProductionPlan = () => {
           key: `${record.productionPlanId}-${plan.month}`,
           edit: false,
         }));
-
         if (record.edit) {
           setMonthlyProductionPlans(dataFromDB);
+          setIsMonthlyProductionPlan([...isMonthlyProductionPlan, record.productionPlanId]);
         } else {
           const orderAmount = record.productAmount;
           const { monthsAndDays, totalDays } = getMonthsAndDays(new Date(record.orderDate), new Date(record.dueDate));
 
           const newPlans = Object.entries(monthsAndDays).map(([month, days]) => ({
             month: month,
-            productionAmount: Math.ceil((days / totalDays) * orderAmount),
+            productionAmount: 0,
             key: `${record.productionPlanId}-${month}`,
             edit: true,
           }));
           setMonthlyProductionPlans(newPlans);
+          setIsMonthlyProductionPlan([...isMonthlyProductionPlan, record.productionPlanId]);
         }
       })
       .catch(error => {
         console.error('Error fetching monthly production plans:', error);
       });
     setSelectedProductionPlan(record); // 선택된 생산 계획 상태 업데이트
+  };
+
+  const updateMonthlyProductionPlan = (key, value) => {
+    const updatedPlans = monthlyProductionPlans.map(plan => {
+      if (plan.key === key) {
+        return { ...plan, productionAmount: value };
+      }
+      return plan;
+    });
+    setMonthlyProductionPlans(updatedPlans);
   };
 
   const getProductionPlanColumns = (productionPlans) => {
@@ -134,18 +153,21 @@ const ProductionPlan = () => {
       {
         title: '주문 수량',
         dataIndex: 'productAmount',
+        render: text => new Intl.NumberFormat('ko-KR').format(text),
       },
       {
         title: '생산 계획 수량',
         dataIndex: 'productionPlanAmount',
         render: (text, record) => {
           return record.edit ?
-            text : (<Input
+            new Intl.NumberFormat('ko-KR').format(text) :
+            (<Input
               defaultValue={text}
               type="number"
               style={{ border: 'none', boxShadow: 'none', backgroundColor: 'transparent' }}
               onChange={e => updateProductionPlan(record.key, 'productionPlanAmount', e.target.value)}
             />)
+
         },
       },
       {
@@ -190,7 +212,7 @@ const ProductionPlan = () => {
               type="number"
               style={{ border: 'none', boxShadow: 'none', backgroundColor: 'transparent' }}
               onChange={e => updateMonthlyProductionPlan(record.key, e.target.value)}
-            /> : text
+            /> : new Intl.NumberFormat('ko-KR').format(text)
         ),
       },
     ];
@@ -310,8 +332,8 @@ const ProductionPlan = () => {
                 defaultColumns={getMonthlyProductionPlanColumns()}
                 setDataSource={setMonthlyProductionPlans}
                 pagination={false}
-                />
-              </div>
+              />
+            </div>
             <div style={{ margin: '10px 0 0 0' }}>
               {!selectedProductionPlan.edit && <BtnBlue value={'저장'} onClick={onclick => handleSave()} />}
             </div>

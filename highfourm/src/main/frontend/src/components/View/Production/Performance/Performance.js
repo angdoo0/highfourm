@@ -77,10 +77,12 @@ const Performance = () => {
     {
       title: '주문수량',
       dataIndex: 'productAmount',
+      render: text => new Intl.NumberFormat('ko-KR').format(text),
     },
     {
       title: '생산수량',
       dataIndex: 'totalProductionAmount',
+      render: text => new Intl.NumberFormat('ko-KR').format(text),
     },
     {
       title: '진행 상태',
