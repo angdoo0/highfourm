@@ -114,4 +114,6 @@ public interface ProductionPlanRepository extends JpaRepository<ProductionPlan, 
 		       "FROM WorkPerformance wp " +
 		       "WHERE wp.productionPlan.productionPlanId LIKE ?1")
 	List<WorkPerformanceDTO> findProductionList(String productionPlanId);
+
+	List<ProductionPlan> findByOrdersOrderId(String orderId);
 }
