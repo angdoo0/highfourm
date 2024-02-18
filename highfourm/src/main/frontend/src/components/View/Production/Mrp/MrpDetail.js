@@ -44,7 +44,7 @@ const MrpDetail = () => {
             production_plan_id: rowData.productionPlanId,
             product_id: rowData.productId,
             product_name: rowData.productName,
-            production_plan_amount: (rowData.productionPlanAmount).toLocaleString(),
+            production_plan_amount: rowData.productionPlanAmount,
           }))
           setDataPlan(newDataPlan);
         }
@@ -110,6 +110,7 @@ const MrpDetail = () => {
     {
       title: '계획 수량',
       dataIndex: 'production_plan_amount',
+      render: (text) => text !== null ? text.toLocaleString() : text
       // production_plan
     },
   ];
@@ -129,26 +130,31 @@ const MrpDetail = () => {
     {
       title: '투입량',
       dataIndex: 'input_amount',
+      render: (text) => text !== null ? parseInt(text).toLocaleString() : text
       // production_plan(product_id) - required_material(input_amount)
     },
     {
       title: '총 소요 수량',
       dataIndex: 'total_material_amount',
+      render: (text) => text !== null ? parseInt(text).toLocaleString() : text
       // production_plan(production_plan_amount) * required_material(input_amount)
     },
     {
       title: '현 재고',
       dataIndex: 'total_stock',
+      render: (text) => text !== null ? parseInt(text).toLocaleString() : text
       // production_plan(product_id) - required_material(material_id) - material_stock(total_stock)
     },
     {
       title: '안전 재고',
       dataIndex: 'safety_stock',
+      render: (text) => text !== null ? parseInt(text).toLocaleString() : text
       // production_plan(product_id) - required_material(material_id) - material_stock(safety_stock)
     },
     {
       title: '입고 예정량',
       dataIndex: 'order_amount',
+      render: (text) => text !== null ? parseInt(text).toLocaleString() : text
       // production_plan(product_id) - required_material(material_id) - material_history(order_amount)
     },
   ];

@@ -22,10 +22,10 @@ create table IF NOT EXISTS users (
 );
 
 create table IF NOT EXISTS email_token (
-	id varchar(50) unique COMMENT '이메일 토큰 ID',
-	user_no bigint COMMENT '사용자 번호',
-    expired int COMMENT '만료여부',
-    expiration_date timestamp COMMENT '만료기간',
+	id varchar(50) NOT NULL COMMENT '이메일 토큰 ID',
+	user_no bigint NOT NULL COMMENT '사용자 번호',
+    expired int NOT NULL COMMENT '만료여부',
+    expiration_date timestamp NOT NULL COMMENT '만료기간',
     primary key(id),
     foreign key (user_no) references users(user_no)
     ON UPDATE CASCADE

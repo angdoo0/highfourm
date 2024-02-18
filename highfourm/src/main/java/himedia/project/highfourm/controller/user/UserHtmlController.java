@@ -68,16 +68,16 @@ public class UserHtmlController {
 		}
 		
 //		gmailService.sendEmail(userAddDTO, authentication);
-		smtpEmailService.createEmail(userAddDTO, authentication);
+		smtpEmailService.createEmail(userAddDTO, authentication);	
 		return "redirect:/users";
 	}
 	
 	/**
 	 * 사용자 수정 페이지
 	 */
-	@GetMapping("/users/edit/{userNo}")
-	public String selectUser(@PathVariable("userNo") Long userNo, Authentication authentication, Model model) {
-		UserEditDTO user = service.findByUserNoforEdit(userNo, authentication);
+	@GetMapping("/users/edit/{empNo}")
+	public String selectUser(@PathVariable("empNo") Long empNo, Authentication authentication, Model model) {
+		UserEditDTO user = service.findByEmpNoforEdit(empNo, authentication);
 		
 		model.addAttribute("userEditDTO", user);
 		return "userEditForm";

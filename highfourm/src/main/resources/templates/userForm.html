@@ -141,14 +141,18 @@ header {
 			</div>
 		</footer>
 	<script type="text/javascript">
-		const email = document.getElementById("email");
-		const emailCheck = document.getElementById("emailCheck");
+		function isEmailCheckError() {
+	        const email = document.getElementById("email");
+	        const emailCheck = document.getElementById("emailCheck");
+	        return email.value !== emailCheck.value && emailCheck.value !== "" && emailCheck.value !== null;
+	    }
+	 
 		const errorParent = document.getElementById("errorParent");
 
 		const onChange = () => {
 		    const errorDiv = document.getElementById("emailError");
 
-		    if (email.value !== emailCheck.value && emailCheck.value !== null) {
+		    if (isEmailCheckError()) {
 		        if (!errorDiv) {
 		            const div = document.createElement('div');
 		            div.className = 'field-error';
@@ -171,12 +175,12 @@ header {
 			  Array.prototype.slice.call(forms)
 			    .forEach(function (form) {
 			      form.addEventListener('submit', function (event) {
-			        if (!form.checkValidity()) {
+			        if (!form.checkValidity() || isEmailCheckError()) {
 			         	event.preventDefault();
 			        	event.stopPropagation();
 			        } else {
-			        	alert("사용자가 등록되었습니다");
-			        }
+                    	alert('사용자 등록이 완료되었습니다.');
+                    }
 			        form.classList.add('was-validated');
 			      }, false)
 			    })

@@ -74,10 +74,9 @@ public class UserService {
 	/**
 	 * 수정 기능을 위한 사번 조회
 	 */
-	public UserEditDTO findByUserNoforEdit(Long userNo, Authentication authentication) {
+	public UserEditDTO findByEmpNoforEdit(Long empNo, Authentication authentication) {
 		Company company = findCompanyId(authentication);
-		User user = repository.findById(userNo).get();
-		System.out.println(user.getUserName());
+		User user = repository.findByEmpNo(empNo);
 
 		UserDTO userDTO = user.toDTO(company);
 
