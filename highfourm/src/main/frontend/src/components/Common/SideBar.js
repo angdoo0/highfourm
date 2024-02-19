@@ -45,7 +45,7 @@ const SideBar = () => {
   const onClickSubmit = () => {
     axios({
       method: 'POST',
-      url: `http://localhost:8080/logout`,
+      url: 'http://localhost:8080/api/logout',
     })
       .then((res) => {
         console.log(res);
@@ -76,7 +76,7 @@ const SideBar = () => {
 
   const bottomMenu = [
     getItem(<a href="/users">사용자 관리</a>, '11', <FontAwesomeIcon icon={faUserGroup} />),
-    getItem(<a href="#" onClick={onClickSubmit}>로그아웃</a>, '12', <FontAwesomeIcon icon={faRightFromBracket} />),
+    getItem(<a href="/" onClick={onClickSubmit}>로그아웃</a>, '12', <FontAwesomeIcon icon={faRightFromBracket} />),
   ];
 
 
