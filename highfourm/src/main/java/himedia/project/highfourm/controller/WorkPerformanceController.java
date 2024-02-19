@@ -19,7 +19,6 @@ import lombok.extern.slf4j.Slf4j;
 
 @Controller
 @RequiredArgsConstructor
-@Slf4j
 public class WorkPerformanceController {
 
 	private final WorkPerformanceService workPerformanceService;
@@ -44,11 +43,10 @@ public class WorkPerformanceController {
 	}
 	
 	@PostMapping("/api/work-performance/new")
-	public ResponseEntity<String> saveWorkPerformanceAndUpdateMaterialStock(@RequestBody WorkPerformanceDTO[] workPerformanceDTOArray) {
-		for (WorkPerformanceDTO workPerformanceDTO : workPerformanceDTOArray) {
+	public ResponseEntity<String> saveWorkPerformanceAndUpdateMaterialStock(@RequestBody WorkPerformanceListDTO[] workPerformanceDTOArray) {
+		for (WorkPerformanceListDTO workPerformanceDTO : workPerformanceDTOArray) {
 			workPerformanceService.saveWorkPerformanceAndUpdateMaterialStock(workPerformanceDTO);
 		}
-		log.info(workPerformanceDTOArray.toString());
 		return ResponseEntity.ok("Success");
 	}
 }
