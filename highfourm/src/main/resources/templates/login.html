@@ -95,11 +95,11 @@
 			<div sec:authorize="isAuthenticated()" class="authenticated">
 				<span>안녕하세요 </span>
 				<span th:text="${#authentication.principal.user.userName}"></span>님!
-				<div>
-					<form th:action="@{/logout}" method="post" style="display: flex; justify-content: center; align-items: center;">
-						<button type="submit" class="btn btn-light">로그아웃</button>
-						<button type="button" onclick="location.href='/materials/stock'" class="btn btn-secondary">홈으로</button>
-					</form>
+				<div style="display: flex; justify-content: center; align-items: center;">
+					<!--<form th:action="@{/logout}" method="post" style="display: flex; justify-content: center; align-items: center;">-->
+						<!--<button type="submit" class="btn btn-light me-3">로그아웃</button>-->
+						<button type="button" onclick="location.href='/materials/stock'" class="btn btn-secondary mt-2">홈으로</button>
+					<!--</form>-->
 				</div>
 			</div>
 			<div sec:authorize="isAnonymous()">
