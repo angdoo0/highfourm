@@ -26,4 +26,21 @@ public class WorkPerformanceListDTO {
 	private Long lotNo;
 	private LocalDate validDate;
 	private String note;
+	
+	public WorkPerformanceDTO toWorkPerformanceDTO() {
+		return WorkPerformanceDTO
+				.builder()
+				.workPerformanceId(workPerformanceId)
+				.productionPlanId(productionPlanId)
+				.workDate(workDate)
+				.productionAmount(productionAmount)
+				.acceptanceAmount(acceptanceAmount)
+				.defectiveAmount(defectiveAmount)
+				.workingTime(workingTime)
+				.manager(manager)
+				.lotNo(lotNo)
+				.validDate(validDate)
+				.note(note)
+				.build();
+	}
 }
