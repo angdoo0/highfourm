@@ -34,12 +34,15 @@ public class HttpSecurityConfiguration {
 		http.formLogin(formlogin -> 
 			formlogin
 			.loginPage("/login")
-			.defaultSuccessUrl("/orders", true)
+			.defaultSuccessUrl("/materials/stock", true)
 			.failureUrl("/login")
 			.loginProcessingUrl("/login")
 			.usernameParameter("userId")
 			.passwordParameter("password")
 			);
+		//권한 없는 접근 페이지 지정
+		http.exceptionHandling(except -> except.accessDeniedPage("/accessDenied"));
+		
 		http.cors(corsCustomizer -> corsCustomizer.configurationSource(new CorsConfigurationSource() {
             @Override
             public CorsConfiguration getCorsConfiguration(HttpServletRequest request) {

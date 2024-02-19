@@ -88,4 +88,5 @@ public class User {
 		this.password = password;
 		this.registerState = "Y";
 	}
+	
 }

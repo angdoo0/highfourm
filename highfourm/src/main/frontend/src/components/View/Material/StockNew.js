@@ -1,13 +1,14 @@
 import { Select } from 'antd';
 import axios from 'axios';
 import React, { useRef, useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 import { BtnBlue, InputBar } from '../../Common/Module';
 
-const StockNew = ({  onSubmit, onSubmitSuccess }) => {
+const StockNew = ({ onSubmit, onSubmitSuccess }) => {
   const [manageValue, setManageValue] = useState("");
   const [leadTimeDisabled, setLeadTimeDisabled] = useState(false);
   const [formData, setFormData] = useState(null);
-
+  const navigate = useNavigate();
   const formRef = useRef(null);
 
   const selectValue = (value) => {
@@ -42,6 +43,7 @@ const StockNew = ({  onSubmit, onSubmitSuccess }) => {
         console.log('Material added successfully');
         if (onSubmitSuccess) {
           onSubmitSuccess();
+          navigate('/materials/stock')
         }
       } catch (error) {
         console.error('Error adding material:', error);
