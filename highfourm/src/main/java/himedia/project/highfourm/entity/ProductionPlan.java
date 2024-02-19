@@ -74,8 +74,8 @@ public class ProductionPlan {
 		this.workPerformances = workPerformances;
 	}
 	
-	public void updateProductionPlan(Long productionPlanAmount, LocalDate productionStartDate,
-										List<MonthlyProductionPlan> monthlyProductionPlan) {
+
+	public void updateProductionPlan(Long productionPlanAmount, LocalDate productionStartDate,List<MonthlyProductionPlan> monthlyProductionPlan) {
 		this.productionPlanAmount = productionPlanAmount;
 		this.productionStartDate = productionStartDate;
 		this.monthlyProductionPlans = monthlyProductionPlan;
