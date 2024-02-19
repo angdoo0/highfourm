@@ -2,7 +2,7 @@ package himedia.project.highfourm.service;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.stream.Collectors;
+import java.util.Optional;
 
 import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Service;
@@ -136,7 +136,8 @@ public class UserService {
 				.birth(userEdit.getBirth())
 				.email(existingUser.getEmail())
 				.company(existingUser.getCompany())
-				.registerState(existingUser.getRegisterState()).role(existingUser.getRole()).build();
+				.registerState(existingUser.getRegisterState())
+				.role(existingUser.getRole()).build();
 
 		User mergedUser = em.merge(updatedUser);
 

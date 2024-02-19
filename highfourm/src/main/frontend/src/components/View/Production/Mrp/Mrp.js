@@ -73,7 +73,7 @@ const Mrp = () => {
     {
       title: '계획 수량',
       dataIndex: 'production_plan_amount',
-      render: (text) => text.toLocaleString()
+      render: (text) => text !== null ? parseInt(text).toLocaleString() : text
       // production_plan
     },
   ];
