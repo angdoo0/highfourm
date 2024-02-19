@@ -50,7 +50,6 @@ public interface MaterialHistoryRepository extends JpaRepository<MaterialHistory
     		+ "ORDER BY mh.materialHistoryId DESC")
     List<MaterialOrderListDTO> findMaterialHistoryByOrderDate(@Param("orderDate")String orderDate);
     
-    
     @Query("SELECT new himedia.project.highfourm.dto.material.MaterialOrderListDTO("
     		+ "mh.materialHistoryId, ma.materialId, mh.orderDate, mh.recievingDate, mh.standard,"
     		+ "mh.supplier, ms.totalStock, mh.inboundAmount, mh.orderAmount, mh.unitPrice, mh.note, ma.materialName, ma.unit) "
