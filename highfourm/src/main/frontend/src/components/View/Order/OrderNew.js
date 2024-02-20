@@ -168,24 +168,24 @@ const OrderList = () => {
             <div className='input-wrap'>
               <div className='input'>
                 <label htmlFor="vendor">거래처명</label>
-                <InputBar placeholderMsg={'거래처명'} name={'vendor'} id={'vendor'} onChange={handleInputChange} />
+                <InputBar placeholderMsg={'거래처명'} name={'vendor'} id={'vendor'} onChange={handleInputChange} required={true} />
               </div>
               <div className='input'>
                 <label htmlFor="manager">담당자</label>
-                <InputBar placeholderMsg={'manager'} name={'manager'} id={'manager'} onChange={handleInputChange} />
+                <InputBar placeholderMsg={'manager'} name={'manager'} id={'manager'} onChange={handleInputChange} required={true}/>
               </div>
               <div className='input'>
                 <label htmlFor="orderDate">주문일</label>
-                <InputBar placeholderMsg={'orderDate'} type={'date'} name={'orderDate'} inputId={'orderDate'} onChange={handleInputChange} />
+                <InputBar placeholderMsg={'orderDate'} type={'date'} name={'orderDate'} inputId={'orderDate'} onChange={handleInputChange} required={true}/>
               </div>
               <div className='input'>
                 <label htmlFor="dueDate">납기일</label>
-                <InputBar placeholderMsg={'dueDate'} type={'date'} name={'dueDate'} inputId={'dueDate'} onChange={handleInputChange} />
+                <InputBar placeholderMsg={'dueDate'} type={'date'} name={'dueDate'} inputId={'dueDate'} onChange={handleInputChange} required={true}/>
               </div>
             </div>
 
             <div className='order-new-table'>
-              <BasicTable dataSource={dataSource} defaultColumns={defaultColumns} onDelete={handleDelete} setDataSource={setDataSource} />
+              <BasicTable dataSource={dataSource} defaultColumns={defaultColumns} onDelete={handleDelete} setDataSource={setDataSource} required={true}/>
             </div>
             <div className='order-new-btn'>
               <div className='order-new-add-btn'>
