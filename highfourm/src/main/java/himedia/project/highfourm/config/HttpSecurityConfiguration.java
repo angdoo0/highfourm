@@ -24,15 +24,14 @@ public class HttpSecurityConfiguration {
 
 	@Bean
 	protected SecurityFilterChain securityFilterChain1(HttpSecurity http) throws Exception {
-		http.csrf(csrf -> csrf.disable())
-			.authorizeHttpRequests(authorizeHttpRequest -> authorizeHttpRequest
-					.requestMatchers("/", "/login", "/users/join/{empNo}").permitAll()
+		http.csrf(csrf -> csrf.disable());
+		http.authorizeHttpRequests(authorizeHttpRequest -> authorizeHttpRequest
+					.requestMatchers("/", "/login", "/users/join/**").permitAll()
 					.requestMatchers("/users", "/users/new", "/users/edit/{empNo}").hasRole("ADMIN")
 					.anyRequest().authenticated()
 					);
 		
-		http.formLogin(formlogin -> 
-			formlogin
+		http.formLogin(formlogin -> formlogin
 			.loginPage("/login")
 			.defaultSuccessUrl("/materials/stock", true)
 			.failureUrl("/login")
