@@ -134,7 +134,7 @@ create table IF NOT EXISTS stock_management (
 );
 
 create table IF NOT EXISTS material (
-    material_id varchar(50) unique NOT NULL COMMENT '원자재 코드',
+    material_id varchar(50) NOT NULL COMMENT '원자재 코드',
     material_name varchar(30) NOT NULL COMMENT '원자재명',
 	unit varchar(20) NOT NULL COMMENT '단위',
 	primary key(material_id)
