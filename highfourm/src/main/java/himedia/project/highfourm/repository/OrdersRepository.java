@@ -6,8 +6,8 @@ import java.util.List;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
+import org.springframework.data.repository.query.Param;
 
-import himedia.project.highfourm.dto.orders.OrdersDTO;
 import himedia.project.highfourm.entity.Orders;
 import jakarta.transaction.Transactional;
 
@@ -33,5 +33,5 @@ public interface OrdersRepository extends JpaRepository<Orders, String>{
 	@Transactional
     @Modifying
     @Query("UPDATE Orders o SET o.endingState = true WHERE o.orderId = :orderId")
-    void updateEndingStateToY(String orderId);
+    void updateEndingStateToY(@Param("orderId") String orderId);
 }

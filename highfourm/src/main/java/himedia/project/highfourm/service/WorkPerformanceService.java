@@ -80,7 +80,7 @@ public class WorkPerformanceService {
 			for(WorkPerformanceListDTO work : workPerfomanceList) {
 				productionAmountSum += work.getAcceptanceAmount();
 			}
-			if(plan.getProductionPlanAmount()>productionAmountSum) {
+			if(plan.getProductionPlanAmount() > productionAmountSum) {
 				isOrderUpdated = false;
 				break;
 			}
