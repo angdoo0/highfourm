@@ -1,7 +1,7 @@
 {
   "files": {
-    "main.css": "./static/css/main.90dba54c.css",
-    "main.js": "./static/js/main.298f01dc.js",
+    "main.css": "./static/css/main.f3407617.css",
+    "main.js": "./static/js/main.48618c7d.js",
     "static/media/SUIT-ExtraBold.woff2": "./static/media/SUIT-ExtraBold.6698d4b816108fd73d53.woff2",
     "static/media/SUIT-Bold.woff2": "./static/media/SUIT-Bold.d76a0e6e23cdb97a5d26.woff2",
     "static/media/SUIT-SemiBold.woff2": "./static/media/SUIT-SemiBold.dd3b1ed6cfdd3350aa6a.woff2",
@@ -12,12 +12,11 @@
     "static/media/SUIT-ExtraLight.woff2": "./static/media/SUIT-ExtraLight.e9f98e70b7d371f15d9a.woff2",
     "static/media/SUIT-Thin.woff2": "./static/media/SUIT-Thin.f1d002b8a6aaa3a99584.woff2",
     "index.html": "./index.html",
-    "main.90dba54c.css.map": "./static/css/main.90dba54c.css.map",
-    "main.298f01dc.js.map": "./static/js/main.298f01dc.js.map"
+    "main.f3407617.css.map": "./static/css/main.f3407617.css.map",
+    "main.48618c7d.js.map": "./static/js/main.48618c7d.js.map"
   },
   "entrypoints": [
-    "static/css/main.90dba54c.css",
-    "static/js/main.298f01dc.js"
-
+    "static/css/main.f3407617.css",
+    "static/js/main.48618c7d.js"
   ]
 }

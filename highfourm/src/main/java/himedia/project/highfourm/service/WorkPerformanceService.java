@@ -13,6 +13,7 @@ import himedia.project.highfourm.entity.MaterialStock;
 import himedia.project.highfourm.entity.ProductionPlan;
 import himedia.project.highfourm.entity.RequiredMaterial;
 import himedia.project.highfourm.repository.MaterialStockRepository;
+import himedia.project.highfourm.repository.OrdersRepository;
 import himedia.project.highfourm.repository.ProductionPlanRepository;
 import himedia.project.highfourm.repository.RequiredMaterialRepository;
 import himedia.project.highfourm.repository.WorkPerformanceRepository;
@@ -28,11 +29,13 @@ public class WorkPerformanceService {
 	private final ProductionPlanRepository productionPlanRepository;
 	private final MaterialStockRepository materialStockRepository;
 	private final RequiredMaterialRepository requiredMaterialRepository;
+	private final OrdersRepository ordersRepository;
 	
 	public List<WorkPerformanceListDTO> findList() {
 		List<WorkPerformanceListDTO> resultList = workPerformanceRepository.findList();
 		return resultList;
 	}
+	
 	public List<WorkPerformanceDTO> findAll() {
 		List<WorkPerformanceDTO> resultList = workPerformanceRepository.findAll()
 				.stream().map(workPerformance -> 
@@ -40,29 +43,19 @@ public class WorkPerformanceService {
 		return resultList;
 	}
 	
-	public List<WorkPerformanceListDTO> findByProductionPlanId(String productionPlanId) {
-		List<WorkPerformanceListDTO> resultList = workPerformanceRepository.findByProductionPlanId(productionPlanId);
-		return resultList;
-	}
-	
-	public List<WorkPerformanceListDTO> findByManager(String manager) {
-		List<WorkPerformanceListDTO> resultList = workPerformanceRepository.findByManager(manager);
-		return resultList;
-	}
-	
-	public List<WorkPerformanceListDTO> findByProductName(String productName) {
-		List<WorkPerformanceListDTO> resultList = workPerformanceRepository.findByProductName(productName);
-		return resultList;
-	}
-	
 	@Transactional
-	public void saveWorkPerformanceAndUpdateMaterialStock(WorkPerformanceDTO workPerformanceDTO) {
-		Long productionAmount = workPerformanceDTO.getProductionAmount();
-		Optional<ProductionPlan> productionPlan = productionPlanRepository.findById(workPerformanceDTO.getProductionPlanId());
-		List<RequiredMaterial> requiredMaterial = requiredMaterialRepository.findAllByProductId(productionPlan.get().getProduct().getProductId());
+	public void saveWorkPerformanceAndUpdateMaterialStock(WorkPerformanceListDTO workPerformancelistDTO) {
+		//원자재 재고 업데이트
+		Long productionAmount = workPerformancelistDTO.getProductionAmount();
+		Optional<ProductionPlan> productionPlan = productionPlanRepository.findById(workPerformancelistDTO.getProductionPlanId());
+		List<RequiredMaterial> requiredMaterial = requiredMaterialRepository.findAllByProductId(workPerformancelistDTO.getProductId());
+		//주문 상태 체크 
+		String productionPlanId = workPerformancelistDTO.getProductionPlanId();
+		String orderId = productionPlanRepository.findById(productionPlanId).get().getOrders().getOrderId();
+		List<ProductionPlan> productionPlanList = productionPlanRepository.findByOrdersOrderId(orderId);
 		
 		if (productionPlan.isPresent()) {
-	        workPerformanceRepository.save(workPerformanceDTO.toEntity(productionPlan.get()));
+	        workPerformanceRepository.save(workPerformancelistDTO.toWorkPerformanceDTO().toEntity(productionPlan.get()));
 	        for (RequiredMaterial material : requiredMaterial) {
                 // 소요량 * 생산량
                 Long requiredAmount = material.getInputAmount() * productionAmount;
@@ -75,11 +68,27 @@ public class WorkPerformanceService {
                     materialStock.get().updateMaterialStock(updatedStock);
                 }
             }
-	        //materialStock.get().updateMaterialStock(materialStock.get().getTotalStock() - productionAmount);
 	    } else {
 	        // ProductionPlan이 존재하지 않을 경우 처리 로직
 	    	log.info("생산 계획이 없음");
 	    }
+		
+		boolean isOrderUpdated = true;
+		for(ProductionPlan plan : productionPlanList) {
+			Long productionAmountSum= 0l;
+			List<WorkPerformanceListDTO> workPerfomanceList = workPerformanceRepository.findByProductionPlanId(plan.getProductionPlanId());
+			for(WorkPerformanceListDTO work : workPerfomanceList) {
+				productionAmountSum += work.getAcceptanceAmount();
+			}
+			if(plan.getProductionPlanAmount()>productionAmountSum) {
+				isOrderUpdated = false;
+				break;
+			}
+		}
+		if(isOrderUpdated) {
+			ordersRepository.updateEndingStateToY(orderId);
+		}
+		
 	}
 	public List<WorkPerformanceListDTO> search(String searchType, String search) {
 		List<WorkPerformanceListDTO> workPerformanceList = new ArrayList<WorkPerformanceListDTO>();
