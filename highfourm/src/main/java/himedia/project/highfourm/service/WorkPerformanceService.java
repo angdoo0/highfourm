@@ -44,18 +44,13 @@ public class WorkPerformanceService {
 	}
 	
 	@Transactional
-	public void saveWorkPerformanceAndUpdateMaterialStock(WorkPerformanceListDTO workPerformancelistDTO) {
-		//원자재 재고 업데이트
-		Long productionAmount = workPerformancelistDTO.getProductionAmount();
-		Optional<ProductionPlan> productionPlan = productionPlanRepository.findById(workPerformancelistDTO.getProductionPlanId());
-		List<RequiredMaterial> requiredMaterial = requiredMaterialRepository.findAllByProductId(workPerformancelistDTO.getProductId());
-		//주문 상태 체크 
-		String productionPlanId = workPerformancelistDTO.getProductionPlanId();
-		String orderId = productionPlanRepository.findById(productionPlanId).get().getOrders().getOrderId();
-		List<ProductionPlan> productionPlanList = productionPlanRepository.findByOrdersOrderId(orderId);
+	public void saveWorkPerformanceAndUpdateMaterialStock(WorkPerformanceDTO workPerformanceDTO) {
+		Long productionAmount = workPerformanceDTO.getProductionAmount();
+		Optional<ProductionPlan> productionPlan = productionPlanRepository.findById(workPerformanceDTO.getProductionPlanId());
+		List<RequiredMaterial> requiredMaterial = requiredMaterialRepository.findAllByProductId(productionPlan.get().getProduct().getProductId());
 		
 		if (productionPlan.isPresent()) {
-	        workPerformanceRepository.save(workPerformancelistDTO.toWorkPerformanceDTO().toEntity(productionPlan.get()));
+	        workPerformanceRepository.save(workPerformanceDTO.toEntity(productionPlan.get()));
 	        for (RequiredMaterial material : requiredMaterial) {
                 // 소요량 * 생산량
                 Long requiredAmount = material.getInputAmount() * productionAmount;
@@ -68,27 +63,11 @@ public class WorkPerformanceService {
                     materialStock.get().updateMaterialStock(updatedStock);
                 }
             }
+	        //materialStock.get().updateMaterialStock(materialStock.get().getTotalStock() - productionAmount);
 	    } else {
 	        // ProductionPlan이 존재하지 않을 경우 처리 로직
 	    	log.info("생산 계획이 없음");
 	    }
-		
-		boolean isOrderUpdated = true;
-		for(ProductionPlan plan : productionPlanList) {
-			Long productionAmountSum= 0l;
-			List<WorkPerformanceListDTO> workPerfomanceList = workPerformanceRepository.findByProductionPlanId(plan.getProductionPlanId());
-			for(WorkPerformanceListDTO work : workPerfomanceList) {
-				productionAmountSum += work.getAcceptanceAmount();
-			}
-			if(plan.getProductionPlanAmount()>productionAmountSum) {
-				isOrderUpdated = false;
-				break;
-			}
-		}
-		if(isOrderUpdated) {
-			ordersRepository.updateEndingStateToY(orderId);
-		}
-		
 	}
 	public List<WorkPerformanceListDTO> search(String searchType, String search) {
 		List<WorkPerformanceListDTO> workPerformanceList = new ArrayList<WorkPerformanceListDTO>();
