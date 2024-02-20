@@ -12,7 +12,6 @@ import PageTitle from '../../Common/PageTitle';
 
 const OrderList = () => {
   const navigate = useNavigate();
-
   const [dataSource, setDataSource] = useState([]);
   const [count, setCount] = useState(dataSource.length);
   const [productOptions, setProductOptions] = useState([]);
@@ -86,9 +85,9 @@ const OrderList = () => {
     const newData = {
       key: count, // 'key' 필드를 추가하여 각 행을 식별
       productName: '', // 초기 제품명 값 설정
-      amount: 0,
-      unitPrice: 0,
-      price: 0,
+      amount: null,
+      unitPrice: null,
+      price: null,
     };
     setDataSource([...dataSource, newData]);
     setCount(count + 1);
@@ -105,23 +104,6 @@ const OrderList = () => {
     setDataSource(newData);
   };
 
-  const props = {
-    action: 'https://run.mocky.io/v3/435e224c-44fb-4773-9faf-380c5e6a2188',
-    onChange({ file, fileList }) {
-      if (file.status !== 'uploading') {
-        console.log(file, fileList);
-      }
-    },
-    defaultFileList: [
-      {
-        uid: '1',
-        name: '나주상사주문서.pdf',
-        status: 'uploading',
-        url: 'http://www.baidu.com/xxx.png',
-        percent: 33,
-      },
-    ],
-  };
 
   const defaultColumns = [
     {
@@ -148,16 +130,22 @@ const OrderList = () => {
       title: '수량',
       dataIndex: 'amount',
       editable: true,
+      render: text => new Intl.NumberFormat('ko-KR').format(text),
     },
     {
       title: '단가(원)',
       dataIndex: 'unitPrice',
       editable: true,
+      render: text => new Intl.NumberFormat('ko-KR').format(text),
     },
     {
       title: '합(원)',
       dataIndex: 'price',
-      render: (_, record) => `${record.amount * record.unitPrice}`,
+      render: (_, record) => {
+        // Intl.NumberFormat을 사용하여 숫자 포맷팅
+        const formattedPrice = new Intl.NumberFormat('ko-KR').format(record.amount * record.unitPrice);
+        return `${formattedPrice}`;
+      },
     },
     {
       title: '삭제',
@@ -195,6 +183,7 @@ const OrderList = () => {
                 <InputBar placeholderMsg={'dueDate'} type={'date'} name={'dueDate'} inputId={'dueDate'} onChange={handleInputChange} />
               </div>
             </div>
+
             <div className='order-new-table'>
               <BasicTable dataSource={dataSource} defaultColumns={defaultColumns} onDelete={handleDelete} setDataSource={setDataSource} />
             </div>

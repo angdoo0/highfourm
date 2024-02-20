@@ -134,13 +134,15 @@ const ProductionPlan = () => {
       {
         title: '주문 수량',
         dataIndex: 'productAmount',
+        render: text => new Intl.NumberFormat('ko-KR').format(text),
       },
       {
         title: '생산 계획 수량',
         dataIndex: 'productionPlanAmount',
         render: (text, record) => {
           return record.edit ?
-            text : (<Input
+          new Intl.NumberFormat('ko-KR').format(text) : 
+          (<Input
               defaultValue={text}
               type="number"
               style={{ border: 'none', boxShadow: 'none', backgroundColor: 'transparent' }}
@@ -190,7 +192,7 @@ const ProductionPlan = () => {
               type="number"
               style={{ border: 'none', boxShadow: 'none', backgroundColor: 'transparent' }}
               onChange={e => updateMonthlyProductionPlan(record.key, e.target.value)}
-            /> : text
+            /> : new Intl.NumberFormat('ko-KR').format(text)
         ),
       },
     ];
@@ -304,14 +306,12 @@ const ProductionPlan = () => {
               <h2 className='bordered-box-title'>월별 생산 계획</h2>
               <hr className='box-title-line' />
             </div>
-            <div className='.clickable-table tbody'>
-              <BasicTable
-                dataSource={monthlyProductionPlans}
-                defaultColumns={getMonthlyProductionPlanColumns()}
-                setDataSource={setMonthlyProductionPlans}
-                pagination={false}
-                />
-              </div>
+            <BasicTable
+              dataSource={monthlyProductionPlans}
+              defaultColumns={getMonthlyProductionPlanColumns()}
+              setDataSource={setMonthlyProductionPlans}
+              pagination={false}
+            />
             <div style={{ margin: '10px 0 0 0' }}>
               {!selectedProductionPlan.edit && <BtnBlue value={'저장'} onClick={onclick => handleSave()} />}
             </div>
