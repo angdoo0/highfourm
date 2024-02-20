@@ -41,19 +41,28 @@ public class FileController {
 	public void uploadFile(@RequestParam("file") MultipartFile file) {
 		log.info("컨트롤러 호출됨");
 		try {
-			String originalFileName = file.getOriginalFilename();
-			String changedFileName = UUID.randomUUID().toString();
-			String fileExtension = "";
+	        java.io.File uploadDirectory = new java.io.File(uploadDir);
+	        if (!uploadDirectory.exists()) {
+	            boolean wasSuccessful = uploadDirectory.mkdirs();
+	            if (!wasSuccessful) {
+	                log.error("업로드 디렉토리 생성 실패: " + uploadDir);
+	                return; 
+	            }
+	        }
 
-			if (originalFileName.contains(".")) {
-				fileExtension = originalFileName.substring(originalFileName.lastIndexOf("."));
-			}
+	        String originalFileName = file.getOriginalFilename();
+	        String changedFileName = UUID.randomUUID().toString();
+	        String fileExtension = "";
 
-			changedFileName += fileExtension;
+	        if (originalFileName.contains(".")) {
+	            fileExtension = originalFileName.substring(originalFileName.lastIndexOf("."));
+	        }
 
-			String filePath = uploadDir + java.io.File.separator + changedFileName;
-			java.io.File dest = new java.io.File(filePath);
-			file.transferTo(dest);
+	        changedFileName += fileExtension;
+
+	        String filePath = uploadDir + java.io.File.separator + changedFileName;
+	        java.io.File dest = new java.io.File(filePath);
+	        file.transferTo(dest);
 
 			FileDTO fileInfo = new FileDTO();
 			fileInfo.setOriginalName(originalFileName);
