@@ -13,7 +13,6 @@ import himedia.project.highfourm.entity.MaterialStock;
 import himedia.project.highfourm.entity.ProductionPlan;
 import himedia.project.highfourm.entity.RequiredMaterial;
 import himedia.project.highfourm.repository.MaterialStockRepository;
-import himedia.project.highfourm.repository.OrdersRepository;
 import himedia.project.highfourm.repository.ProductionPlanRepository;
 import himedia.project.highfourm.repository.RequiredMaterialRepository;
 import himedia.project.highfourm.repository.WorkPerformanceRepository;
@@ -29,17 +28,30 @@ public class WorkPerformanceService {
 	private final ProductionPlanRepository productionPlanRepository;
 	private final MaterialStockRepository materialStockRepository;
 	private final RequiredMaterialRepository requiredMaterialRepository;
-	private final OrdersRepository ordersRepository;
 	
 	public List<WorkPerformanceListDTO> findList() {
 		List<WorkPerformanceListDTO> resultList = workPerformanceRepository.findList();
 		return resultList;
 	}
-	
 	public List<WorkPerformanceDTO> findAll() {
 		List<WorkPerformanceDTO> resultList = workPerformanceRepository.findAll()
 				.stream().map(workPerformance -> 
 					workPerformance.toWorkPerformanceDTO()).collect(Collectors.toList());
+		return resultList;
+	}
+	
+	public List<WorkPerformanceListDTO> findByProductionPlanId(String productionPlanId) {
+		List<WorkPerformanceListDTO> resultList = workPerformanceRepository.findByProductionPlanId(productionPlanId);
+		return resultList;
+	}
+	
+	public List<WorkPerformanceListDTO> findByManager(String manager) {
+		List<WorkPerformanceListDTO> resultList = workPerformanceRepository.findByManager(manager);
+		return resultList;
+	}
+	
+	public List<WorkPerformanceListDTO> findByProductName(String productName) {
+		List<WorkPerformanceListDTO> resultList = workPerformanceRepository.findByProductName(productName);
 		return resultList;
 	}
 	
