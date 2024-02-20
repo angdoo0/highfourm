@@ -25,9 +25,11 @@ import himedia.project.highfourm.entity.File;
 import himedia.project.highfourm.service.FileService;
 import himedia.project.highfourm.service.OrderService;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 
 @RestController
 @RequiredArgsConstructor
+@Slf4j
 public class FileController {
 
 	private final FileService fileService;
@@ -37,6 +39,7 @@ public class FileController {
 
 	@PostMapping("/api/orders/new/upload")
 	public void uploadFile(@RequestParam("file") MultipartFile file) {
+		log.info("컨트롤러 호출됨");
 		try {
 			String originalFileName = file.getOriginalFilename();
 			String changedFileName = UUID.randomUUID().toString();
@@ -58,8 +61,10 @@ public class FileController {
 			fileInfo.setFileType(file.getContentType());
 			fileInfo.setFileSize(Long.toString(file.getSize()));
 			fileInfo.setFilePath(filePath);
-
+			log.info("파일 설정됨");
+			
 			String pdfPath = "/home/ec2-user/app/uploads" + changedFileName;
+			log.info("pdfPath -> {}" , pdfPath);
 
 			Map<String, Object> orderInfo = fileService.extractTableFromPdf(pdfPath);
 			List<List<String>> orderData = (List<List<String>>) orderInfo.get("order");
