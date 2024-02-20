@@ -15,7 +15,7 @@ const OrderList = () => {
   const navigate = useNavigate();
   const location = useLocation();
   const [orders, setOrders] = useState([]);
-  const uploadUrl = 'http://localhost:8080/api/orders/new/upload';
+  const uploadUrl = 'http://43.201.16.255:9999/api/orders/new/upload';
   const searchParams = new URLSearchParams(location.search);
   const searchTypeParam = searchParams.get('searchType');
   const searchValueParam = searchParams.get('search');
