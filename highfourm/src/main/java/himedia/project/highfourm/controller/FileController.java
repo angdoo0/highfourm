@@ -95,6 +95,7 @@ public class FileController {
 			fileService.save(fileInfo);
 
 		} catch (IOException e) {
+			log.info("{}",e);
 		}
 	}
 
