@@ -41,7 +41,7 @@ import jakarta.mail.internet.MimeMultipart;
 /**
  * @author 한혜림
  */
-//@Service
+@Service
 public class GmailService {
 
     private static final String APPLICATION_NAME = "highfourm";
