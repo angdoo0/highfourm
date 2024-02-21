@@ -11,6 +11,7 @@ services:
       - file.upload-dir=/app/uploads
     ports:
       - "9999:8080"
+    restart: always
     depends_on:
       - database
     command:
