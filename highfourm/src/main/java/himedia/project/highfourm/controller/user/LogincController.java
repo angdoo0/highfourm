@@ -16,6 +16,10 @@ public class LogincController {
 	public String login() {
 		return "login";
 	}
+	@GetMapping("/login")
+	public String loginPage() {
+		return "login";
+	}
 	
 }
 

@@ -26,8 +26,8 @@ public class HttpSecurityConfiguration {
 	protected SecurityFilterChain securityFilterChain1(HttpSecurity http) throws Exception {
 		http.csrf(csrf -> csrf.disable())
 			.authorizeHttpRequests(authorizeHttpRequest -> authorizeHttpRequest
-					.requestMatchers("/", "/login", "/users/join/{empNo}").permitAll()
-					.requestMatchers("/users", "/users/new", "/users/edit/{empNo}").hasRole("ADMIN")
+					.requestMatchers("/", "/login", "/users/join/**").permitAll()
+					.requestMatchers("/users", "/users/new", "/users/edit/**").hasRole("ADMIN")
 					.anyRequest().authenticated()
 					);
 		
@@ -55,7 +55,7 @@ public class HttpSecurityConfiguration {
 		http.logout(logout -> 
 			logout
 			.logoutUrl("/api/logout")
-			.logoutSuccessUrl("/")
+			.logoutSuccessUrl("/login")
 			.invalidateHttpSession(true)
 			);
 		return http.build();
