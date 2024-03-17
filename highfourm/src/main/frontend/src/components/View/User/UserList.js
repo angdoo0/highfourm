@@ -65,8 +65,8 @@ const UserList = () => {
       data: JSON.stringify(deleteUserNo),
       headers: { 'Content-Type': 'application/json' },
     })
-      .then(
-        alert(`${deleteUserInfo} 사원이 삭제되었습니다`),
+      .then(res =>
+        res.status >= 200 && res.status < 300 ? alert(`${deleteUserInfo} 사원이 삭제되었습니다`) : null
       )
       .catch(e => alert('삭제가 실패했습니다'));
   }
@@ -76,16 +76,17 @@ const UserList = () => {
       title: '사원명',
       dataIndex: 'user_name',
       width: '20%',
-      render: (text, record) => <a href={`/users/edit/${record.emp_no}`}>{text}</a>
+      render: (text, record) => <a className='user' href={`/users/edit/${record.emp_no}`}>{text}</a>
     },
     {
       title: '사번',
       dataIndex: 'emp_no',
-      render: (text, record) => <a href={`/users/edit/${record.emp_no}`}>{text}</a>
+      render: (text, record) => <a className='user' href={`/users/edit/${record.emp_no}`}>{text}</a>
     },
     {
       title: '이메일',
       dataIndex: 'email',
+      render: (text, record) => <a className='user' href={`/users/edit/${record.emp_no}`}>{text}</a>
     },
     {
       title: '가입 여부',

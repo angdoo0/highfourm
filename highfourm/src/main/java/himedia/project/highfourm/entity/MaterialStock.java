@@ -57,6 +57,7 @@ public class MaterialStock {
 		this.leadTime = leadTime;
 	}
 	
+	@Builder
 	public void updateMaterialStock(Long materialInventory) {
 		this.totalStock = materialInventory;
 	}

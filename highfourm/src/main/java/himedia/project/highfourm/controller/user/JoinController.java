@@ -9,6 +9,7 @@ import org.springframework.web.bind.WebDataBinder;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.InitBinder;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
@@ -37,21 +38,31 @@ public class JoinController {
 	}
 	
 	//회원가입 폼
-	@GetMapping("/users/join/{empNo}")
-	public String signUp(@PathVariable("empNo") Long empNo, @RequestParam("token") String token, Model model) throws Exception {
-		
-		EmailToken emailToken = emailService.findByUserNoAndExpirationDateAfterAndExpired(token);
-		
-		if(token.equals(emailToken.getId())) {
-			UserJoinFormDTO userJoinFormDTO = joinService.findByEmpNO(empNo);
-			model.addAttribute("userJoinFormDTO", userJoinFormDTO);
-			return "join";
-		}
-		return "/";
-	}
+    @GetMapping("/users/join/{empNo}")
+    public String signUp(@PathVariable("empNo") Long empNo, Model model) throws Exception {
+    	UserJoinFormDTO userJoinFormDTO = joinService.findByEmpNO(empNo);
+    	model.addAttribute("userJoinFormDTO", userJoinFormDTO);
+    	return "join";
+    }
+//    @GetMapping("/users/join/{empNo}/{token}")
+//    public String signUp(@PathVariable("empNo") Long empNo, @PathVariable("token") String token, Model model) throws Exception {
+//    	try {
+//    		EmailToken emailToken = emailService.findByToken(token);
+//    		if (token.equals(emailToken.getId())) {
+//    			UserJoinFormDTO userJoinFormDTO = joinService.findByEmpNO(empNo);
+//    			model.addAttribute("userJoinFormDTO", userJoinFormDTO);
+//    			return "join";
+//    		}else {
+//    			return"tokenError";
+//    		}
+//    	} catch (Exception e) {
+//    		return "tokenError";
+//    	}
+//
+//    }
 	
 	//회원가입 처리
-	@PutMapping("/users/join/")
+	@PostMapping("/users/join/{empNo}")
 	public String signUpProcess(@PathVariable("empNo") Long empNo,
 			@Valid UserJoinFormDTO joinDTO, BindingResult bindingResult,  Model model) {
 		
@@ -66,13 +77,6 @@ public class JoinController {
 			
 			return "join";
 		}
-		
-//		if(!joinDTO.getPassword().equals(joinDTO.getPasswordCheck())) {
-//			model.addAttribute("userJoinFormDTO", joinDTO);
-//			bindingResult.rejectValue("password", "passwordInCorrect",
-//					"2개의 패스워드가 일치하지 않습니다.");
-//			return "join";
-//		}
 		
 		joinService.joinProcess(joinDTO, empNo);
 		return "redirect:/";

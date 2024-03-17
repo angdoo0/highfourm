@@ -18,6 +18,7 @@ import himedia.project.highfourm.dto.user.UserEditDTO;
 import himedia.project.highfourm.service.UserService;
 import himedia.project.highfourm.service.email.EmailService;
 import himedia.project.highfourm.service.email.GmailService;
+import himedia.project.highfourm.service.email.SmtpEmailService;
 import jakarta.mail.MessagingException;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
@@ -33,7 +34,8 @@ public class UserHtmlController {
 
 	private final UserService service;
 	private final EmailService emailService;
-	private final GmailService gmailService;
+//	private final GmailService gmailService;
+	private final SmtpEmailService smtpEmailService;
 	
 	/**
 	 * 사용자 등록 페이지
@@ -65,7 +67,8 @@ public class UserHtmlController {
 			return "userForm";
 		}
 		
-		gmailService.sendEmail(userAddDTO, authentication);
+//		gmailService.sendEmail(userAddDTO, authentication);
+		smtpEmailService.createEmail(userAddDTO, authentication);	
 		return "redirect:/users";
 	}
 	
@@ -83,8 +86,8 @@ public class UserHtmlController {
 	/**
 	 * 사용자 수정
 	 */
-	@PutMapping("/users/edit/{empNo}")
-	public String editUser(@PathVariable("empNo") Long empNo, @ModelAttribute @Valid UserEditDTO userEditDto, 
+	@PutMapping("/users/edit/{userNo}")
+	public String editUser(@PathVariable("userNo") Long userNo, @ModelAttribute @Valid UserEditDTO userEditDto, 
 			BindingResult bindingResult, Model model) {
 		if (bindingResult.hasErrors()) {
 			return "userEditForm";
@@ -101,7 +104,7 @@ public class UserHtmlController {
 	public String viewConfirmEmail(@RequestParam(value = "token") String token, @RequestParam(value = "empNo") Long empNo) {
 		try {
 			emailService.confirmEmail(token);
-			return "redirect:/users/join/"+empNo.toString()+"?token="+token;
+			return "redirect:/users/join/"+empNo.toString();
 		} catch (Exception e) {
 			return "tokenError";
 		}

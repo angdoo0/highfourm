@@ -3,7 +3,7 @@ insert into company values(null, 'LG');
 
 insert into users(user_name, emp_no, position, birth, email, company_id) values ('홍길동', 1000, '사원', '1999-01-01', 'hong333@gmail.com', 1);
 insert into users(user_name, emp_no, position, birth, email, company_id, register_state) values ('박보검', 1001, '대리', '1990-01-01', 'park1@gmail.com', 2, 'Y');
-insert into users values (null, 'admin@highfourm.com', '$2a$10$lWxWaykWnxXBLsohj.rcZeoeBvEwjuc4gybe.RzpBWK40JfIiTyNS', '하이포엠', 01, '총관리자', '1990-01-01', 'secondoneHH3@gmail.com', 2, 'Y', 'ADMIN');
+insert into users values (null, 'admin', '$2a$10$lWxWaykWnxXBLsohj.rcZeoeBvEwjuc4gybe.RzpBWK40JfIiTyNS', '하이포엠', 01, '총관리자', '1990-01-01', 'secondoneHH3@gmail.com', 2, 'Y', 'ADMIN');
 
 insert into stock_management values(null, '정량');
 insert into stock_management values(null, '정기');
@@ -52,20 +52,20 @@ values
 
 insert into material_stock
 values
-('mt-01', 1, 10000, 100000, 7, 0),
-('mt-02', 1, 10000, 100000, 8, 0),
-('mt-03', 2, 10000, 60000, 7, 0),
-('mt-04', 2, 10000, 30000, 5, 0),
-('mt-05', 1,10000, 300000, 6, 0),
-('mt-06', 1,1500, 30000, 5, 0),
+('mt-01', 1, 10000, 100000, 7, 50000),
+('mt-02', 1, 10000, 100000, 8, 50000),
+('mt-03', 2, 10000, 60000, 7, 50000),
+('mt-04', 2, 10000, 30000, 5, 20000),
+('mt-05', 1, 10000, 300000, 6, 20000),
+('mt-06', 1, 3000, 30000, 5, 9000),
 ('mt-07', 3, null, 6000, null, 0),
 ('mt-08', 2, 1000, 6000, 6, 0),
 ('mt-09', 2, 100, 6000, 7, 0),
-('mt-10', 3, null, 6000, null, 0),
-('mt-11', 2, 100, 10000, 6, 0),
-('mt-12', 1, 100, 10000, 7, 0),
-('mt-13', 3, null, 20000, null,  0),
-('mt-14', 2, 2000, 20000, 5, 0);
+('mt-10', 3, null, 5000, null, 10000),
+('mt-11', 2, 1000, 100000, 6, 8000),
+('mt-12', 1, 1000, 100000, 7, 6000),
+('mt-13', 3, null, 20000, null,  18000),
+('mt-14', 2, 2000, 20000, 5, 8000);
 
 insert into material_history
 values

@@ -18,7 +18,6 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 
 @Getter
-// @Builder
 @Entity
 @NoArgsConstructor
 @Table(name = "production_plan")
@@ -44,11 +43,11 @@ public class ProductionPlan {
 	@Column(name = "production_start_date")
 	private LocalDate productionStartDate;
 	
-	@OneToMany(mappedBy = "productionPlan", cascade = CascadeType.ALL)
-	private List<MonthlyProductionPlan> monthlyProductionPlans = new ArrayList<>();
-	
 	@OneToMany(mappedBy = "productionPlan")
 	private List<WorkPerformance> workPerformances;
+	
+	@OneToMany(mappedBy = "productionPlan", cascade = CascadeType.ALL)
+	private List<MonthlyProductionPlan> monthlyProductionPlans = new ArrayList<>();
 	
 	public ProductionPlanFormDTO toDTO() {
 		return ProductionPlanFormDTO.builder()
@@ -75,11 +74,7 @@ public class ProductionPlan {
 		this.workPerformances = workPerformances;
 	}
 	
-//   public void addMonthlyProductionPlan(MonthlyProductionPlan monthlyPlan) {
-//        this.monthlyProductionPlans.add(monthlyPlan);
-//        monthlyPlan.assignProductionPlan(this);
-//   }
-	
+
 	public void updateProductionPlan(Long productionPlanAmount, LocalDate productionStartDate,List<MonthlyProductionPlan> monthlyProductionPlan) {
 		this.productionPlanAmount = productionPlanAmount;
 		this.productionStartDate = productionStartDate;

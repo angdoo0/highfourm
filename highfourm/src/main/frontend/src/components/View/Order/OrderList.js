@@ -1,25 +1,27 @@
 import React, { useState, useEffect, } from 'react';
-import { AudioOutlined } from '@ant-design/icons'; //PDF 파일용. 삭제x
-
-import { Space } from 'antd';
+import { Upload, Button, Modal } from 'antd';
 import axios from 'axios';
 import PageTitle from '../../Common/PageTitle';
 import { BtnBlack, BtnFilter, SearchInput, SearchSelectBox } from '../../Common/Module';
 import BasicTable from '../../Common/Table/BasicTable';
-import { Document, Page } from 'react-pdf'; //PDF파일용. 삭제 x
+import { Document, Page, pdfjs } from 'react-pdf'; //PDF파일용. 삭제 x
+import { UploadOutlined, AudioOutlined } from '@ant-design/icons';
 import { useNavigate, useLocation, useParams } from 'react-router';
+pdfjs.GlobalWorkerOptions.workerSrc = `//cdnjs.cloudflare.com/ajax/libs/pdf.js/${pdfjs.version}/pdf.worker.js`;
+
 const onSearch = (value, _e, info) => console.log(info?.source, value);
 
 const OrderList = () => {
   const navigate = useNavigate();
   const location = useLocation();
   const [orders, setOrders] = useState([]);
-  const { orderId } = useParams();
+  const uploadUrl = 'http://43.201.16.255:9999/api/orders/new/upload';
   const searchParams = new URLSearchParams(location.search);
   const searchTypeParam = searchParams.get('searchType');
   const searchValueParam = searchParams.get('search');
   const [searchType, setSearchType] = useState('주문 번호');
   const currentURL = window.location.pathname;
+  const [pdfFile, setPdfFile] = useState('');
 
   useEffect(() => {
     async function fetchData() {
@@ -43,15 +45,18 @@ const OrderList = () => {
             ...detail,
             productName: productNames[detail.productId]
           }));
-          return { ...order, orderDetails: detailsWithProductName };
+          return { ...order, orderDetails: detailsWithProductName, key: order.orderId };
         });
         setOrders(updatedOrders);
       } catch (error) {
         console.error('Error fetching data:', error);
       }
     }
+    if (pdfFile) {
+      console.log('Current PDF file URL:', pdfFile);
+    }
     fetchData();
-  }, [location, searchTypeParam, searchValueParam]);
+  }, [location, searchTypeParam, searchValueParam, pdfFile]);
 
   const defaultColumns = [
     {
@@ -111,6 +116,20 @@ const OrderList = () => {
     navigate(`/orders/search?searchType=${encodeURIComponent(searchType)}&search=${encodeURIComponent(value)}`);
   }
 
+  const props = {
+    action: uploadUrl,
+    onChange({ file, fileList }) {
+      if (file.status !== 'uploading') {
+        console.log(file, fileList);
+      }
+      if (file.status === 'done') {
+        console.log(`${file.name} file uploaded successfully`);
+        window.location.reload();
+      } else if (file.status === 'error') {
+        console.log(`${file.name} file upload failed.`);
+      }
+    },
+  };
 
   return (
     <>
@@ -120,16 +139,28 @@ const OrderList = () => {
         <SearchInput id={'search'} name={'search'} onSearch={onSearch} />
       </div>
       <div className='order-list-page'>
-        <div className='order-list-wrap'>
-          <div className='order-new'>
-            <BtnBlack value={'주문 등록'} onClick={() => window.location.href = '/orders/new'} />
+        <div className='order-list-wrap' style={{ width: '250px', display: 'flex' }}>
+          <div className='order-new' style={{ marginRight: 'auto' }}>
+            <BtnBlack value={'수동 등록'} onClick={() => window.location.href = '/orders/new'} />
           </div>
-          {/* <div className='order-filter'>
-            <BtnFilter valueArr={['전체', '진행중', '완료']} linkArr={['']} />
-          </div> */}
+          <div style={{ verticalAlign: 'center' }}>
+            <Upload {...props}>
+              <Button icon={<UploadOutlined />}>PDF 등록</Button>
+            </Upload>
+          </div>
         </div>
       </div>
-      <BasicTable dataSource={orders} defaultColumns={defaultColumns} />
+      <div className='.clickable-table tbody'>
+        <BasicTable
+          dataSource={orders}
+          defaultColumns={defaultColumns}
+          pagination={true}
+        /*           onRowClick={(record, rowIndex, event) => {
+                    console.log("Row clicked:", record, rowIndex);
+                    handleRowClick(record)
+                  }} */
+        />
+      </div>
     </>
   )
 }

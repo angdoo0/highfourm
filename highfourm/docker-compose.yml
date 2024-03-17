@@ -8,14 +8,18 @@ services:
       dockerfile: Dockerfile-app
     environment:
       - TZ=Asia/Seoul
+      - file.upload-dir=/app/uploads
     ports:
       - "9999:8080"
+    restart: always
     depends_on:
       - database
     command:
       - --character-set-server=utf8mb4
       - --collation-server=utf8mb4_unicode_ci
       - --character-set-client-handshake=FALSE   
+    volumes:
+      - /home/ec2-user/app/uploads:/app/uploads
 
   database:
     container_name: highfourm-db

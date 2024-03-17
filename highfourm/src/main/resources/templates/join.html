@@ -80,7 +80,7 @@
 		<div class="input-form col-md-12 mx-auto">
 			<div style="display: flex; flex-direction: column; align-items: center;">
 				<h2 class="fw-bold">사용자 계정 생성</h2>
-				<form th:method="PUT" th:action="@{/users/join/{empNo}(empNo=${userJoinFormDTO.empNo})}" class="mt-5 needs-validation" novalidate th:object="${userJoinFormDTO}" >
+				<form th:method="post" th:action="@{/users/join/{empNo}(empNo=${userJoinFormDTO.empNo})}" class="mt-5 needs-validation" novalidate th:object="${userJoinFormDTO}" >
 					<div class="mb-3">
 						<label for="empNo" class="form-label col fw-bold">사번</label>
 						<input type="text" id="empNo" name="empNo" th:field="*{empNo}" class="form-control col" readonly="readonly" />

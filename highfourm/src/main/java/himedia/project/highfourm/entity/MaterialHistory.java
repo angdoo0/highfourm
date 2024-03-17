@@ -25,7 +25,8 @@ public class MaterialHistory {
 	private Long materialHistoryId;
 	
 	@ManyToOne(cascade = CascadeType.ALL)
-    @JoinColumn(name = "material_id", referencedColumnName = "material_id", nullable = false)
+    @JoinColumn(name = "material_id", 
+    		referencedColumnName = "material_id", nullable = false)
 	private Material material;
 	
 	@Column(name = "order_date", nullable = false)
@@ -48,6 +49,9 @@ public class MaterialHistory {
 	
 	@Column(name = "order_amount", nullable = false)
 	private Long orderAmount;
+	
+//	@Column(name = "rest_stock")
+//	private Long restStock;
 	
 	@Column(name = "unit_price")
 	private Long unitPrice;

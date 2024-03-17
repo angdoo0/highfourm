@@ -22,6 +22,12 @@ public class OrderFormDTO {
 	private Long unitPrice;
 	private String productName;
 	
+	public OrderFormDTO(String productName, Long productionAmount, Long unitPrice) {
+		this.productName = productName;
+		this.productAmount = productionAmount;
+		this.unitPrice = unitPrice;
+	}
+	
 	public static OrderFormDTO fromEntity(OrderDetail orderDetail) {
         return OrderFormDTO.builder()
                 .orderId(orderDetail.getOrderDetailPK().getOrderId())
@@ -41,4 +47,5 @@ public class OrderFormDTO {
 				.unitPrice(this.unitPrice)
 				.build();
 	}
+	
 }

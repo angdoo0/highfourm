@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="ko" xmlns:th="http://www.thymeleaf.org">
+
 <head>
 	<meta charset="UTF-8">
 	<meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -52,8 +53,14 @@
 			width: 130px;
 			text-align: left;
 		}
+
+		.authenticated {
+			font-weight: bold;
+			font-size: 28px;
+		}
 	</style>
 </head>
+
 <body>
 	<div>
 		<header class="d-flex flex-wrap justify-content-center py-3 border-bottom">
@@ -84,20 +91,32 @@
 						fill="#1C1C1C" />
 				</svg>
 			</div>
-			<form th:action="@{/login}" method="post" class="form-signin">
-				<div style="display: flex; flex-direction: column; align-items: center;">
-					<div class="login-div mb-1">
-						<label for="userId" class="login-title">아이디</label>
-						<input type="input" class="form-control" id="userId" name="userId" placeholder="아이디" required>
-					</div>
-					<div class="login-div mb-1">
-						<label for="password" class="login-title">비밀번호</label>
-						<input type="password" class="form-control" id="password" name="password" placeholder="비밀번호" required>
-					</div>
-					<button class="w-100 btn btn-lg btn btn-dark mt-2" type="submit">로그인</button>
-					<div class="mt-2">비밀번호 찾기</div>
+			<div style="margin-bottom: 30px; font-size: 18px; color: #222;">High 4M, 생산 관리의 핵심 가치를 반영하는 ERP</div>
+			<div sec:authorize="isAuthenticated()" class="authenticated">
+				<span>안녕하세요 </span>
+				<span th:text="${#authentication.principal.user.userName}"></span>님!
+				<div style="display: flex; justify-content: center; align-items: center;">
+					<!--<form th:action="@{/logout}" method="post" style="display: flex; justify-content: center; align-items: center;">-->
+						<!--<button type="submit" class="btn btn-light me-3">로그아웃</button>-->
+						<button type="button" onclick="location.href='/materials/stock'" class="btn btn-secondary mt-2">홈으로</button>
+					<!--</form>-->
 				</div>
-			</form>
+			</div>
+			<div sec:authorize="isAnonymous()">
+				<form th:action="@{/login}" method="post" class="form-signin">
+					<div style="display: flex; flex-direction: column; align-items: center;">
+						<div class="login-div mb-1">
+							<label for="userId" class="login-title">아이디</label>
+							<input type="input" class="form-control" id="userId" name="userId" placeholder="아이디" required>
+						</div>
+						<div class="login-div mb-1" style="vertical-align: middle;">
+							<label for="password" class="login-title">비밀번호</label>
+							<input type="password" class="form-control" id="password" name="password" placeholder="비밀번호" required>
+						</div>
+						<button class="w-100 btn btn-lg btn btn-dark mt-2" type="submit">로그인</button>
+					</div>
+				</form>
+			</div>
 		</div>
 		<footer
 			style="border-top: 1px solid rgb(204, 204, 204); text-align: center; width: 100%; height: 80px; background-color: rgb(255, 255, 255);">
@@ -114,4 +133,5 @@
 		</footer>
 	</div>
 </body>
+
 </html>

@@ -181,7 +181,6 @@ function WorkPerformanceNew() {
   ];
   const handleSelectChange = (value, key) => {
     const selectedPlan = dataProductionPlan.find(plan => plan.productionPlanId === value);
-    // Update the corresponding productName in dataSource
     const newData = dataSource.map(item => {
       if (item.key === key) {
         return {
@@ -208,7 +207,7 @@ function WorkPerformanceNew() {
       </div>
       <div style={{display:'flex', justifyContent:'space-between', width:'100%', marginTop:'20px'}}>
         <div className='add-btn'>
-          <BtnBlack value={"작업 실적 추가"} onClick={handleAdd}></BtnBlack>
+          <BtnBlack value={"항목 추가"} onClick={handleAdd}></BtnBlack>
         </div>
         <div style={{display:'flex'}}>
           <div className='cancel-btn' style={{marginRight:'12px'}}>

@@ -24,7 +24,8 @@ public class MrpRepository {
 	public List<MrpProductionPlanDTO> findByProductionPlans() {
 		String sql = "select o.dueDate, plan.productionPlanId, plan.product.productId, p.productName, plan.productionPlanAmount "
 				+ "from ProductionPlan plan " + "left join plan.product p "
-				+ "left join plan.orders o ";
+				+ "left join plan.orders o "
+				+ "order by o.dueDate desc";
 
 		List<MrpProductionPlanDTO> result = em.createQuery(sql, MrpProductionPlanDTO.class).getResultList();
 		
@@ -51,7 +52,8 @@ public class MrpRepository {
 		String sql = "select o.dueDate, plan.productionPlanId, plan.product.productId, p.productName, plan.productionPlanAmount "
 				+ "from ProductionPlan plan " + "left join plan.product p "
 				+ "left join plan.orders o "
-				+ "where plan.productionPlanId like concat('%', :productionPlanId, '%')";
+				+ "where plan.productionPlanId like concat('%', :productionPlanId, '%') "
+				+ "order by o.dueDate desc";
 		
 		List<MrpProductionPlanDTO> result = em.createQuery(sql, MrpProductionPlanDTO.class)
 				.setParameter("productionPlanId", productionPlanId).getResultList();
@@ -63,7 +65,8 @@ public class MrpRepository {
 		String sql = "select o.dueDate, plan.productionPlanId, plan.product.productId, p.productName, plan.productionPlanAmount "
 				+ "from ProductionPlan plan " + "left join plan.product p "
 				+ "left join plan.orders o "
-				+ "where p.productId like concat('%', :productId, '%')";
+				+ "where p.productId like concat('%', :productId, '%') "
+				+ "order by o.dueDate desc";
 		
 		List<MrpProductionPlanDTO> result = em.createQuery(sql, MrpProductionPlanDTO.class)
 				.setParameter("productId", productId).getResultList();
@@ -75,7 +78,8 @@ public class MrpRepository {
 		String sql = "select o.dueDate, plan.productionPlanId, plan.product.productId, p.productName, plan.productionPlanAmount "
 				+ "from ProductionPlan plan " + "left join plan.product p "
 				+ "left join plan.orders o "
-				+ "where p.productName like concat('%', :productName, '%')";
+				+ "where p.productName like concat('%', :productName, '%') "
+				+ "order by o.dueDate desc";
 		
 		List<MrpProductionPlanDTO> result = em.createQuery(sql, MrpProductionPlanDTO.class)
 				.setParameter("productName", productName).getResultList();
@@ -87,7 +91,8 @@ public class MrpRepository {
 		String sql = "select o.dueDate, plan.productionPlanId, plan.product.productId, p.productName, plan.productionPlanAmount "
 				+ "from ProductionPlan plan " + "left join plan.product p "
 				+ "left join plan.orders o "
-				+ "where CAST(o.dueDate AS string) like concat('%', :dueDate, '%')";
+				+ "where CAST(o.dueDate AS string) like concat('%', :dueDate, '%') "
+				+ "order by o.dueDate desc";
 		
 		List<MrpProductionPlanDTO> result = em.createQuery(sql, MrpProductionPlanDTO.class)
 				.setParameter("dueDate", dueDate).getResultList();

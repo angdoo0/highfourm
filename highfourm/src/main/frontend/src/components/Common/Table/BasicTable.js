@@ -33,7 +33,7 @@ const BasicTable = ({ dataSource, defaultColumns, setDataSource, pagination, onR
         title: col.title,
         handleSave,
       }),
-      
+
     };
   });
 
@@ -44,13 +44,16 @@ const BasicTable = ({ dataSource, defaultColumns, setDataSource, pagination, onR
       },
     };
   };
-  
+
+  const rowClassName = (record, index) => {
+    return `clickable-row ${record.isBelowSafetyStock ? 'below-safety-stock' : ''}`
+  };
 
   return (
     <div>
       <Table
         components={components}
-        rowClassName={() => 'editable-row'}
+        rowClassName={rowClassName} // 수정된 부분
         bordered
         dataSource={dataSource}
         columns={columns}
@@ -60,7 +63,6 @@ const BasicTable = ({ dataSource, defaultColumns, setDataSource, pagination, onR
       />
     </div>
   );
-  
 
 };
 

@@ -74,6 +74,12 @@ const MaterialOrderHistory = () => {
     setCompletedData(completedData);
   };
 
+  const formatNumber = (number) => {
+    if (typeof number === 'undefined' || number === null) {
+      return '';
+    }
+    return number.toLocaleString('ko-KR');
+  };
 
   const defaultColumnsOne = [
     {
@@ -98,10 +104,6 @@ const MaterialOrderHistory = () => {
       dataIndex: 'materialName',
     },
     {
-      title: '규격/사양',
-      dataIndex: 'standard',
-    },
-    {
       title: '단위',
       dataIndex: 'unit',
     },
@@ -112,30 +114,41 @@ const MaterialOrderHistory = () => {
     {
       title: '이월재고량',
       dataIndex: 'restStock',
+      render: (text) => formatNumber(text),
     },
     {
       title: '재고량',
       dataIndex: 'materialInventory',
+      render: (text) => formatNumber(text),
     },
     {
       title: '사용량',
       dataIndex: 'usedAmount',
+      render: (text) => formatNumber(text),
     },
     {
       title: '입고량',
       dataIndex: 'inboundAmount',
+      render: (text) => formatNumber(text),
     },
     {
       title: '발주량',
       dataIndex: 'orderAmount',
+      render: (text) => formatNumber(text),
+    },
+    {
+      title: '규격/사양',
+      dataIndex: 'standard',
     },
     {
       title: '입고 단가',
       dataIndex: 'unitPrice',
+      render: (text) => `${formatNumber(text)}원`,
     },
     {
       title: '금액',
       dataIndex: 'totalPrice',
+      render: (text) => `${formatNumber(text)}원`,
     },
     {
       title: '비고',
@@ -150,9 +163,6 @@ const MaterialOrderHistory = () => {
   const onSearch = (value) => {
     navigate(`/materials/order-history/search?searchType=${encodeURIComponent(searchType)}&search=${encodeURIComponent(value)}`);
   }
-  const onClick = () => {
-    window.location.href = '/materials/order-history/new'
-  }
 
   return (
     <div>
@@ -162,7 +172,7 @@ const MaterialOrderHistory = () => {
         <SearchInput id={'search'} name={'search'} onSearch={onSearch} />
       </div>
       <div style={{ marginBottom: '24px' }}>
-        <BtnBlack value={'수급내역 등록'} onClick={onClick} />
+        <BtnBlack value={'수급내역 등록'} onClick={() => window.location.href = '/materials/order-history/new'} />
       </div>
       <div style={{ display: 'flex', flexDirection: 'column' }}>
         <div style={{ border: '1px solid #d9d9d9', padding: '30px 35px', marginBottom: '20px' }}>
@@ -170,7 +180,7 @@ const MaterialOrderHistory = () => {
             <h2 style={{ fontSize: '16px', display: 'inline-block' }}>입고대기</h2>
             <hr style={{ color: '#000', width: '520px', marginLeft: '20px' }} />
           </div>
-          <div style={{ marginTop: '20px', height: '300px', overflowY: 'auto' }}>
+          <div style={{ marginTop: '20px', height: '300px', overflowY: 'auto' }} className ="clickable-table">
             <KeyTable 
               dataSource={waitingData} 
               defaultColumns={defaultColumnsOne} 

@@ -4,7 +4,7 @@ import java.util.List;
 
 import org.springframework.stereotype.Service;
 
-import himedia.project.highfourm.entity.Process;
+import himedia.project.highfourm.dto.ProcessDTO;
 import himedia.project.highfourm.repository.ProcessRepository;
 import lombok.RequiredArgsConstructor;
 
@@ -13,7 +13,11 @@ import lombok.RequiredArgsConstructor;
 public class ProcessService {
 	private final ProcessRepository processRepository;
 	
-	public List<Process> findByProductProductId(String productId){
-		return processRepository.findByProductProductId(productId);
+	public List<ProcessDTO> findByProductProductId(String productId){
+		List<ProcessDTO> processList = processRepository.findByProductProductId(productId)
+				.stream()
+	            .map(process -> process.toProcessDTO())
+	            .toList();
+		return processList;
 	}
 }

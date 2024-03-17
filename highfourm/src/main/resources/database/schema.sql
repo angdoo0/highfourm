@@ -22,10 +22,10 @@ create table IF NOT EXISTS users (
 );
 
 create table IF NOT EXISTS email_token (
-	id varchar(50) unique COMMENT '이메일 토큰 ID',
-	user_no bigint COMMENT '사용자 번호',
-    expired int COMMENT '만료여부',
-    expiration_date timestamp COMMENT '만료기간',
+	id varchar(50) NOT NULL COMMENT '이메일 토큰 ID',
+	user_no bigint NOT NULL COMMENT '사용자 번호',
+    expired int NOT NULL COMMENT '만료여부',
+    expiration_date timestamp NOT NULL COMMENT '만료기간',
     primary key(id),
     foreign key (user_no) references users(user_no)
     ON UPDATE CASCADE
@@ -43,7 +43,7 @@ create table IF NOT EXISTS orders (
 );
 
 create table IF NOT EXISTS file (
-	file_id	bigint auto_increment NOT NULL COMMENT '파일 아이디',
+	file_id	bigint auto_increment COMMENT '파일 아이디',
 	order_id varchar(50) unique NOT NULL COMMENT '주문 코드',
 	original_name varchar(300) NOT NULL COMMENT '파일 원본명',
 	changed_name varchar(300) unique NOT NULL COMMENT '파일 변경명',
@@ -62,7 +62,6 @@ create table IF NOT EXISTS product (
 	update_date date COMMENT '수정일',
     primary key(product_id)
 );
-
 create table IF NOT EXISTS order_detail (
 	order_id varchar(50) NOT NULL COMMENT '주문 코드',
     product_id varchar(50) NOT NULL COMMENT '제품 코드',
@@ -135,7 +134,7 @@ create table IF NOT EXISTS stock_management (
 );
 
 create table IF NOT EXISTS material (
-    material_id varchar(50) unique NOT NULL COMMENT '원자재 코드',
+    material_id varchar(50) NOT NULL COMMENT '원자재 코드',
     material_name varchar(30) NOT NULL COMMENT '원자재명',
 	unit varchar(20) NOT NULL COMMENT '단위',
 	primary key(material_id)

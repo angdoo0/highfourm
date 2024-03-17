@@ -2,6 +2,7 @@ import React, { useEffect } from 'react';
 import { Layout, theme } from 'antd';
 import { Route, BrowserRouter as Router, Routes } from 'react-router-dom';
 import '../App.css';
+import '../font.css';
 import SideBar from './Common/SideBar';
 import Login from './View/Login/Login';
 import Notice from './View/Login/Notice';
@@ -63,9 +64,11 @@ function App() {
               <Route path='/production-plan' element={<ProductionPlan />} />
               <Route path='/production-plan/search' element={<ProductionPlan />} />
               <Route path='/bom' element={<Bom />} />
+              <Route path='/bom/search' element={<Bom />} />
               <Route path='/bom/detail/:productId' element={<BomDetail />} />
               <Route path='/production-status' element={<Status />} />
               <Route path='/work-performance' element={<WorkPerformance />} />
+              <Route path='/work-performance/search' element={<WorkPerformance />} />
               <Route path='/work-performance/new' element={<WorkPerformanceNew />} />
               <Route path='/production-performance' element={<Performance />} />
               <Route path='/production-performance/search' element={<Performance />} />
