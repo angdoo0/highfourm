@@ -34,8 +34,8 @@ public class UserHtmlController {
 
 	private final UserService service;
 	private final EmailService emailService;
-//	private final GmailService gmailService;
-	private final SmtpEmailService smtpEmailService;
+	private final GmailService gmailService;
+//	private final SmtpEmailService smtpEmailService;
 	
 	/**
 	 * 사용자 등록 페이지
@@ -67,8 +67,8 @@ public class UserHtmlController {
 			return "userForm";
 		}
 		
-//		gmailService.sendEmail(userAddDTO, authentication);
-		smtpEmailService.createEmail(userAddDTO, authentication);	
+		gmailService.sendEmail(userAddDTO, authentication);
+//		smtpEmailService.createEmail(userAddDTO, authentication);	
 		return "redirect:/users";
 	}
 	
