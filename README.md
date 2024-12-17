@@ -138,8 +138,6 @@ Windows11, Spring Boot , Java 17, Tomcat 8.5, MySQL 8.0.22, Thymeleaf, Lombok 1.
 <br>
 
 ## ✨ 추가 예정 기능
- - 회원 가입, 로그아웃
- - 사용자 등록시 인증 이메일 발송
  - 주문 관리 주문서 pdf 출력
  - 월별 생산 계획 수량 등록
  - 제품별 공정/소요자재 복수 항목 등록 기능
